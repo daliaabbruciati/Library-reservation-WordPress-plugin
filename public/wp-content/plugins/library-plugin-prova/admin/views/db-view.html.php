@@ -1,13 +1,5 @@
-
 <?php
-try {
-    $connection = new PDO("mysql:host=localhost;dbname=local", "root", "root");
-    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $output = 'Database connection established!';
-
-} catch (PDOException $e) {
-    $output = "Connessione non riuscita: " . $e->getMessage();
-}
+include __DIR__ . '/../../DB/start-connection.php';
 ?>
 
 <div class="wrap">
@@ -40,7 +32,7 @@ try {
                 <tbody>
                 <?php
 
-                $sql = "SELECT * FROM wp_library_users";
+                $sql = "SELECT * FROM $db_table_name";
                 $result = $connection->prepare($sql);
                 $result->execute();
 
@@ -58,21 +50,22 @@ try {
                             <td class="db-td"><?php echo $row['id_tavolo']; ?></td>
                             <td class="db-td"><?php echo $row['id_posto']; ?></td>
                             <td class="db-td">
-                                <?php
-                                // query per delete row
-//                                DELETE FROM `wp_library_users`WHERE `id` = '7';
-
-                                ?>
-                                <form method="post" action="<?php $_SERVER['REQUEST_URI']?>">
-
+                                <form method="post" action="<?php echo $_SERVER['REQUEST_URI'] ?>">
                                     <input type="submit" name="submit" id="submit" class="button button-secondary"
                                            value="Modifica">
                                 </form>
                             </td>
                             <td class="db-td">
-                                <form method="post" action="options.php">
-                                    <input type="hidden" name="Id" value="<?= $row['id'] ?>">
-                                    <input type="submit" name="submit" id="submit" class="button button-link-delete"
+                                <?php
+                                if (isset($_POST['submit']) && $row['id'] == $_POST['id']) {
+                                    $wpdb->delete($db_table_name, [
+                                        'id' => $row['id']
+                                    ]);
+                                }
+                                ?>
+                                <form method="post" action="<?php echo $_SERVER['REQUEST_URI'] ?>">
+                                    <input type="hidden" name="id" value="<?= $row['id']; ?>">
+                                    <input type="submit" name="submit" class="button button-link-delete"
                                            value="Elimina">
                                 </form>
                             </td>
@@ -83,26 +76,6 @@ try {
                 ?>
                 </tbody>
             </table>
-
-<!--            <div class="wrap">-->
-<!--                --><?php
-//                $nome = $_POST['nome_utente'];
-//                $email = $_POST['email_utente'];
-//                $giorno = $_POST['giorno_prenotazione'];
-//                $ora_arrivo = $_POST['ora_arrivo'];
-//                $ora_partenza = $_POST['ora_partenza'];
-//                $id_tavolo = $_POST['id_tavolo'];
-//                $id_posto = $_POST['id_posto'];
-//                    echo $nome;
-//                    echo $email;
-//                    echo $giorno;
-//                    echo $ora_arrivo;
-//                    echo $ora_partenza;
-//                    echo $id_tavolo;
-//                    echo $id_posto;
-//                ?>
-<!--            </div>-->
-
         </div>
 
 

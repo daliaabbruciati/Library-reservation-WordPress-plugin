@@ -2,16 +2,8 @@
 
 add_action('admin_menu', 'settings_menu');
 
-function settings_menu()
+function settings_menu(): void
 {
-//    string $page_title,
-//    string $menu_title,
-//    string $capability,
-//    string $menu_slug,
-//    callable $function = '',
-//    string $icon_url = '',
-//    int $position = null
-
     add_menu_page(
         'Panoramica',
         'Panoramica',
@@ -31,6 +23,4 @@ function settings_menu()
         null,
         90
     );
-
-
 }

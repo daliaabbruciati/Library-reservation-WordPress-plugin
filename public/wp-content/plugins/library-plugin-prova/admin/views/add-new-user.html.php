@@ -4,64 +4,57 @@ $nomeErr = $emailErr = $giornoErr = $oraArrivoErr = $oraPartenzaErr = $idTavoloE
 $nome = $email = $giorno = $ora_arrivo = $ora_partenza = $id_tavolo = $id_posto = '';
 
 
-if ($_SERVER["REQUEST_METHOD"] === "POST" && checkEmptyField($_POST)) {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $nome = $_POST['nome_utente'];
+    $email = $_POST['email_utente'];
+    $giorno = $_POST['giorno_prenotazione'];
+    $ora_arrivo = $_POST['ora_arrivo'];
+    $ora_partenza = $_POST['ora_partenza'];
+    $id_tavolo = $_POST['id_tavolo'];
+    $id_posto = $_POST['id_posto'];
 
+    if (empty($_POST['nome_utente']) || empty($_POST['email_utente']) || empty($_POST['giorno_prenotazione']) || empty($_POST['ora_arrivo']) || empty($_POST['ora_partenza']) || empty($_POST['id_tavolo']) || empty($_POST['id_posto'])) {
 
-    if (empty($_POST['nome_utente'])) {
-        $nomeErr = "Inserisci campo";
-    } else {
-        $nome = test_input($_POST['nome_utente']);
-        if (!preg_match("/^[a-zA-Z-' ]*$/", $nome)) {
-            $nameErr = "Formato nome non valido";
+        if (empty($_POST['nome_utente']) || !preg_match("/^[a-zA-Z-' ]*$/", $nome)) {
+            $nomeErr = "Inserisci campo";
         }
-    }
-    if (empty($_POST['email_utente'])) {
-        $emailErr = "Inserisci campo";
-    } else {
-        $email = test_input($_POST['email_utente']);
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $emailErr = "Formato email non valido";
+        if (empty($_POST['email_utente']) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $emailErr = "Inserisci campo";
         }
-    }
-    if (empty($_POST['giorno_prenotazione'])) {
-        $giornoErr = "Inserisci campo";
-    } else {
-        $giorno = test_input($_POST['giorno_prenotazione']);
-    }
-    if (empty($_POST['ora_arrivo'])) {
-        $oraArrivoErr = "Inserisci campo";
-    } else {
-        $ora_arrivo = test_input($_POST['ora_arrivo']);
-    }
-    if (empty($_POST['ora_partenza'])) {
-        $oraPartenzaErr = "Inserisci campo";
-    } else {
-        $ora_partenza = test_input($_POST['ora_partenza']);
-    }
-    if (empty($_POST['id_tavolo'])) {
-        $idTavoloErr = "Inserisci campo";
-    } else {
-        $id_tavolo = test_input($_POST['id_tavolo']);
-    }
-    if (empty($_POST['id_posto'])) {
-        $idPostoErr = "Inserisci campo";
-    } else {
-        $id_posto = test_input($_POST['id_posto']);
-    }
+        if (empty($_POST['giorno_prenotazione'])) {
+            $giornoErr = "Inserisci campo";
+        }
+        if (empty($_POST['ora_arrivo'])) {
+            $oraArrivoErr = "Inserisci campo";
+        }
+        if (empty($_POST['ora_partenza'])) {
+            $oraPartenzaErr = "Inserisci campo";
+        }
+        if (empty($_POST['id_tavolo'])) {
+            $idTavoloErr = "Inserisci campo";
 
-    print_r($_POST);
+        }
+        if (empty($_POST['id_posto'])) {
+            $idPostoErr = "Inserisci campo";
+        }
+        echo "Compila tutti i campi";
+    } else {
 
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'library_users';
-    $wpdb->insert($table_name, [
-        'nome_utente' => $nome,
-        'email_utente' => $email,
-        'giorno_prenotazione' => $giorno,
-        'ora_arrivo' => $ora_arrivo,
-        'ora_partenza' => $ora_partenza,
-        'id_tavolo' => $id_tavolo,
-        'id_posto' => $id_posto
-    ]);
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'library_users';
+        $wpdb->insert($table_name, [
+            'nome_utente' => $nome,
+            'email_utente' => $email,
+            'giorno_prenotazione' => $giorno,
+            'ora_arrivo' => $ora_arrivo,
+            'ora_partenza' => $ora_partenza,
+            'id_tavolo' => $id_tavolo,
+            'id_posto' => $id_posto
+        ]);
+
+        echo "Dati inseriti correttamente";
+
+    }
 
 }
 
@@ -73,8 +66,9 @@ function test_input($data): string
     return $data;
 }
 
-function checkEmptyField($field){
-    if($field == ''){
+function checkEmptyField($field)
+{
+    if ($field == '') {
         echo 'Non hai riempito tutti i campi';
     }
 }
@@ -139,13 +133,3 @@ function checkEmptyField($field){
     </div>
 </div>
 
-
-<?php
-//if (isset ($_POST['submit'])) {
-//    checkEmptyField($_POST);
-//    if ($nomeErr == '' && $emailErr == '' && $giornoErr == '' && $oraArrivoErr == '' && $oraPartenzaErr == '' && $idTavoloErr == '' && $idPostoErr == '')
-//        echo "I dati sono stati inseriti correttamente ";
-//} else {
-//    echo "Non hai riempito tutti i campi";
-//}
-?>

@@ -26,7 +26,10 @@ include __DIR__ . '/admin/admin-menu.php';
 include __DIR__ . '/includes/Base/Enqueue.php';
 
 /* Include database file */
-$db_reference = include_once __DIR__ . '/DB/db-custom-table.php';
+$db_reference = include_once __DIR__ . '/DB/create-table.php';
 register_activation_hook($db_reference,"DB_table");
+
+/* Includo la connession al db*/
+//include __DIR__ . '/DB/start-connection.php';
 
 
