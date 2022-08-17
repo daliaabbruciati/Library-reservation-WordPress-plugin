@@ -6,6 +6,9 @@ include __DIR__ . '/../../DB/start-connection.php';
     <h1>Library Reservation plugin management </h1>
     <?php settings_errors(); ?>
     <?php echo $output ?>
+    <?php
+    if (isset($_POST['submit'])) echo "<p class='update-field'>Elemento eliminato correttamente. Ricarica la pagina</p>";
+    ?>
 
     <div class="nav nav-tabs">
         <li class="active"><a href="#tab-1">Vista prenotazioni</a></li>
@@ -50,19 +53,27 @@ include __DIR__ . '/../../DB/start-connection.php';
                             <td class="db-td"><?php echo $row['id_tavolo']; ?></td>
                             <td class="db-td"><?php echo $row['id_posto']; ?></td>
                             <td class="db-td">
-                                <form method="post" action="<?php echo $_SERVER['REQUEST_URI'] ?>">
-                                    <input type="submit" name="submit" id="submit" class="button button-secondary"
+                                <?php
+//                                if (isset($_POST['save'])) {
+//                                    $wpdb->update($db_table_name, [
+//                                        'nome_utente' => $row['nome_utente'],
+//                                    ], [
+//                                        'id' => $row['id']
+//                                    ]);
+//                                }
+                                include __DIR__ . '/../../DB/update-row.php';
+                                //                                ?>
+
+                                <form method="post" action="admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fedit-user.html.php">
+                                    <input type="hidden" name="id" value="<?= $row['id']; ?>">
+                                    <input type="submit" name="save" id="save" class="button button-secondary"
                                            value="Modifica">
                                 </form>
                             </td>
                             <td class="db-td">
-                                <?php
-                                if (isset($_POST['submit']) && $row['id'] == $_POST['id']) {
-                                    $wpdb->delete($db_table_name, [
-                                        'id' => $row['id']
-                                    ]);
-                                }
-                                ?>
+
+                                <?php include __DIR__ . '/../../DB/delete-row.php'; ?>
+
                                 <form method="post" action="<?php echo $_SERVER['REQUEST_URI'] ?>">
                                     <input type="hidden" name="id" value="<?= $row['id']; ?>">
                                     <input type="submit" name="submit" class="button button-link-delete"

@@ -14,13 +14,24 @@ function settings_menu(): void
         90
     );
 
+    
     add_submenu_page(
         plugin_dir_path(__FILE__) . './views/db-view.html.php',
-        'Aggiungi nuovo utente',
-        'Aggiungi nuovo utente',
+        'Aggiungi utente',
+        'Aggiungi utente',
         'manage_options',
         plugin_dir_path(__FILE__) . './views/add-new-user.html.php',
         null,
         90
+    );
+
+    add_submenu_page(
+        plugin_dir_path(__FILE__) . './views/db-view.html.php',
+        'Modifica utente',
+        'Modifica utente',
+        'manage_options',
+        plugin_dir_path(__FILE__) . './views/edit-user.html.php',
+        null,
+        91
     );
 }

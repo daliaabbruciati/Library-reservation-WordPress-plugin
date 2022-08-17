@@ -145,3 +145,15 @@ div.ui-toggle label:hover, div.ui-toggle label > div:hover {
     margin-top: 10px;
     width: fit-content;
 }
+
+.success-field{
+    color: green;
+}
+
+.error-field{
+    color: red;
+}
+
+.update-field{
+    color: #0d6db2;
+}

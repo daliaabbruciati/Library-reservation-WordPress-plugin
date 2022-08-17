@@ -1,4 +1,5 @@
 <?php
+include __DIR__ . '/../../DB/start-connection.php';
 
 $nomeErr = $emailErr = $giornoErr = $oraArrivoErr = $oraPartenzaErr = $idTavoloErr = $idPostoErr = "";
 $nome = $email = $giorno = $ora_arrivo = $ora_partenza = $id_tavolo = $id_posto = '';
@@ -16,33 +17,31 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($_POST['nome_utente']) || empty($_POST['email_utente']) || empty($_POST['giorno_prenotazione']) || empty($_POST['ora_arrivo']) || empty($_POST['ora_partenza']) || empty($_POST['id_tavolo']) || empty($_POST['id_posto'])) {
 
         if (empty($_POST['nome_utente']) || !preg_match("/^[a-zA-Z-' ]*$/", $nome)) {
-            $nomeErr = "Inserisci campo";
+            $nomeErr = "<span class='error-field'>Inserisci campo</span>";
         }
         if (empty($_POST['email_utente']) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $emailErr = "Inserisci campo";
+            $emailErr = "<span class='error-field'>Inserisci campo</span>";
         }
         if (empty($_POST['giorno_prenotazione'])) {
-            $giornoErr = "Inserisci campo";
+            $giornoErr = "<span class='error-field'>Inserisci campo</span>";
         }
         if (empty($_POST['ora_arrivo'])) {
-            $oraArrivoErr = "Inserisci campo";
+            $oraArrivoErr = "<span class='error-field'>Inserisci campo</span>";
         }
         if (empty($_POST['ora_partenza'])) {
-            $oraPartenzaErr = "Inserisci campo";
+            $oraPartenzaErr = "<span class='error-field'>Inserisci campo</span>";
         }
         if (empty($_POST['id_tavolo'])) {
-            $idTavoloErr = "Inserisci campo";
+            $idTavoloErr = "<span class='error-field'>Inserisci campo</span>";
 
         }
         if (empty($_POST['id_posto'])) {
-            $idPostoErr = "Inserisci campo";
+            $idPostoErr = "<span class='error-field'>Inserisci campo</span>";
         }
-        echo "Compila tutti i campi";
+        echo "<p class='error-field'>ERRORE inserimento: Compila tutti i campi</p>";
     } else {
 
-        global $wpdb;
-        $table_name = $wpdb->prefix . 'library_users';
-        $wpdb->insert($table_name, [
+        $wpdb->insert($db_table_name, [
             'nome_utente' => $nome,
             'email_utente' => $email,
             'giorno_prenotazione' => $giorno,
@@ -52,29 +51,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             'id_posto' => $id_posto
         ]);
 
-        echo "Dati inseriti correttamente";
-
-    }
-
-}
-
-function test_input($data): string
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-function checkEmptyField($field)
-{
-    if ($field == '') {
-        echo 'Non hai riempito tutti i campi';
+        echo "<p class='success-field'>Nuovo utente inserito correttamente</p>";
     }
 }
-
 ?>
-
 
 <div class="wrap">
     <h1><?= esc_html(get_admin_page_title()); ?></h1>
@@ -127,7 +107,6 @@ function checkEmptyField($field)
                            placeholder="Inserisci numero posto prenotato"><span>* <?= $idPostoErr; ?></span>
                 </div>
             </label>
-
             <input type="submit" name="submit" id="submit" class="button button-primary" value="Aggiungi utente">
         </form>
     </div>
