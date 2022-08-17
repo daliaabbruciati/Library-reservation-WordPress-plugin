@@ -6,9 +6,6 @@ include __DIR__ . '/../../DB/start-connection.php';
     <h1>Library Reservation plugin management </h1>
     <?php settings_errors(); ?>
     <?php echo $output ?>
-    <?php
-    if (isset($_POST['submit'])) echo "<p class='update-field'>Elemento eliminato correttamente. Ricarica la pagina</p>";
-    ?>
 
     <div class="nav nav-tabs">
         <li class="active"><a href="#tab-1">Vista prenotazioni</a></li>
@@ -17,6 +14,9 @@ include __DIR__ . '/../../DB/start-connection.php';
 
     <div class="tab-content">
         <div id="tab-1" class="tab-pane active">
+            <?php
+            if (isset($_POST['submit'])) echo "<h4>Elemento eliminato correttamente. Ricarica la pagina</h4>";
+            ?>
             <table class="db-table">
                 <thead class="db-thead">
                 <tr class="db-tr">

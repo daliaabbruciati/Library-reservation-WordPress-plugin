@@ -1,33 +1,24 @@
 <?php
-include __DIR__ . '/../../DB/start-connection.php';
-$nome = $email = $giorno = $ora_arrivo = $ora_partenza = $id_tavolo = $id_posto = '';
-
+require __DIR__ . '/../../DB/start-connection.php';
+$newNome = $newEmail = $newGiorno = $newOra_arrivo = $newOra_partenza = $newId_tavolo = $newId_posto = '';
 ?>
 
 
 <div class="wrap">
     <h1><?= esc_html(get_admin_page_title()); ?></h1>
     <?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && (!isset($_POST['edit']))):
+    if ($_SERVER["REQUEST_METHOD"] === "POST"):
     ?>
     <p>Modifica i campi e poi clicca su 'Salva modifiche' per aggiornare i dati dell'utente utente</p>
     <div id="tab-2" class="tab-pane">
         <form class="form-container"
               method="post"
-              action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>">
-
+              action="<?php echo($_SERVER['REQUEST_URI']); ?>">
             <?php
-            //            $sql = "SELECT * FROM ". $db_table_name ." WHERE id = ?";
-            //            $result = $connection->prepare($sql);
-            //            $result->execute([$_POST['id']]);
-
-            $result = $wpdb->get_results($wpdb->prepare("SELECT * FROM " . $db_table_name . " WHERE id = %d", $_POST['id']));
-
+            $result = $wpdb->get_results(
+                $wpdb->prepare("SELECT * FROM " . $db_table_name . " WHERE id = %d", $_POST['id']));
             if ($result > 0):
-            //                $rows = $result->fetchAll();
-            foreach ($result
-
-            as $row):
+            foreach ($result as $row):
             ?>
             <label for="nome_utente">Nome
                 <div>
@@ -76,47 +67,22 @@ $nome = $email = $giorno = $ora_arrivo = $ora_partenza = $id_tavolo = $id_posto 
             </label>
 
             <?php
-            if (isset($_POST['edit']) && $row->id === $_POST['id']) {
-                $wpdb->update($db_table_name, [
-                    'nome_utente' => $row->nome_utente,
-                    'email_utente' => $row->email_utente,
-                    'giorno_prenotazione' => $row->giorno_prenotazione,
-                    'ora_arrivo' => $row->ora_arrivo,
-                    'ora_partenza' => $row->ora_partenza,
-                    'id_tavolo' => $row->id_tavolo,
-                    'id_posto' => $row->id_posto,
-                ], [
-                    'id' => $row->id
-                ]);
-            }
+            include __DIR__ . '/../../DB/update-row.php';
             ?>
             <input type="hidden" name="id" value="<?= $row->id; ?>">
             <input type="submit" name="edit" id="edit" class="button button-primary" value="Salva modifiche">
         </form>
         <?php
-        endforeach;
+         endforeach;
         endif;
         ?>
-
         <?php
         else:
             ?>
-            <h3>Vai alla schermata <a href="admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fdb-view.html.php">'Panoramica'</a>
+            <h3>Vai alla schermata <a href="admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fdb-view.html.php">Panoramica</a>
                 e clicca sul pulsante 'Modifica' per editare i dati dell'utente</h3>
         <?php
         endif;
         ?>
     </div>
 </div>
-
-
-<!--UPDATE `wp_library_users` SET-->
-<!--`id` = '95',-->
-<!--`nome_utente` = 'mario aa',-->
-<!--`email_utente` = 'mario.rossi@gmail.com',-->
-<!--`giorno_prenotazione` = '2022-08-18',-->
-<!--`ora_arrivo` = '17:18:00',-->
-<!--`ora_partenza` = '20:18:00',-->
-<!--`id_tavolo` = '3',-->
-<!--`id_posto` = '4'-->
-<!--WHERE `id` = '95';-->
