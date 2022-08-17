@@ -35,23 +35,22 @@ include __DIR__ . '/../../DB/start-connection.php';
                 <tbody>
                 <?php
 
-                $sql = "SELECT * FROM $db_table_name";
-                $result = $connection->prepare($sql);
-                $result->execute();
-
-                if ($result->rowCount() > 0):
-                    $rows = $result->fetchAll();
-                    foreach ($rows as $row):
+//                $sql = "SELECT * FROM $db_table_name";
+//                $result = $connection->prepare($sql);
+//                $result->execute();
+                $result =  $result = $wpdb->get_results("SELECT * FROM ". $db_table_name);
+                if ($result > 0):
+                    foreach ($result as $row):
                         ?>
                         <tr class="db-tr">
-                            <td class="db-td"><?php echo $row['id']; ?></td>
-                            <td class="db-td"><?php echo $row['nome_utente']; ?></td>
-                            <td class="db-td"><?php echo $row['email_utente']; ?></td>
-                            <td class="db-td"><?php echo $row['giorno_prenotazione']; ?></td>
-                            <td class="db-td"><?php echo $row['ora_arrivo']; ?></td>
-                            <td class="db-td"><?php echo $row['ora_partenza']; ?></td>
-                            <td class="db-td"><?php echo $row['id_tavolo']; ?></td>
-                            <td class="db-td"><?php echo $row['id_posto']; ?></td>
+                            <td class="db-td"><?php echo $row->id; ?></td>
+                            <td class="db-td"><?php echo $row->nome_utente; ?></td>
+                            <td class="db-td"><?php echo $row->email_utente; ?></td>
+                            <td class="db-td"><?php echo $row->giorno_prenotazione; ?></td>
+                            <td class="db-td"><?php echo $row->ora_arrivo; ?></td>
+                            <td class="db-td"><?php echo $row->ora_partenza; ?></td>
+                            <td class="db-td"><?php echo $row->id_tavolo; ?></td>
+                            <td class="db-td"><?php echo $row->id_posto; ?></td>
                             <td class="db-td">
                                 <?php
 //                                if (isset($_POST['save'])) {
@@ -61,11 +60,11 @@ include __DIR__ . '/../../DB/start-connection.php';
 //                                        'id' => $row['id']
 //                                    ]);
 //                                }
-                                include __DIR__ . '/../../DB/update-row.php';
+//                                include __DIR__ . '/../../DB/update-row.php';
                                 //                                ?>
 
                                 <form method="post" action="admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fedit-user.html.php">
-                                    <input type="hidden" name="id" value="<?= $row['id']; ?>">
+                                    <input type="hidden" name="id" value="<?= $row->id; ?>">
                                     <input type="submit" name="save" id="save" class="button button-secondary"
                                            value="Modifica">
                                 </form>
@@ -75,7 +74,7 @@ include __DIR__ . '/../../DB/start-connection.php';
                                 <?php include __DIR__ . '/../../DB/delete-row.php'; ?>
 
                                 <form method="post" action="<?php echo $_SERVER['REQUEST_URI'] ?>">
-                                    <input type="hidden" name="id" value="<?= $row['id']; ?>">
+                                    <input type="hidden" name="id" value="<?= $row->id; ?>">
                                     <input type="submit" name="submit" class="button button-link-delete"
                                            value="Elimina">
                                 </form>

@@ -8,7 +8,7 @@ $nome = $email = $giorno = $ora_arrivo = $ora_partenza = $id_tavolo = $id_posto 
 <div class="wrap">
     <h1><?= esc_html(get_admin_page_title()); ?></h1>
     <?php
-    if ($_SERVER["REQUEST_METHOD"] === "POST"):
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && (!isset($_POST['edit']))):
     ?>
     <p>Modifica i campi e poi clicca su 'Salva modifiche' per aggiornare i dati dell'utente utente</p>
     <div id="tab-2" class="tab-pane">
@@ -17,76 +17,87 @@ $nome = $email = $giorno = $ora_arrivo = $ora_partenza = $id_tavolo = $id_posto 
               action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>">
 
             <?php
-//            $sql = "SELECT * FROM ". $db_table_name ." WHERE id = ?";
-//            $result = $connection->prepare($sql);
-//            $result->execute([$_POST['id']]);
+            //            $sql = "SELECT * FROM ". $db_table_name ." WHERE id = ?";
+            //            $result = $connection->prepare($sql);
+            //            $result->execute([$_POST['id']]);
 
-            $result = $wpdb->get_results($wpdb->prepare("SELECT * FROM ". $db_table_name ." WHERE id = %d", $_POST['id']) );
+            $result = $wpdb->get_results($wpdb->prepare("SELECT * FROM " . $db_table_name . " WHERE id = %d", $_POST['id']));
 
             if ($result > 0):
-//                $rows = $result->fetchAll();
-                foreach ($result as $row):
-                    ?>
-                    <label for="nome_utente">Nome
-                        <div>
-                            <input type="text" name="nome_utente" id="nome_utente"
-                                   value="<?= $row->nome_utente ?>">
-                        </div>
-                    </label>
+            //                $rows = $result->fetchAll();
+            foreach ($result
 
-                    <label for="email_utente">Email
-                        <div>
-                            <input type="text" name="email_utente" id="email_utente"
-                                   value="<?= $row->email_utente ?>">
-                        </div>
-                    </label>
+            as $row):
+            ?>
+            <label for="nome_utente">Nome
+                <div>
+                    <input type="text" name="nome_utente" id="nome_utente"
+                           value="<?= $row->nome_utente ?>">
+                </div>
+            </label>
 
-                    <label for="giorno_prenotazione">Giorno prenotazione
-                        <div>
-                            <input type="date" name="giorno_prenotazione" value="<?= $row->giorno_prenotazione ?>">
-                        </div>
-                    </label>
+            <label for="email_utente">Email
+                <div>
+                    <input type="text" name="email_utente" id="email_utente"
+                           value="<?= $row->email_utente ?>">
+                </div>
+            </label>
 
-                    <label for="ora_arrivo">Ora arrivo
-                        <div>
-                            <input type="time" name="ora_arrivo" value="<?= $row->ora_arrivo ?>">
-                        </div>
-                    </label>
+            <label for="giorno_prenotazione">Giorno prenotazione
+                <div>
+                    <input type="date" name="giorno_prenotazione" value="<?= $row->giorno_prenotazione ?>">
+                </div>
+            </label>
 
-                    <label for="ora_partenza">Ora partenza
-                        <div>
-                            <input type="time" name="ora_partenza" value="<?= $row->ora_partenza ?>">
-                        </div>
-                    </label>
+            <label for="ora_arrivo">Ora arrivo
+                <div>
+                    <input type="time" name="ora_arrivo" value="<?= $row->ora_arrivo ?>">
+                </div>
+            </label>
 
-                    <label for="id_tavolo">Numero tavolo
-                        <div>
-                            <input type="number" name="id_tavolo"
-                                   value="<?= $row->id_tavolo ?>">
-                        </div>
-                    </label>
+            <label for="ora_partenza">Ora partenza
+                <div>
+                    <input type="time" name="ora_partenza" value="<?= $row->ora_partenza ?>">
+                </div>
+            </label>
 
-                    <label for="id_posto">Numero posto
-                        <div>
-                            <input type="number" name="id_posto"
-                                   value="<?= $row->id_posto ?>">
-                        </div>
-                    </label>
-                    <?php
-                endforeach;
-            endif;
-            if (isset($_POST['edit']) && $_SERVER['REQUEST_METHOD'] =='POST') {
+            <label for="id_tavolo">Numero tavolo
+                <div>
+                    <input type="number" name="id_tavolo"
+                           value="<?= $row->id_tavolo ?>">
+                </div>
+            </label>
+
+            <label for="id_posto">Numero posto
+                <div>
+                    <input type="number" name="id_posto"
+                           value="<?= $row->id_posto ?>">
+                </div>
+            </label>
+
+            <?php
+            if (isset($_POST['edit']) && $row->id === $_POST['id']) {
                 $wpdb->update($db_table_name, [
-                    'nome_utente' => $row['nome_utente'],
-                    'email_utente' => $row['email_utente'],
-                    'giorno_prenotazione' => $row['giorno_prenotazione'],
+                    'nome_utente' => $row->nome_utente,
+                    'email_utente' => $row->email_utente,
+                    'giorno_prenotazione' => $row->giorno_prenotazione,
+                    'ora_arrivo' => $row->ora_arrivo,
+                    'ora_partenza' => $row->ora_partenza,
+                    'id_tavolo' => $row->id_tavolo,
+                    'id_posto' => $row->id_posto,
                 ], [
-                    'id' => $row['id']
+                    'id' => $row->id
                 ]);
             }
             ?>
+            <input type="hidden" name="id" value="<?= $row->id; ?>">
             <input type="submit" name="edit" id="edit" class="button button-primary" value="Salva modifiche">
         </form>
+        <?php
+        endforeach;
+        endif;
+        ?>
+
         <?php
         else:
             ?>
@@ -99,3 +110,13 @@ $nome = $email = $giorno = $ora_arrivo = $ora_partenza = $id_tavolo = $id_posto 
 </div>
 
 
+<!--UPDATE `wp_library_users` SET-->
+<!--`id` = '95',-->
+<!--`nome_utente` = 'mario aa',-->
+<!--`email_utente` = 'mario.rossi@gmail.com',-->
+<!--`giorno_prenotazione` = '2022-08-18',-->
+<!--`ora_arrivo` = '17:18:00',-->
+<!--`ora_partenza` = '20:18:00',-->
+<!--`id_tavolo` = '3',-->
+<!--`id_posto` = '4'-->
+<!--WHERE `id` = '95';-->
