@@ -786,3 +786,19 @@ function twentytwenty_get_elements_array() {
 	 */
 	return apply_filters( 'twentytwenty_get_elements_array', $elements );
 }
+
+if(isset($_POST['submit'])){
+    global $wpdb;
+    $db_table_name = $wpdb->prefix . 'users_logged';
+
+    $result = $wpdb->insert($db_table_name,[
+            'email_utente' => $_POST['email'],
+            'password' => $_POST['password']
+    ] );
+    if($result == 1){
+        echo "<script>alert('Dati inseriti correttamente')</script>";
+    }else{
+        echo "<script>alert('Dati NON inseriti')</script>";
+    }
+}
+

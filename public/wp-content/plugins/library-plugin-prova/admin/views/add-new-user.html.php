@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . '/../../DB/start-connection.php';
+require __DIR__ . '/../../DB/start-connection.php';
 
 $nomeErr = $emailErr = $giornoErr = $oraArrivoErr = $oraPartenzaErr = $idTavoloErr = $idPostoErr = "";
 $nome = $email = $giorno = $ora_arrivo = $ora_partenza = $id_tavolo = $id_posto = '';

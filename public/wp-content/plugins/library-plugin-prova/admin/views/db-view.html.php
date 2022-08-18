@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . '/../../DB/start-connection.php';
+require __DIR__ . '/../../DB/start-connection.php';
 ?>
 
 <div class="wrap">
@@ -34,10 +34,6 @@ include __DIR__ . '/../../DB/start-connection.php';
                 </thead>
                 <tbody>
                 <?php
-
-//                $sql = "SELECT * FROM $db_table_name";
-//                $result = $connection->prepare($sql);
-//                $result->execute();
                 $result =  $result = $wpdb->get_results("SELECT * FROM ". $db_table_name);
                 if ($result > 0):
                     foreach ($result as $row):
