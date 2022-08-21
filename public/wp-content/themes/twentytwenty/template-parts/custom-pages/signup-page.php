@@ -13,10 +13,9 @@
 
             <!-- Form per Login -->
             <section>
-
-            <h2>Registrati per poter accedere al servizio</h2>
+            <h2>Crea account</h2>
             <div id="home-form">
-                <form action="" method="post">
+                <form action="/successful-signin" method="post">
                     <div class="mb-3">
                         <label for="nome_utente">Nome utente</label>
                         <input name="nome_utente" type="text" id="nome_utente">
@@ -29,12 +28,9 @@
                         <label for="password">Password</label>
                         <input name="password" type="password" id="password">
                     </div>
-
-                    <input type="submit" name="registrati" value="Registrati">
+                    <input type="submit" name="registrati" value="Crea account">
                 </form>
-                <p>
-                    Hai gia un account? <a href="/login-page">Torna indietro e accedi</a>
-                </p>
+                <p>Hai gia un account? <a href="/login-page">Torna indietro e accedi</a></p>
             </div>
             </section>
         </div><!-- .entry-content -->

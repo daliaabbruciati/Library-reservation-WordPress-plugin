@@ -17,12 +17,11 @@
             <header id="home-header">
                 <h1>Benvenuto nella Biblioteca</h1>
                 <p>
-                    Questo portale ti permetterà di prenotare il tuo posto in sala studio in una determinata fascia oraria e nel
-                    giorno che desideri.
-                    Registrati per poter accedere alla piattaforma oppure effettua l’accesso.
+                    Questo portale ti permetterà di scegliere e prenotare il tuo posto in sala studio nel giorno e nella fascia oraria che desideri.
+                    Accedi o registrati per proseguire.
                 </p>
             </header>
-            <div id="home-form">
+            <div id="home-form" class="inner-container">
                 <form action="" method="post">
                     <div class="mb-3">
                         <label for="email">Email</label>
