@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '/../../DB/start-connection.php';
-$newNome = $newEmail = $newGiorno = $newOra_arrivo = $newOra_partenza = $newId_tavolo = $newId_posto = '';
+$newNome = $newEmail = $newGiorno = $newOra_arrivo = $newOra_partenza = $newNum_tavolo = $newNum_posto = '';
 ?>
 
 
@@ -52,17 +52,17 @@ $newNome = $newEmail = $newGiorno = $newOra_arrivo = $newOra_partenza = $newId_t
                 </div>
             </label>
 
-            <label for="id_tavolo">Numero tavolo
+            <label for="num_tavolo">Numero tavolo
                 <div>
-                    <input type="number" name="id_tavolo"
-                           value="<?= $row->id_tavolo ?>">
+                    <input type="number" name="num_tavolo"
+                           value="<?= $row->num_tavolo ?>">
                 </div>
             </label>
 
-            <label for="id_posto">Numero posto
+            <label for="num_posto">Numero posto
                 <div>
-                    <input type="number" name="id_posto"
-                           value="<?= $row->id_posto ?>">
+                    <input type="number" name="num_posto"
+                           value="<?= $row->num_posto ?>">
                 </div>
             </label>
 

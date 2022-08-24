@@ -5,8 +5,8 @@ if (isset($_POST['edit']) && $row->id === $_POST['id']) {
     $newGiorno = $_POST['giorno_prenotazione'];
     $newOra_arrivo = $_POST['ora_arrivo'];
     $newOra_partenza = $_POST['ora_partenza'];
-    $newId_tavolo = $_POST['id_tavolo'];
-    $newId_posto = $_POST['id_posto'];
+    $newNum_tavolo = $_POST['num_tavolo'];
+    $newNum_posto = $_POST['num_posto'];
 
     $row->nome_utente = $newNome;
 
@@ -16,8 +16,8 @@ if (isset($_POST['edit']) && $row->id === $_POST['id']) {
         'giorno_prenotazione' => $newGiorno,
         'ora_arrivo' => $newOra_arrivo,
         'ora_partenza' => $newOra_partenza,
-        'id_tavolo' => $newId_tavolo,
-        'id_posto' => $newId_posto,
+        'num_tavolo' => $newNum_tavolo,
+        'num_posto' => $newNum_posto,
     ], [
         'id' => $row->id
     ]);

@@ -787,7 +787,7 @@ function twentytwenty_get_elements_array() {
 	return apply_filters( 'twentytwenty_get_elements_array', $elements );
 }
 
-if(isset($_POST['submit'])){
+if(isset($_POST['submit_user'])){
     global $wpdb;
     $db_table_name = $wpdb->prefix . 'users_logged';
 

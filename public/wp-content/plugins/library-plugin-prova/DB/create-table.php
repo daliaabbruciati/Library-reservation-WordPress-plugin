@@ -10,6 +10,7 @@ function DB_table() {
 
     $sql = "CREATE TABLE " . $db_table_name . " (
     	id INT(10) NOT NULL AUTO_INCREMENT,
+    	id_utente INT(10) NOT NULL,
     	nome_utente VARCHAR(50) NOT NULL,
     	email_utente VARCHAR(70) NOT NULL,
     	giorno_prenotazione DATE NOT NULL,

@@ -26,8 +26,8 @@ require __DIR__ . '/../../DB/start-connection.php';
                     <th class="db-th">Giorno</th>
                     <th class="db-th">Ora arrivo</th>
                     <th class="db-th">Ora partenza</th>
-                    <th class="db-th">Id tavolo</th>
-                    <th class="db-th">Id. posto</th>
+                    <th class="db-th">Num. tavolo</th>
+                    <th class="db-th">Num. posto</th>
                     <th class="db-th">Modifica</th>
                     <th class="db-th">Elimina</th>
                 </tr>
@@ -45,19 +45,9 @@ require __DIR__ . '/../../DB/start-connection.php';
                             <td class="db-td"><?php echo $row->giorno_prenotazione; ?></td>
                             <td class="db-td"><?php echo $row->ora_arrivo; ?></td>
                             <td class="db-td"><?php echo $row->ora_partenza; ?></td>
-                            <td class="db-td"><?php echo $row->id_tavolo; ?></td>
-                            <td class="db-td"><?php echo $row->id_posto; ?></td>
+                            <td class="db-td"><?php echo $row->num_tavolo; ?></td>
+                            <td class="db-td"><?php echo $row->num_posto; ?></td>
                             <td class="db-td">
-                                <?php
-//                                if (isset($_POST['save'])) {
-//                                    $wpdb->update($db_table_name, [
-//                                        'nome_utente' => $row['nome_utente'],
-//                                    ], [
-//                                        'id' => $row['id']
-//                                    ]);
-//                                }
-//                                include __DIR__ . '/../../DB/update-row.php';
-                                //                                ?>
 
                                 <form method="post" action="admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fedit-user.html.php">
                                     <input type="hidden" name="id" value="<?= $row->id; ?>">

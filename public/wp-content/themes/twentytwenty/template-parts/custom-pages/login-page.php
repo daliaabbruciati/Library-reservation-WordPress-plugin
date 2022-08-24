@@ -32,7 +32,7 @@
                         <input name="password" type="password" id="password">
                     </div>
 
-                    <input type="submit" name="submit" value="Login">
+                    <input type="submit" name="submit_user" value="Login">
                 </form>
                 <p>
                     Non sei ancora registrato? <a href="/signup-page">Crea account</a>

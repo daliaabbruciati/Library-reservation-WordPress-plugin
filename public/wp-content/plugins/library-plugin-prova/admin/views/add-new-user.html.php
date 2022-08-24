@@ -1,8 +1,8 @@
 <?php
 require __DIR__ . '/../../DB/start-connection.php';
 
-$nomeErr = $emailErr = $giornoErr = $oraArrivoErr = $oraPartenzaErr = $idTavoloErr = $idPostoErr = "";
-$nome = $email = $giorno = $ora_arrivo = $ora_partenza = $id_tavolo = $id_posto = '';
+$nomeErr = $emailErr = $giornoErr = $oraArrivoErr = $oraPartenzaErr = $numTavoloErr = $numPostoErr = "";
+$nome = $email = $giorno = $ora_arrivo = $ora_partenza = $num_tavolo = $num_posto = '';
 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -11,10 +11,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $giorno = $_POST['giorno_prenotazione'];
     $ora_arrivo = $_POST['ora_arrivo'];
     $ora_partenza = $_POST['ora_partenza'];
-    $id_tavolo = $_POST['id_tavolo'];
-    $id_posto = $_POST['id_posto'];
+    $num_tavolo = $_POST['num_tavolo'];
+    $num_posto = $_POST['num_posto'];
 
-    if (empty($_POST['nome_utente']) || empty($_POST['email_utente']) || empty($_POST['giorno_prenotazione']) || empty($_POST['ora_arrivo']) || empty($_POST['ora_partenza']) || empty($_POST['id_tavolo']) || empty($_POST['id_posto'])) {
+    if (empty($_POST['nome_utente']) || empty($_POST['email_utente']) || empty($_POST['giorno_prenotazione']) || empty($_POST['ora_arrivo']) || empty($_POST['ora_partenza']) || empty($_POST['num_tavolo']) || empty($_POST['num_posto'])) {
 
         if (empty($_POST['nome_utente']) || !preg_match("/^[a-zA-Z-' ]*$/", $nome)) {
             $nomeErr = "<span class='error-field'>Inserisci campo</span>";
@@ -31,12 +31,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (empty($_POST['ora_partenza'])) {
             $oraPartenzaErr = "<span class='error-field'>Inserisci campo</span>";
         }
-        if (empty($_POST['id_tavolo'])) {
-            $idTavoloErr = "<span class='error-field'>Inserisci campo</span>";
+        if (empty($_POST['num_tavolo'])) {
+            $numTavoloErr = "<span class='error-field'>Inserisci campo</span>";
 
         }
-        if (empty($_POST['id_posto'])) {
-            $idPostoErr = "<span class='error-field'>Inserisci campo</span>";
+        if (empty($_POST['num_posto'])) {
+            $numPostoErr = "<span class='error-field'>Inserisci campo</span>";
         }
         echo "<p class='error-field'>ERRORE inserimento: Compila tutti i campi</p>";
     } else {
@@ -47,8 +47,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             'giorno_prenotazione' => $giorno,
             'ora_arrivo' => $ora_arrivo,
             'ora_partenza' => $ora_partenza,
-            'id_tavolo' => $id_tavolo,
-            'id_posto' => $id_posto
+            'num_tavolo' => $num_tavolo,
+            'num_posto' => $num_posto
         ]);
 
         echo "<p class='success-field'>Nuovo utente inserito correttamente</p>";
@@ -94,17 +94,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 </div>
             </label>
 
-            <label for="id_tavolo">Numero tavolo
+            <label for="num_tavolo">Numero tavolo
                 <div>
-                    <input type="number" name="id_tavolo"
-                           placeholder="Inserisci numero tavolo prenotato"><span>* <?= $idTavoloErr; ?></span>
+                    <input type="number" name="num_tavolo"
+                           placeholder="Inserisci numero tavolo prenotato"><span>* <?= $numTavoloErr; ?></span>
                 </div>
             </label>
 
-            <label for="id_posto">Numero posto
+            <label for="num_posto">Numero posto
                 <div>
-                    <input type="number" name="id_posto"
-                           placeholder="Inserisci numero posto prenotato"><span>* <?= $idPostoErr; ?></span>
+                    <input type="number" name="num_posto"
+                           placeholder="Inserisci numero posto prenotato"><span>* <?= $numPostoErr; ?></span>
                 </div>
             </label>
             <input type="submit" name="submit" id="submit" class="button button-primary" value="Aggiungi utente">
