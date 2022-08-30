@@ -13,11 +13,8 @@
 defined( 'ABSPATH' ) or die( 'Hey you can\t access this file' );
 
 /* Activation and deactivation plugin hooks */
-$activate = require __DIR__ . '/includes/Base/Activate.php';
-$deactivate = require __DIR__ . '/includes/Base/Deactivate.php';
-
-register_activation_hook( $activate, 'activate' );
-register_deactivation_hook( $deactivate, 'deactivate' );
+register_activation_hook( __DIR__ . '/includes/Base/Activate.php', 'activate' );
+register_deactivation_hook( __DIR__ . '/includes/Base/Deactivate.php', 'deactivate' );
 
 
 /* File dell' admin menu */
@@ -26,8 +23,7 @@ include __DIR__ . '/admin/admin-menu.php';
 include __DIR__ . '/includes/Base/Enqueue.php';
 
 /* Include database file */
-$db_reference = include_once __DIR__ . '/DB/create-table.php';
-register_activation_hook($db_reference,"DB_table");
+register_activation_hook(__DIR__ . '/DB/create-table.php',"DB_table");
 
 /* Includo la connession al db*/
 //include __DIR__ . '/DB/start-connection.php';
