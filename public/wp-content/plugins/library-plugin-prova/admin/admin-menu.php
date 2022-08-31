@@ -1,14 +1,16 @@
 <?php
 
+add_action('admin_menu', 'settings_menu');
+
 function settings_menu(): void
 {
     add_menu_page(
-        'Panoramica',
-        'Panoramica',
+        'Library Reservation',
+        'Library Reservation',
         'manage_options',
         plugin_dir_path(__FILE__) . './views/db-view.html.php',
         null,
-        'dashicons-admin-generic',
+        'dashicons-book',
         90
     );
 
@@ -33,4 +35,3 @@ function settings_menu(): void
         91
     );
 }
-add_action('admin_menu', 'settings_menu');

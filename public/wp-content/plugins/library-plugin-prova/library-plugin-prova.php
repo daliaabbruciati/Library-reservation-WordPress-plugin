@@ -10,20 +10,26 @@
  */
 
 /* Define the ABSPATH */
-defined( 'ABSPATH' ) or die( 'Hey you can\t access this file' );
+defined('ABSPATH') or die('Hey you can\t access this file');
+require_once(ABSPATH . 'wp-admin/includes/plugin.php');
 
-/* Activation and deactivation plugin hooks */
-register_activation_hook( __DIR__ . '/includes/Base/Activate.php', 'activate' );
-register_deactivation_hook( __DIR__ . '/includes/Base/Deactivate.php', 'deactivate' );
+
+/* Register ACTIVATION hook. */
+include_once __DIR__ . '/includes/Base/Activate.php';
+register_activation_hook( __FILE__, 'admin_notice_activation_hook');
+
+/* Register DEACTIVATION hook */
+include_once __DIR__ . '/includes/Base/Deactivate.php';
+register_deactivation_hook(__FILE__, 'deactivate');
 
 
 /* File dell' admin menu */
-include __DIR__ . '/admin/admin-menu.php';
+require_once __DIR__ . '/admin/admin-menu.php';
 /* File per includere lo style e gli scripts*/
-include __DIR__ . '/includes/Base/Enqueue.php';
+require_once __DIR__ . '/includes/Base/Enqueue.php';
 
 /* Include database file */
-register_activation_hook(__DIR__ . '/DB/create-table.php',"DB_table");
+register_activation_hook(__DIR__ . '/DB/create-table.php', "DB_table");
 
 /* Includo la connession al db*/
 //include __DIR__ . '/DB/start-connection.php';

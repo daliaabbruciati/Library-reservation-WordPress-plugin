@@ -1,7 +1,7 @@
 <?php
 
-class Deactivate{
-	public static function deactivate() {
-		flush_rewrite_rules();
-	}
+function deactivate(): void
+{
+    flush_rewrite_rules();
+
 }
