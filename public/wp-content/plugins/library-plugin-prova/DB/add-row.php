@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
         echo "<p class='error-field'>ERRORE inserimento: Compila tutti i campi</p>";
     } else {
-        $wpdb->insert($db_table_name, [
+        $wpdb->insert($db_table_prenotazione, [
             'nome_utente' => $nome,
             'email_utente' => $email,
             'giorno_prenotazione' => $giorno,

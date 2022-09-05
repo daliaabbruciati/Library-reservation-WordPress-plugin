@@ -20,33 +20,37 @@ require __DIR__ . '/../../DB/start-connection.php';
             <table class="db-table">
                 <thead class="db-thead">
                 <tr class="db-tr">
-                    <th class="db-th">ID</th>
-                    <th class="db-th">Nome utente</th>
+                    <th class="db-th">Id prenotazione</th>
+                    <th class="db-th">Id utente</th>
+                    <th class="db-th">Nome</th>
                     <th class="db-th">Email</th>
                     <th class="db-th">Giorno</th>
+                    <th class="db-th">Tutto il giorno</th>
                     <th class="db-th">Ora arrivo</th>
                     <th class="db-th">Ora partenza</th>
-                    <th class="db-th">Num. tavolo</th>
-                    <th class="db-th">Num. posto</th>
+                    <th class="db-th">Id posto</th>
+                    <th class="db-th">QR code</th>
                     <th class="db-th">Modifica</th>
                     <th class="db-th">Elimina</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
-                $result =  $result = $wpdb->get_results("SELECT * FROM ". $db_table_name);
+                $result =  $result = $wpdb->get_results("SELECT * FROM ". $db_table_prenotazione);
                 if ($result > 0):
                     foreach ($result as $row):
                         ?>
                         <tr class="db-tr">
                             <td class="db-td"><?php echo $row->id; ?></td>
+                            <td class="db-td"><?php echo $row->id_utente; ?></td>
                             <td class="db-td"><?php echo $row->nome_utente; ?></td>
                             <td class="db-td"><?php echo $row->email_utente; ?></td>
-                            <td class="db-td"><?php echo $row->giorno_prenotazione; ?></td>
+                            <td class="db-td"><?php echo $row->giorno; ?></td>
+                            <td class="db-td"><?php echo $row->tutto_il_giorno; ?></td>
                             <td class="db-td"><?php echo $row->ora_arrivo; ?></td>
                             <td class="db-td"><?php echo $row->ora_partenza; ?></td>
-                            <td class="db-td"><?php echo $row->num_tavolo; ?></td>
-                            <td class="db-td"><?php echo $row->num_posto; ?></td>
+                            <td class="db-td"><?php echo $row->id_posto; ?></td>
+                            <td class="db-td"><?php echo $row->qr_code; ?></td>
                             <td class="db-td">
 
                                 <form method="post" action="admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fedit-user.html.php">

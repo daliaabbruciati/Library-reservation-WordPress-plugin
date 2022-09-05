@@ -1,0 +1,19 @@
+.container{
+    /*background-color: red;*/
+    max-width: 1100px;
+    margin: 10px auto;
+}
+.container__welcome{
+
+}
+
+.container__welcome--access-info{
+    max-width: 309px;
+    margin: 10px auto;
+}
+.container__login{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

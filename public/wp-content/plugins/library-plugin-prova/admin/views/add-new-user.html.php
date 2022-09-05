@@ -41,13 +41,6 @@ require __DIR__ . '/../../DB/add-row.php';
                 </div>
             </label>
 
-            <label for="num_tavolo">Numero tavolo
-                <div>
-                    <input type="number" name="num_tavolo"
-                           placeholder="Inserisci numero tavolo prenotato"><span>* <?= $numTavoloErr; ?></span>
-                </div>
-            </label>
-
             <label for="num_posto">Numero posto
                 <div>
                     <input type="number" name="num_posto"
