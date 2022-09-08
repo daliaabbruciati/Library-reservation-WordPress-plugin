@@ -1,6 +1,6 @@
 <?php
-$nomeErr = $emailErr = $stanzaErr = $giornoErr = $oraArrivoErr = $oraPartenzaErr = $tuttoIlGiornoErr  = $idPostoErr = "";
-$nome = $email =  $stanza = $giorno = $ora_arrivo = $ora_partenza =  $tutto_il_giorno = $id_posto = '';
+$nomeErr = $emailErr = $stanzaErr = $giornoErr = $oraArrivoErr = $oraPartenzaErr = $tuttoIlGiornoErr = $idPostoErr = "";
+$nome = $email = $stanza = $giorno = $ora_arrivo = $ora_partenza =  $tutto_il_giorno = $id_posto = '';
 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {

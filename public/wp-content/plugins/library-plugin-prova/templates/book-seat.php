@@ -23,7 +23,10 @@ get_header();
         <form class="form" action="/prenotazione-confermata">
             <div class="form__stanza">
                 <label for="stanza">Scegli stanza</label>
-                <input name="stanza" type="number" id="stanza"min="1" max="2">
+                <select name="stanza" id="stanza">
+                    <option value="" selected="selected">Scegli stanza</option>
+                </select>
+<!--                <input name="stanza" type="number" id="stanza"min="1" max="2">-->
             </div>
             <div class="form__giorno">
                 <label for="giorno">Scegli giorno</label>
@@ -31,19 +34,22 @@ get_header();
             </div>
             <div class="form__ora-arrivo">
                 <label for="ora-arrivo">Ora arrivo</label>
-                <input name="ora-arrivo" type="time" id="ora-arrivo">
+                <input name="ora-arrivo" type="time" id="ora-arrivo" <?php if(isset($_POST['tutto_il_giorno'])): ?> disabled <?php endif;?>>
             </div>
             <div class="form__ora-partenza">
                 <label for="ora-partenza">Ora partenza</label>
-                <input name="ora-partenza" type="time" id="ora-partenza">
+                <input name="ora-partenza" type="time" id="ora-partenza" <?php if(isset($_POST['tutto_il_giorno'])): ?> disabled <?php endif;?> >
             </div>
             <div class="form__tutto-il-giorno">
                 <label for="tutto_il_giorno">Tutto il giorno</label>
-                <input name="tutto_il_giorno" type="checkbox" id="tutto_il_giorno" value="giorno-completo">
+                <input name="tutto_il_giorno" type="checkbox" id="tutto_il_giorno" value="true">
             </div>
             <div class="form__posto">
                 <label for="posto">Scegli posto disponibile</label>
-                <input name="posto" type="number" id="posto" min="1" max="120">
+                <select name="posto" id="posto">
+                    <option value="" selected="selected">Scegli posto</option>
+                </select>
+<!--                <input name="posto" type="number" id="posto" min="1" max="120">-->
             </div>
             <input class="form__submit" type="submit" name="submit_prenotazione" value="Conferma">
         </form>
@@ -54,6 +60,7 @@ get_header();
 </div>
 
 <?php get_footer(); ?>
+
 </body>
 </html>
 

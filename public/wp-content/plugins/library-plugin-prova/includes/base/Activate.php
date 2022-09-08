@@ -19,9 +19,10 @@ function admin_text_notice(): void
             </p>
             <ol>
                 <li><strong>Prenotazione</strong></li>
-                <li><strong>Log in</strong></li>
-                <li><strong>Sign up</strong></li>
-                <li><strong>Book spot</strong></li>
+                <li><strong>Login</strong></li>
+                <li><strong>Signup</strong></li>
+                <li><strong>Scegli posto</strong></li>
+                <li><strong>Prenotazione confermata</strong></li>
             </ol>
         </div>
         <?php

@@ -25,8 +25,12 @@ require __DIR__ . '/../../DB/add-row.php';
 
             <label for="giorno">Scegli stanza
                 <div>
-                    <input type="number" name="stanza"
-                           placeholder="Inserisci il numero della stanza"><span>* <?= $stanzaErr; ?></span>
+                    <select name="stanza" id="stanza">
+                        <option value="" selected="selected">Scegli stanza</option>
+                    </select>
+                    <span>* <?= $stanzaErr; ?></span>
+<!--                    <input type="number" name="stanza"-->
+<!--                           placeholder="Inserisci il numero della stanza"><span>* --><?//= $stanzaErr; ?><!--</span>-->
                 </div>
             </label>
 
@@ -50,18 +54,22 @@ require __DIR__ . '/../../DB/add-row.php';
 
             <label for="tutto_il_giorno">Tutto il giorno
                 <div>
-                    <input type="checkbox" name="tutto_il_giorno"><span>* <?= $tuttoIlGiornoErr; ?></span>
+                    <input type="checkbox" name="tutto_il_giorno" id="tutto_il_giorno"><span>* <?= $tuttoIlGiornoErr; ?></span>
                 </div>
             </label>
 
             <label for="id_posto">Numero posto
                 <div>
-                    <input type="number" name="id_posto" min="1" max="120"
-                           placeholder="Inserisci numero posto prenotato"><span>* <?= $idPostoErr; ?></span>
+                    <select name="posto" id="posto">
+                        <option value="" selected="selected">Scegli posto</option>
+                    </select>
+                    <span>* <?= $idPostoErr; ?></span>
+<!--                    <input type="number" name="id_posto" min="1" max="120"-->
+<!--                           placeholder="Inserisci numero posto prenotato"><span>* --><?//= $idPostoErr; ?><!--</span>-->
                 </div>
             </label>
             <?php
-            if (isset($_POST['submit']) && $nomeErr && $emailErr && $stanzaErr && $giornoErr && $oraArrivoErr && $oraPartenzaErr && $tuttoIlGiornoErr && $numPostoErr == NULL):
+            if (isset($_POST['submit']) && $nomeErr && $emailErr && $stanzaErr && $giornoErr && $oraArrivoErr && $oraPartenzaErr && $tuttoIlGiornoErr && $idPostoErr == NULL):
                 ?>
                 <div>
                     <h3>Nuovo utente inserito correttamente.Torna alla schermata <a

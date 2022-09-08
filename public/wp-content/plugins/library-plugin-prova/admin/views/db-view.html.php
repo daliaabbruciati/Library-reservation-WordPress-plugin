@@ -82,10 +82,15 @@ require __DIR__ . '/../../DB/start-connection.php';
 
 
         <div id="tab-2" class="tab-pane">
-            <h3>Aggiungi/modifica impostazioni</h3>
-            <ul>
-                <li>- Aggiungi stanza</li>
-            </ul>
+            <h3>Modifica impostazioni</h3>
+            <div class="form-container">
+            <label for="numero_stanze">Numero stanze
+                <div>
+                    <input type="number" name="numero_stane" id="numero_stanze"
+                           placeholder="Inserisci numero totale di stanze">
+                </div>
+            </label>
+            </div>
         </div>
     </div>
 </div>
