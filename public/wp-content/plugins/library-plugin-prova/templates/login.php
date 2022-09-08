@@ -10,7 +10,11 @@
 <body>
 <?php
     wp_head();
-    get_header();
+get_header();
+//wp_nav_menu([
+//    'theme_location' => 'library-primary-menu'
+//]);
+
 ?>
 
 <div class="container">
@@ -22,20 +26,20 @@
     </p>
     <p class="container__welcome--access-info"><strong>Accedi</strong> o <strong>registrati</strong> per proseguire.</p>
     </div>
-    <div class="container__login">
-        <form action="" method="post">
-            <div>
+    <div class="container__form">
+        <form class="form" action="/scegli-posto" method="post">
+            <div class="form__email">
                 <label for="email">Email</label>
                 <input name="email" type="email" id="email" aria-describedby="emailHelp">
             </div>
-            <div>
+            <div class="form__password">
                 <label for="password">Password</label>
                 <input name="password" type="password" id="password">
             </div>
 
-            <input type="submit" name="submit_user" value="Login">
+            <input class="form__submit" type="submit" name="submit_user" value="Accedi">
         </form>
-        <p>
+        <p class="container__go-to-signup">
             Non sei ancora registrato? <a href="/signup">Crea account</a>
         </p>
     </div>

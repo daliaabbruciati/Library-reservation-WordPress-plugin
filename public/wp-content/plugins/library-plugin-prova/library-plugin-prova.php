@@ -31,6 +31,7 @@ register_activation_hook(__FILE__, 'page_creator');
 
 /* File dell' admin menu */
 require_once __DIR__ . '/admin/admin-menu.php';
+
 /* File per includere lo style e gli scripts*/
 require_once __DIR__ . '/includes/base/Enqueue.php';
 
@@ -40,5 +41,4 @@ register_activation_hook(__FILE__, "DB_table");
 
 /* Includo la connession al db*/
 include __DIR__ . '/DB/start-connection.php';
-
 

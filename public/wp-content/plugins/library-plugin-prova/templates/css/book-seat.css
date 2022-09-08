@@ -1,15 +1,13 @@
 .container{
+    max-width: 1000px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 10px auto;
+    justify-content: space-between;
+    margin: 0 auto;
 }
 
 .container__form{
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 }
 .form{
@@ -17,22 +15,38 @@
     flex-direction: column;
     padding: 10px 0;
     min-width: 500px;
-    margin: 0 auto;
 }
-.form__nome-utente{
+.form__stanza{
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
 }
-
-.form__email{
+.form__giorno{
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
 }
-.form__password{
+.form__ora-arrivo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+.form__ora-partenza{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+.form__tutto-il-giorno{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+.form__posto{
     display: flex;
     justify-content: space-between;
     align-items: center;

@@ -1,19 +1,43 @@
-.container{
-    /*background-color: red;*/
+.container {
     max-width: 1100px;
     margin: 10px auto;
 }
-.container__welcome{
 
-}
-
-.container__welcome--access-info{
+.container__welcome--access-info {
     max-width: 309px;
     margin: 10px auto;
 }
-.container__login{
+
+.container__form {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    min-width: 400px;
+}
+
+.form__email {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.form__password {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.form__submit {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
 }
