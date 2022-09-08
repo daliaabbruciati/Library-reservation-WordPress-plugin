@@ -2,21 +2,23 @@
 if (isset($_POST['edit']) && $row->id === $_POST['id']) {
     $newNome = $_POST['nome_utente'];
     $newEmail = $_POST['email_utente'];
-    $newGiorno = $_POST['giorno_prenotazione'];
+    $newStanza = $_POST['stanza'];
+    $newGiorno = $_POST['giorno'];
     $newOra_arrivo = $_POST['ora_arrivo'];
     $newOra_partenza = $_POST['ora_partenza'];
-    $newNum_tavolo = $_POST['num_tavolo'];
+    $newTuttoIlGiorno = $_POST['tutto_il_giorno'];
     $newNum_posto = $_POST['num_posto'];
 
-    $row->nome_utente = $newNome;
+//    $row->nome_utente = $newNome;
 
-    $wpdb->update($db_table_name, [
+    $wpdb->update($db_table_prenotazione, [
         'nome_utente' => $newNome,
         'email_utente' => $newEmail,
-        'giorno_prenotazione' => $newGiorno,
+        'stanza' => $newStanza,
+        'giorno' => $newGiorno,
         'ora_arrivo' => $newOra_arrivo,
         'ora_partenza' => $newOra_partenza,
-        'num_tavolo' => $newNum_tavolo,
+        'tutto_il_giorno' => $newTuttoIlGiorno,
         'num_posto' => $newNum_posto,
     ], [
         'id' => $row->id

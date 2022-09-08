@@ -9,7 +9,7 @@ require __DIR__ . '/../../DB/start-connection.php';
 
     <div class="nav nav-tabs">
         <li class="active"><a href="#tab-1">Vista prenotazioni</a></li>
-        <li><a href="#tab-2">Aggiungi/Modifica impostazioni</a></li>
+        <li><a href="#tab-2">Modifica impostazioni</a></li>
     </div>
 
     <div class="tab-content">
@@ -24,10 +24,11 @@ require __DIR__ . '/../../DB/start-connection.php';
                     <th class="db-th">Id utente</th>
                     <th class="db-th">Nome</th>
                     <th class="db-th">Email</th>
+                    <th class="db-th">Stanza</th>
                     <th class="db-th">Giorno</th>
-                    <th class="db-th">Tutto il giorno</th>
                     <th class="db-th">Ora arrivo</th>
                     <th class="db-th">Ora partenza</th>
+                    <th class="db-th">Tutto il giorno</th>
                     <th class="db-th">Id posto</th>
                     <th class="db-th">QR code</th>
                     <th class="db-th">Modifica</th>
@@ -45,10 +46,11 @@ require __DIR__ . '/../../DB/start-connection.php';
                             <td class="db-td"><?php echo $row->id_utente; ?></td>
                             <td class="db-td"><?php echo $row->nome_utente; ?></td>
                             <td class="db-td"><?php echo $row->email_utente; ?></td>
+                            <td class="db-td"><?php echo $row->stanza; ?></td>
                             <td class="db-td"><?php echo $row->giorno; ?></td>
-                            <td class="db-td"><?php echo $row->tutto_il_giorno; ?></td>
                             <td class="db-td"><?php echo $row->ora_arrivo; ?></td>
                             <td class="db-td"><?php echo $row->ora_partenza; ?></td>
+                            <td class="db-td"><?php echo $row->tutto_il_giorno; ?></td>
                             <td class="db-td"><?php echo $row->id_posto; ?></td>
                             <td class="db-td"><?php echo $row->qr_code; ?></td>
                             <td class="db-td">

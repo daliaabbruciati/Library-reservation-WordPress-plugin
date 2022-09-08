@@ -38,8 +38,8 @@ get_header();
                 <input name="ora-partenza" type="time" id="ora-partenza">
             </div>
             <div class="form__tutto-il-giorno">
-                <label for="tutto-il-giorno">Tutto il giorno</label>
-                <input name="tutto-il-giorno" type="checkbox" id="tutto-il-giorno" value="giorno-completo">
+                <label for="tutto_il_giorno">Tutto il giorno</label>
+                <input name="tutto_il_giorno" type="checkbox" id="tutto_il_giorno" value="giorno-completo">
             </div>
             <div class="form__posto">
                 <label for="posto">Scegli posto disponibile</label>
@@ -53,9 +53,7 @@ get_header();
     </div>
 </div>
 
-
 <?php get_footer(); ?>
-
 </body>
 </html>
 

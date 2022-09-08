@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '/../../DB/start-connection.php';
-$newNome = $newEmail = $newGiorno = $newOra_arrivo = $newOra_partenza = $newNum_tavolo = $newNum_posto = '';
+$newNome = $newEmail = $newStanza = $newGiorno = $newOra_arrivo = $newOra_partenza = $newTuttoIlGiorno = $newId_posto = '';
 ?>
 
 
@@ -16,7 +16,7 @@ $newNome = $newEmail = $newGiorno = $newOra_arrivo = $newOra_partenza = $newNum_
               action="<?php echo($_SERVER['REQUEST_URI']); ?>">
             <?php
             $result = $wpdb->get_results(
-                $wpdb->prepare("SELECT * FROM " . $db_table_name . " WHERE id = %d", $_POST['id']));
+                $wpdb->prepare("SELECT * FROM " . $db_table_prenotazione . " WHERE id = %d", $_POST['id']));
             if ($result > 0):
             foreach ($result as $row):
             ?>
@@ -34,9 +34,15 @@ $newNome = $newEmail = $newGiorno = $newOra_arrivo = $newOra_partenza = $newNum_
                 </div>
             </label>
 
-            <label for="giorno_prenotazione">Giorno prenotazione
+            <label for="stanza">Stanza
                 <div>
-                    <input type="date" name="giorno_prenotazione" value="<?= $row->giorno_prenotazione ?>">
+                    <input type="number" name="stanza" value="<?= $row->stanza ?>">
+                </div>
+            </label>
+
+            <label for="giorno">Giorno prenotazione
+                <div>
+                    <input type="datetime-local" name="giorno" value="<?= $row->giorno ?>">
                 </div>
             </label>
 
@@ -52,17 +58,17 @@ $newNome = $newEmail = $newGiorno = $newOra_arrivo = $newOra_partenza = $newNum_
                 </div>
             </label>
 
-            <label for="num_tavolo">Numero tavolo
+            <label for="tutto_il_giorno">tutto il giorno
                 <div>
-                    <input type="number" name="num_tavolo"
-                           value="<?= $row->num_tavolo ?>">
+                    <input type="checkbox" name="tutto_il_giorno" value="<?= $row->tutto_il_giorno ?>">
                 </div>
             </label>
 
-            <label for="num_posto">Numero posto
+
+            <label for="id_posto">Numero posto
                 <div>
-                    <input type="number" name="num_posto"
-                           value="<?= $row->num_posto ?>">
+                    <input type="number" name="id_posto"
+                           value="<?= $row->id_posto ?>">
                 </div>
             </label>
 

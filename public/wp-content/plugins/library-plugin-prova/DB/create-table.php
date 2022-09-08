@@ -55,6 +55,7 @@ function DB_table(): void
             id_utente BIGINT(20) UNSIGNED,
             nome_utente VARCHAR(50),
             email_utente VARCHAR(100),
+            stanza INT(10),
             giorno DATE NOT NULL,
             tutto_il_giorno BOOLEAN,
             ora_arrivo TIME NOT NULL,
