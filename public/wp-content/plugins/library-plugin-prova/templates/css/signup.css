@@ -1,4 +1,4 @@
-.container{
+.container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -6,40 +6,55 @@
     margin: 10px auto;
 }
 
-.container__form{
+.container__form {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-.form{
+
+.form {
     display: flex;
     flex-direction: column;
     padding: 10px 0;
     min-width: 500px;
     margin: 0 auto;
 }
-.form__nome-utente{
+
+.form__nome-utente {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
 }
 
-.form__email{
+.form__email {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
 }
-.form__password{
+
+.form__password {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
 }
-.form__submit{
+
+.form__submit {
     display: flex;
     justify-content: center;
-    padding: 10px 0;
+    margin: 20px 0;
+}
+
+.container__successfull {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form__successfull{
+    align-items: center;
 }

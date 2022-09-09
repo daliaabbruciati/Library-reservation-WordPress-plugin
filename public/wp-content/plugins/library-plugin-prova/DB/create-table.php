@@ -63,7 +63,7 @@ function DB_table(): void
             id_posto INT(10),
             qr_code BOOLEAN,
             FOREIGN KEY (id_utente) REFERENCES " . $db_table_utenti . "(ID),
-            FOREIGN KEY (nome_utente) REFERENCES " . $db_table_utenti . "(user_nicename),
+            FOREIGN KEY (nome_utente) REFERENCES " . $db_table_utenti . "(user_login),
             FOREIGN KEY (email_utente) REFERENCES " . $db_table_utenti . "(user_email),
             FOREIGN KEY (id_posto) REFERENCES " . $db_table_biblioteca_posto . "(id)
         )" . $charset_collate . ";";

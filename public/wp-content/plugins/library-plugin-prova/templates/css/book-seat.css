@@ -55,5 +55,5 @@
 .form__submit{
     display: flex;
     justify-content: center;
-    padding: 10px 0;
+    margin: 20px 0;
 }

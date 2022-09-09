@@ -18,10 +18,9 @@ get_header();
 
 <div class="container">
     <h2>Prenotazione effettuata!</h2>
-    <p>Ecco il QR code per accedere alla biblioteca.</p>
-    <p><strong>Buono studio!</strong></p>
+    <p>Ecco il QR code per accedere alla biblioteca. <br><strong>Buono studio!</strong></p>
     <h2>immagine qr code</h2>
-    <p>Ricordati che la validità del QR code è di 30 min dall'ora della prenotazione</p>
+    <p>Ricordati che la validità del QR code è di <strong>30 min</strong> dall'ora della prenotazione</p>
     <button>Scarica QR code</button>
     <a href="/prenotazione">Torna alla home</a>
 </div>

@@ -19,12 +19,12 @@ get_header();
 
 <div class="container">
     <div class="container__welcome">
-    <h1>Benvenuto nella Biblioteca</h1>
-    <p>
+    <h1>Benvenuto in Biblioteca</h1>
+    <p class="container__welcome--paragraph">
         Questo portale ti permetterà di scegliere e prenotare il tuo posto in sala studio nel giorno e nella fascia
         oraria che desideri.
     </p>
-    <p class="container__welcome--access-info"><strong>Accedi</strong> o <strong>registrati</strong> per proseguire.</p>
+    <p><strong>Accedi</strong> per proseguire.</p>
     </div>
     <div class="container__form">
         <form class="form" action="/scegli-posto" method="post">

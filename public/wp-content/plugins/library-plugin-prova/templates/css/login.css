@@ -1,11 +1,21 @@
 .container {
-    max-width: 1100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 1000px;
     margin: 10px auto;
 }
 
-.container__welcome--access-info {
-    max-width: 309px;
-    margin: 10px auto;
+.container__welcome {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.container__welcome--paragraph{
+    padding: 0 35px;
 }
 
 .container__form {
@@ -13,6 +23,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-top: 10px;
 }
 
 .form {
@@ -39,5 +50,5 @@
 .form__submit {
     display: flex;
     justify-content: center;
-    padding: 10px 0;
+    margin: 20px 0;
 }
