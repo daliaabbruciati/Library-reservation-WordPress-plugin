@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__.'/../includes/functions/function.php';
+
 $nomeErr = $usernameErr = $emailErr = $passErr = '';
 $nome = $username = $email = $password = '';
 
@@ -11,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $valid = true;
 // check form fields
     if (empty($_POST['user_login']) || empty($_POST['user_nicename']) || empty($_POST['user_email']) || empty($_POST['user_pass'])) {
-        if (empty($_POST['user_login']) || !preg_match("/^[a-zA-Z-' ]*$/", $nome)) {
+        if (empty($_POST['user_login']) || !isValidName($_POST['user_login'])) {
             $nomeErr = 'Compila campo nome';
             $valid = false;
         }
@@ -19,11 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $usernameErr = 'Compila campo username';
             $valid = false;
         }
-        if (empty($_POST['user_email']) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (empty($_POST['user_email']) || !isValidEmail($_POST['user_email'])) {
             $emailErr = 'Compila campo email';
             $valid = false;
         }
-        if (empty($_POST['user_pass'])) {
+        if (empty($_POST['user_pass']) || !isValidPassword($_POST['user_pass'])) {
             $passErr = 'Compila campo password';
             $valid = false;
         }
@@ -33,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'user_login' => $_POST['user_login'],
             'user_nicename' => $_POST['user_nicename'],
             'user_email' => $_POST['user_email'],
-            'user_pass' => $_POST['user_pass'],
+            'user_pass' => md5($_POST['user_pass']),
             'user_registered' => current_datetime()->format('Y-m-d H:i:s')
         ]);
         echo '<script> alert("Dati inseriti correttamente") </script>';
