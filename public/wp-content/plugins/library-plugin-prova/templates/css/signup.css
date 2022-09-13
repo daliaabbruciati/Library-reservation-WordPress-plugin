@@ -3,7 +3,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 10px auto;
 }
 
 .container__form {
@@ -17,8 +16,14 @@
     display: flex;
     flex-direction: column;
     padding: 10px 0;
-    min-width: 500px;
+    min-width: 600px;
     margin: 0 auto;
+}
+
+.form--error > p{
+    display: flex;
+    flex-direction: column;
+    color: red;
 }
 
 .form__nome-utente {
@@ -27,6 +32,8 @@
     align-items: center;
     padding: 10px 0;
 }
+
+
 
 .form__email {
     display: flex;

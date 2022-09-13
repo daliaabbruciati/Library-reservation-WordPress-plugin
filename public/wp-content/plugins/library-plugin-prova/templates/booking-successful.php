@@ -8,6 +8,7 @@
 </head>
 <body>
 <?php
+session_start();
 wp_head();
 get_header();
 //wp_nav_menu([

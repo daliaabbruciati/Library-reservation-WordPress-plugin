@@ -29,8 +29,6 @@ require __DIR__ . '/../../DB/add-row.php';
                         <option value="" selected="selected">Scegli stanza</option>
                     </select>
                     <span>* <?= $stanzaErr; ?></span>
-<!--                    <input type="number" name="stanza"-->
-<!--                           placeholder="Inserisci il numero della stanza"><span>* --><?//= $stanzaErr; ?><!--</span>-->
                 </div>
             </label>
 
@@ -64,8 +62,6 @@ require __DIR__ . '/../../DB/add-row.php';
                         <option value="" selected="selected">Scegli posto</option>
                     </select>
                     <span>* <?= $idPostoErr; ?></span>
-<!--                    <input type="number" name="id_posto" min="1" max="120"-->
-<!--                           placeholder="Inserisci numero posto prenotato"><span>* --><?//= $idPostoErr; ?><!--</span>-->
                 </div>
             </label>
             <?php

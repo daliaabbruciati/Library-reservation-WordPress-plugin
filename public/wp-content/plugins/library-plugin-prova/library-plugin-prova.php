@@ -40,5 +40,5 @@ require_once __DIR__ . '/DB/create-table.php';
 register_activation_hook(__FILE__, "DB_table");
 
 /* Includo la connession al db*/
-include __DIR__ . '/DB/start-connection.php';
+require_once __DIR__ . '/DB/start-connection.php';
 

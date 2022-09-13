@@ -37,7 +37,7 @@ require __DIR__ . '/../../DB/start-connection.php';
                 </thead>
                 <tbody>
                 <?php
-                $result =  $result = $wpdb->get_results("SELECT * FROM ". $db_table_prenotazione);
+                $result = $wpdb->get_results("SELECT * FROM ". $db_table_prenotazione);
                 if ($result > 0):
                     foreach ($result as $row):
                         ?>

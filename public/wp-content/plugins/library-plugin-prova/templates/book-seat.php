@@ -9,8 +9,10 @@
 </head>
 <body>
 <?php
+session_start();
 wp_head();
 get_header();
+echo $_POST['user_email']
 //wp_nav_menu([
 //    'theme_location' => 'library-primary-menu'
 //]);
