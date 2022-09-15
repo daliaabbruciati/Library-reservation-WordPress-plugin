@@ -7,7 +7,7 @@ function my_template_array(): array
     $temps['login.php'] = 'Login';
     $temps['signup.php'] = 'Signup';
     $temps['book-seat.php'] = 'Scegli posto';
-    $temps['booking-successful.php'] = 'Prenotazione confermata';
+    $temps['booking-success.php'] = 'Prenotazione confermata';
 
     return $temps;
 }

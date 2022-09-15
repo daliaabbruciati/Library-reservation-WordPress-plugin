@@ -7,7 +7,7 @@ if (isset($_POST['edit']) && $row->id === $_POST['id']) {
     $newOra_arrivo = $_POST['ora_arrivo'];
     $newOra_partenza = $_POST['ora_partenza'];
     $newTuttoIlGiorno = $_POST['tutto_il_giorno'];
-    $newNum_posto = $_POST['num_posto'];
+    $newId_posto = $_POST['id_posto'];
 
 //    $row->nome_utente = $newNome;
 
@@ -19,7 +19,7 @@ if (isset($_POST['edit']) && $row->id === $_POST['id']) {
         'ora_arrivo' => $newOra_arrivo,
         'ora_partenza' => $newOra_partenza,
         'tutto_il_giorno' => $newTuttoIlGiorno,
-        'num_posto' => $newNum_posto,
+        'id_posto' => $newId_posto,
     ], [
         'id' => $row->id
     ]);

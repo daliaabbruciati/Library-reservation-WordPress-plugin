@@ -123,7 +123,6 @@ div.ui-toggle label:hover, div.ui-toggle label > div:hover {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 60vh;
     max-width: 60%;
     margin-top: 10px;
 }

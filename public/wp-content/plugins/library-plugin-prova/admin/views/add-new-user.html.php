@@ -11,57 +11,64 @@ require __DIR__ . '/../../DB/add-row.php';
               method="post"
               action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>">
             <label for="nome_utente">Nome utente
-                <div>
-                    <input type="text" name="nome_utente" id="nome_utente"
-                           placeholder="Inserisci nome utente"><span>* <?= $nomeErr; ?></span>
+                <div class="form--error">
+                    <input type="text" name="nome_utente" id="nome_utente" value="<?= $nome ?>"
+                           placeholder="Inserisci nome utente">*
+                    <p> <?= $nomeErr ?> </p>
                 </div>
             </label>
 
             <label for="email_utente">Email
-                <div>
-                    <input type="text" name="email_utente" id="email_utente" placeholder="Inserisci email utente"><span>* <?= $emailErr; ?></span>
+                <div class="form--error">
+                    <input type="text" name="email_utente" id="email_utente" value="<?= $email ?>"
+                           placeholder="Inserisci email utente">*
+                    <p> <?= $emailErr ?> </p>
                 </div>
             </label>
 
-            <label for="giorno">Scegli stanza
-                <div>
+            <label for="stanza">Scegli stanza
+                <div class="form--error">
                     <select name="stanza" id="stanza">
-                        <option value="" selected="selected">Scegli stanza</option>
+                        <option value="" selected="selected">Scegli stanza</option>*
                     </select>
-                    <span>* <?= $stanzaErr; ?></span>
+                    <p> <?= $stanzaErr ?> </p>
                 </div>
             </label>
 
             <label for="giorno">Giorno prenotazione
-                <div>
-                    <input type="datetime-local" name="giorno"><span>* <?= $giornoErr; ?></span>
+                <div class="form--error">
+                    <input type="date" name="giorno" id="giorno" value="<?= $giorno ?>">*
+                    <p> <?= $giornoErr ?> </p>
                 </div>
             </label>
 
             <label for="ora_arrivo">Ora arrivo
-                <div>
-                    <input type="time" name="ora_arrivo"><span>* <?= $oraArrivoErr; ?></span>
+                <div class="form--error">
+                    <input type="time" name="ora_arrivo" id="ora_arrivo" value="<?= $ora_arrivo ?>">*
+                    <p> <?= $oraArrivoErr ?> </p>
                 </div>
             </label>
 
             <label for="ora_partenza">Ora partenza
-                <div>
-                    <input type="time" name="ora_partenza"><span>* <?= $oraPartenzaErr; ?></span>
+                <div class="form--error">
+                    <input type="time" name="ora_partenza" id="ora_partenza" value="<?= $ora_partenza ?>">*
+                    <p> <?= $oraPartenzaErr ?> </p>
                 </div>
             </label>
 
             <label for="tutto_il_giorno">Tutto il giorno
-                <div>
-                    <input type="checkbox" name="tutto_il_giorno" id="tutto_il_giorno"><span>* <?= $tuttoIlGiornoErr; ?></span>
+                <div class="form--error">
+                    <input type="checkbox" name="tutto_il_giorno" id="tutto_il_giorno">*
+                    <p> <?= $tuttoIlGiornoErr ?> </p>
                 </div>
             </label>
 
             <label for="id_posto">Numero posto
-                <div>
-                    <select name="posto" id="posto">
-                        <option value="" selected="selected">Scegli posto</option>
+                <div class="form--error">
+                    <select name="id_posto" id="id_posto">
+                        <option value="" selected="selected">Scegli posto</option>*
                     </select>
-                    <span>* <?= $idPostoErr; ?></span>
+                    <p> <?= $idPostoErr ?> </p>
                 </div>
             </label>
             <?php
