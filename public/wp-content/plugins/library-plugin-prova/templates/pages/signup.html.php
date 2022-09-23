@@ -19,9 +19,10 @@ get_header();
 if (isset($_POST['registrati']) && $valid):
     include_once __DIR__ . '/./register-success.html.php';
     ?>
-
 <?php
+
 else:
+
 ?>
 <div class="container">
     <h2>Crea account</h2>
@@ -32,7 +33,7 @@ else:
                 <div class="form--error">
                     <input name="user_login" type="text" id="user_login" value="<?= $nome ?>"
                            placeholder="Inserisci nome e cognome">*
-                    <p> <?= $nomeErr ?> </p>
+                    <p> <?= $errors['nome'] ?> </p>
                 </div>
             </div>
             <div class="form__nome-utente">
@@ -40,7 +41,7 @@ else:
                 <div class="form--error">
                     <input name="user_nicename" type="text" id="user_nicename" value="<?= $username ?>"
                            placeholder="Inserisci username">*
-                    <p> <?= $usernameErr ?> </p>
+                    <p> <?= $errors['username'] ?> </p>
                 </div>
             </div>
             <div class="form__email">
@@ -49,14 +50,14 @@ else:
                     <input name="user_email" type="email" id="user_email" value="<?= $email ?>"
                            aria-describedby="emailHelp"
                            placeholder="Inserisci email">*
-                    <p> <?= $emailErr ?> </p>
+                    <p> <?= $errors['email'] ?> </p>
                 </div>
             </div>
             <div class="form__password">
                 <label for="user_pass">Password</label>
                 <div class="form--error">
                     <input name="user_pass" type="password" id="user_pass" placeholder="Inserisci password">*
-                    <p> <?= $passErr ?> </p>
+                    <p> <?= $errors['password'] ?> </p>
                 </div>
             </div>
             <input type="hidden" name="user_registered" id="user_registered">

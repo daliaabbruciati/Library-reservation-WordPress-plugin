@@ -50,7 +50,7 @@ get_header();
 
 <?php
 if(isset($_POST['submit_user'])){
-    include __DIR__.'/../includes/functions/function.php';
+    include __DIR__.'/../../includes/functions/validation.php';
 }
 
 get_footer(); ?>

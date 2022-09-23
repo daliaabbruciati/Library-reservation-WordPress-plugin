@@ -5,10 +5,12 @@ session_start();
 include __DIR__ . '/../../DB/start-connection.php';
 
 
-function navigate(string $url): void
+function navigateTo(string $url): void
 {
+    /*Esempio: navigate('/prenotazione'), navigate('/scegli-posto'), ...;*/
     header('Location: ' . $url);
     exit;
+
 }
 
 
@@ -17,54 +19,46 @@ function isValidName($name): bool
     /*
      * ^[a-z] = range of letter from a to z;
      * [^-_@.,()\d] = symbols and number not allowed;
+     * .+\s = at least one space between name and last name;
      * + = one or more repetition of a character;
      * $ = end of the string;
      * /i = case sensitive.
      */
-    $pattern = "/^[a-z '][^-_@.,()\d]+$/i";
-
-    if (!preg_match($pattern, $name))
-        return false;
-    return true;
+    $pattern = "/^[a-z'].+\s[a-z']+$/i";
+//    $pattern = "/(\s|^)+([A-Z']+)/i";
+    return preg_match($pattern, $name);
 }
 
 
 function isValidEmail($email): bool
 {
-     $pattern = "/^((?!\.)[\w_\-.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/m";    //"/m = multiline"
-    if(!preg_match($pattern,$email)){
-        return false;
-    }
-    return  true;
+    $pattern = "/^((?!\.)[\w_\-.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/m";
+    return preg_match($pattern, $email);
+
 }
 
 function isValidPassword($password): bool
 {
     /*
-    Regular Expression: $\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$
-    $ = beginning of string;
-    \S* = any set of characters;
-    (?=\S{8,}) = of at least length 8;
-    (?=\S*[a-z]) = containing at least one lowercase letter;
-    (?=\S*[A-Z]) = and at least one uppercase letter;
-    (?=\S*[\d]) = and at least one number;
-    (?=\S*[\W]) = and at least a special character (non-word characters);
-    $ = end of the string.
- */
-
-    /*
-     * password must contain 1 number (0-9)
-     * password must contain 1 uppercase letters
-     * password must contain 1 lowercase letters
-     * password must contain 1 non-alpha numeric number
-     * password is 8-16 characters with no space
+     * password must contain:
+     * - at least one number [\d](0-9)
+     * - at least one uppercase letters [A-Z]
+     * - at least one lowercase letter [a-z]
+     * - at least a special character (non-word characters) [\w]
+     * - between 8-16 characters with no space
      * */
 
     $pattern = '/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/m';
 
-    if (!preg_match($pattern, $password))
-        return false;
-    return true;
+    return preg_match($pattern, $password);
+}
+
+
+function isAlreadyRegistered($email): bool
+{
+    global $wpdb;
+    $result = $wpdb->get_results("SELECT user_email FROM wp_users WHERE user_email = '" . $email . "'");
+    return !empty($result);
 }
 
 
@@ -91,14 +85,7 @@ function validateUser($email, $password): void
         $redirect = "signup.php";
     }
     $wpdb->close();
-    navigate($redirect);
+    navigateTo($redirect);
 }
 
-function checkUserRegistration($table,$column,$value){
-//    global $wpdb;
-    $result = $wpdb->get_results(
-        $wpdb->prepare("SELECT ".$column." FROM " .$table. " WHERE ".$column." = %s", $value));
-
-    return $result;
-}
 
