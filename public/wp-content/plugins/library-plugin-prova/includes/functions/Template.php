@@ -1,5 +1,6 @@
 <?php
 
+
 /* Template che vogliamo includere nel dropdown per la scelta dei template */
 function my_template_array(): array
 {
@@ -12,6 +13,7 @@ function my_template_array(): array
     return $temps;
 }
 
+add_filter('theme_page_templates', 'my_template_register', 10, 3);
 function my_template_register($page_templates)
 {
     $templates = my_template_array();
@@ -21,8 +23,8 @@ function my_template_register($page_templates)
     return $page_templates;
 }
 
-add_filter('theme_page_templates', 'my_template_register', 10, 3);
 
+add_filter('template_include', 'my_template_select', 99);
 function my_template_select($template)
 {
     global $post;
@@ -36,8 +38,7 @@ function my_template_select($template)
     }
 
     return $template;
-}
 
-add_filter('template_include', 'my_template_select', 99);
 
 //add_action('after_setup_theme', 'register_primary_menu');
+}

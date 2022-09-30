@@ -1,9 +1,17 @@
 .container{
     max-width: 1000px;
-    display: flex;
-    justify-content: space-between;
+    /*display: flex;*/
+    /*justify-content: space-between;*/
     margin: 0 auto;
 }
+
+
+.container__content{
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 0;
+}
+
 
 .container__form{
     display: flex;

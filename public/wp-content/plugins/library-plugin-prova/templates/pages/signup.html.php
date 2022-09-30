@@ -31,7 +31,7 @@ else:
             <div class="form__nome-utente">
                 <label for="user_login">Nome e cognome</label>
                 <div class="form--error">
-                    <input name="user_login" type="text" id="user_login" value="<?= $nome ?>"
+                    <input name="user_login" type="text" id="user_login" value="<?= $fields['nome'] ?>"
                            placeholder="Inserisci nome e cognome">*
                     <p> <?= $errors['nome'] ?> </p>
                 </div>
@@ -39,7 +39,7 @@ else:
             <div class="form__nome-utente">
                 <label for="user_nicename">Username</label>
                 <div class="form--error">
-                    <input name="user_nicename" type="text" id="user_nicename" value="<?= $username ?>"
+                    <input name="user_nicename" type="text" id="user_nicename" value="<?= $fields['username'] ?>"
                            placeholder="Inserisci username">*
                     <p> <?= $errors['username'] ?> </p>
                 </div>
@@ -47,7 +47,7 @@ else:
             <div class="form__email">
                 <label for="user_email">Email </label>
                 <div class="form--error">
-                    <input name="user_email" type="email" id="user_email" value="<?= $email ?>"
+                    <input name="user_email" type="email" id="user_email" value="<?= $fields['email'] ?>"
                            aria-describedby="emailHelp"
                            placeholder="Inserisci email">*
                     <p> <?= $errors['email'] ?> </p>

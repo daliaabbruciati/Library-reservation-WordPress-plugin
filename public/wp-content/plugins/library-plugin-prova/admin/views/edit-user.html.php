@@ -1,5 +1,10 @@
 <?php
-require __DIR__ . '/../../DB/start-connection.php';
+
+use Plugin\DB\Database;
+
+include_once __DIR__ . '/../../DB/Database.php';
+$mydb = new Database(__FILE__);
+
 $newNome = $newEmail = $newStanza = $newGiorno = $newOra_arrivo = $newOra_partenza = $newTuttoIlGiorno = $newId_posto = '';
 ?>
 
@@ -15,8 +20,9 @@ $newNome = $newEmail = $newStanza = $newGiorno = $newOra_arrivo = $newOra_parten
               method="post"
               action="<?php echo($_SERVER['REQUEST_URI']); ?>">
             <?php
-            $result = $wpdb->get_results(
-                $wpdb->prepare("SELECT * FROM " . $db_table_prenotazione . " WHERE id = %d", $_POST['id']));
+//            $result = $wpdb->get_results(
+//                $wpdb->prepare("SELECT * FROM " . $db_table_prenotazione . " WHERE id = %d", $_POST['id']));
+            $result = $mydb->select_by_value(Database::TABLE_PRENOTAZIONE,'id',$_POST['id']);
             if ($result > 0):
             foreach ($result as $row):
             ?>

@@ -1,4 +1,5 @@
 <?php
+
 if (isset($_POST['edit']) && $row->id === $_POST['id']) {
     $newNome = $_POST['nome_utente'];
     $newEmail = $_POST['email_utente'];
@@ -9,9 +10,7 @@ if (isset($_POST['edit']) && $row->id === $_POST['id']) {
     $newTuttoIlGiorno = $_POST['tutto_il_giorno'];
     $newId_posto = $_POST['id_posto'];
 
-//    $row->nome_utente = $newNome;
-
-    $wpdb->update($db_table_prenotazione, [
+    $wpdb->update($mydb::TABLE_PRENOTAZIONE, [
         'nome_utente' => $newNome,
         'email_utente' => $newEmail,
         'stanza' => $newStanza,

@@ -1,11 +1,16 @@
 <?php
-require __DIR__ . '/../../DB/start-connection.php';
+
+use Plugin\DB\Database;
+
+include_once __DIR__. '/../../DB/Database.php';
+$mydb = new Database(__FILE__);
+
 ?>
 
 <div class="wrap">
     <h1>Library Reservation plugin management </h1>
     <?php settings_errors(); ?>
-    <?php echo $output ?>
+    <?php echo $mydb->start_connection(); ?>
 
     <div class="nav nav-tabs">
         <li class="active"><a href="#tab-1">Vista prenotazioni</a></li>
@@ -37,7 +42,7 @@ require __DIR__ . '/../../DB/start-connection.php';
                 </thead>
                 <tbody>
                 <?php
-                $result = $wpdb->get_results("SELECT * FROM ". $db_table_prenotazione);
+                $result = $mydb->select_all($mydb::TABLE_PRENOTAZIONE);
                 if ($result > 0):
                     foreach ($result as $row):
                         ?>
@@ -55,7 +60,8 @@ require __DIR__ . '/../../DB/start-connection.php';
                             <td class="db-td"><?php echo $row->qr_code; ?></td>
                             <td class="db-td">
 
-                                <form method="post" action="admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fedit-user.html.php">
+                                <form method="post"
+                                      action="admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fedit-user.html.php">
                                     <input type="hidden" name="id" value="<?= $row->id; ?>">
                                     <input type="submit" name="save" id="save" class="button button-secondary"
                                            value="Modifica">
@@ -63,7 +69,13 @@ require __DIR__ . '/../../DB/start-connection.php';
                             </td>
                             <td class="db-td">
 
-                                <?php include __DIR__ . '/../../DB/delete-row.php'; ?>
+                                <?php
+                                if (isset($_POST['submit']) && $row->id == $_POST['id']) {
+                                    $wpdb->delete($mydb::TABLE_PRENOTAZIONE, [
+                                        'id' => $row->id
+                                    ]);
+                                }
+                                ?>
 
                                 <form method="post" action="<?php echo $_SERVER['REQUEST_URI'] ?>">
                                     <input type="hidden" name="id" value="<?= $row->id; ?>">
@@ -84,12 +96,12 @@ require __DIR__ . '/../../DB/start-connection.php';
         <div id="tab-2" class="tab-pane">
             <h3>Modifica impostazioni</h3>
             <div class="form-container">
-            <label for="numero_stanze">Numero stanze
-                <div>
-                    <input type="number" name="numero_stane" id="numero_stanze"
-                           placeholder="Inserisci numero totale di stanze">
-                </div>
-            </label>
+                <label for="numero_stanze">Numero stanze
+                    <div>
+                        <input type="number" name="numero_stane" id="numero_stanze"
+                               placeholder="Inserisci numero totale di stanze">
+                    </div>
+                </label>
             </div>
         </div>
     </div>

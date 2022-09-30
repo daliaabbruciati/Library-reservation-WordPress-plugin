@@ -1,52 +1,62 @@
 <?php
-require __DIR__ . '/../includes/functions/validation.php';
+
+include_once __DIR__ . '/../includes/functions/Validation.php';
+include_once __DIR__. '/../DB/Database.php';
+
+use Plugin\DB\Database;
+use Plugin\Functions\Validation;
+
+$validation = new Validation();
+$db = new Database(__FILE__);
 
 $errors = ['nome' => '', 'username' => '', 'email' => '', 'password' => ''];
-$nome = $username = $email = $password = '';
+$fields = ['nome' => '', 'username' => '', 'email' => '', 'password' => ''];
 $valid = true;
 
+
 if (isset($_POST['registrati'])) {
-    $nome = $_POST['user_login'];
-    $username = $_POST['user_nicename'];
-    $email = $_POST['user_email'];
-    $password = $_POST['user_pass'];
+    $fields['nome'] = $_POST['user_login'];
+    $fields['username'] = $_POST['user_nicename'];
+    $fields['email'] = $_POST['user_email'];
+    $fields['password'] = $_POST['user_pass'];
+
 
     /* controllo errori sui campi */
-    if (empty($nome)) {
+    if (empty($fields['nome'])) {
         $valid = false;
         $errors['nome'] = 'Compila campo nome';
     } else {
-        if (!isValidName($nome)) {
+        if (!$validation->isValidName($fields['nome'])) {
             $valid = false;
             $errors['nome'] = 'Formato nome errato';
         }
     }
 
-    if (empty($username)) {
+    if (empty($fields['username'])) {
         $valid = false;
         $errors['username'] = 'Compila campo username';
     }
 
-    if (empty($email)) {
+    if (empty($fields['email'])) {
         $valid = false;
         $errors['email'] = 'Compila campo email';
     } else {
-        if (!isValidEmail($email)) {
+        if (!$validation->isValidEmail($fields['email'])) {
             $valid = false;
             $errors['email'] = 'Email non valida';
         }
-        if (isAlreadyRegistered($email)) {
+        if ($validation->isAlreadyRegistered('wp_users', 'user_email', $fields['email'])) {
             $valid = false;
             $errors['email'] = "Utente gia registrato.
                  <p>Torna indietro e accedi.</p>";
         }
     }
 
-    if (empty($password)) {
+    if (empty($fields['password'])) {
         $valid = false;
         $errors['password'] = 'Compila campo password';
     } else {
-        if (!isValidPassword($password)) {
+        if (!$validation->isValidPassword($fields['password'])) {
             $valid = false;
             $errors['password'] = "Password non valida. Deve:
                     <p>- contenere almeno un numero;</p>
@@ -63,7 +73,7 @@ if (isset($_POST['registrati'])) {
         echo "ERRORE: dati errati";
     } else {
         /* se tutti i campi sono validi */
-        $wpdb->insert($db_table_utenti, [
+        $wpdb->insert($db::TABLE_UTENTI, [
             'user_login' => $_POST['user_login'],
             'user_nicename' => $_POST['user_nicename'],
             'user_email' => $_POST['user_email'],
@@ -71,8 +81,6 @@ if (isset($_POST['registrati'])) {
             'user_registered' => current_datetime()->format('Y-m-d H:i:s')
         ]);
     }
-
 }
-
 
 include_once __DIR__ . '/./pages/signup.html.php';

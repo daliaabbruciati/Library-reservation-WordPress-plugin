@@ -9,36 +9,47 @@
  * Text Domain: library-plugin-prova
  */
 
+/* Include classes */
+
+use Plugin\Admin\AdminMenu;
+use Plugin\Base\Activate;
+use Plugin\Base\Deactivate;
+use Plugin\DB\Database;
+use Plugin\Enqueue\Enqueue;
+use Plugin\Functions\Pages;
+
 /* Define the ABSPATH */
 defined('ABSPATH') or die('Hey you can\t access this file');
 require_once(ABSPATH . 'wp-admin/includes/plugin.php');
 
-
 /* Register ACTIVATION hook. */
 include_once __DIR__ . '/includes/base/Activate.php';
-register_activation_hook( __FILE__, 'admin_notice_activation_hook');
+$activate = new Activate(__FILE__);
 
 /* Register DEACTIVATION hook */
 include_once __DIR__ . '/includes/base/Deactivate.php';
-register_deactivation_hook(__FILE__, 'deactivate');
+$deactivate = new Deactivate(__FILE__);
 
 /* File per i template */
-include_once __DIR__ . '/includes/functions/create-template.php';
+include_once __DIR__ . '/includes/functions/Template.php';
 
 /* File per creare le pagine all'attivazione del plugin */
-include_once __DIR__ . '/includes/functions/create-pages.php';
-register_activation_hook(__FILE__, 'page_creator');
+include_once __DIR__ . '/includes/functions/Pages.php';
+$pages = new Pages(__FILE__);
 
 /* File dell' admin menu */
-require_once __DIR__ . '/admin/admin-menu.php';
+require_once __DIR__ . '/admin/AdminMenu.php';
+$admin = new AdminMenu();
 
 /* File per includere lo style e gli scripts*/
-require_once __DIR__ . '/includes/base/Enqueue.php';
+include __DIR__ . '/includes/base/Enqueue.php';
+$enqueue = new Enqueue();
 
 /* Include database file */
-require_once __DIR__ . '/DB/create-table.php';
-register_activation_hook(__FILE__, "DB_table");
+require_once __DIR__ . '/DB/Database.php';
+$database = new Database(__FILE__);
+$database->create_table();
 
 /* Includo la connession al db*/
-require_once __DIR__ . '/DB/start-connection.php';
+//require_once __DIR__ . '/DB/start-connection.php';
 

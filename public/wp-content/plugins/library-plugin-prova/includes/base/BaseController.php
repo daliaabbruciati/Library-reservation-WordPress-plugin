@@ -1,6 +1,6 @@
 <?php
 
-namespace Inc\Base;
+namespace Plugin\Base;
 
 class BaseController{
     public string $plugin_path;

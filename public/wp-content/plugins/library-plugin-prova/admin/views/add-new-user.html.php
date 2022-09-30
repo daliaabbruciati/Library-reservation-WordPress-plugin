@@ -1,6 +1,10 @@
 <?php
-require __DIR__ . '/../../DB/start-connection.php';
-require __DIR__ . '/../../DB/add-row.php';
+use Plugin\DB\Database;
+
+include_once __DIR__. '/../../DB/Database.php';
+$mydb = new Database(__FILE__);
+
+require __DIR__ . '/../../DB/add-user.php';
 ?>
 
 <div class="wrap">
@@ -12,17 +16,17 @@ require __DIR__ . '/../../DB/add-row.php';
               action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>">
             <label for="nome_utente">Nome utente
                 <div class="form--error">
-                    <input type="text" name="nome_utente" id="nome_utente" value="<?= $nome ?>"
+                    <input type="text" name="nome_utente" id="nome_utente" value="<?= $fields['nome'] ?>"
                            placeholder="Inserisci nome utente">*
-                    <p> <?= $nomeErr ?> </p>
+                    <p> <?= $errors['nomeErr'] ?> </p>
                 </div>
             </label>
 
             <label for="email_utente">Email
                 <div class="form--error">
-                    <input type="text" name="email_utente" id="email_utente" value="<?= $email ?>"
+                    <input type="text" name="email_utente" id="email_utente" value="<?= $fields['email'] ?>"
                            placeholder="Inserisci email utente">*
-                    <p> <?= $emailErr ?> </p>
+                    <p> <?= $errors['emailErr'] ?> </p>
                 </div>
             </label>
 
@@ -31,35 +35,35 @@ require __DIR__ . '/../../DB/add-row.php';
                     <select name="stanza" id="stanza">
                         <option value="" selected="selected">Scegli stanza</option>*
                     </select>
-                    <p> <?= $stanzaErr ?> </p>
+                    <p> <?= $errors['stanzaErr'] ?> </p>
                 </div>
             </label>
 
             <label for="giorno">Giorno prenotazione
                 <div class="form--error">
-                    <input type="date" name="giorno" id="giorno" value="<?= $giorno ?>">*
-                    <p> <?= $giornoErr ?> </p>
+                    <input type="date" name="giorno" id="giorno" value="<?= $fields['giorno'] ?>">*
+                    <p> <?= $errors['giornoErr'] ?> </p>
                 </div>
             </label>
 
             <label for="ora_arrivo">Ora arrivo
                 <div class="form--error">
-                    <input type="time" name="ora_arrivo" id="ora_arrivo" value="<?= $ora_arrivo ?>">*
-                    <p> <?= $oraArrivoErr ?> </p>
+                    <input type="time" name="ora_arrivo" id="ora_arrivo" value="<?= $fields['ora_arrivo'] ?>">*
+                    <p> <?= $errors['ora_arrivoErr'] ?> </p>
                 </div>
             </label>
 
             <label for="ora_partenza">Ora partenza
                 <div class="form--error">
-                    <input type="time" name="ora_partenza" id="ora_partenza" value="<?= $ora_partenza ?>">*
-                    <p> <?= $oraPartenzaErr ?> </p>
+                    <input type="time" name="ora_partenza" id="ora_partenza" value="<?= $fields['ora_partenza'] ?>">*
+                    <p> <?= $errors['ora_partenzaErr'] ?> </p>
                 </div>
             </label>
 
             <label for="tutto_il_giorno">Tutto il giorno
                 <div class="form--error">
                     <input type="checkbox" name="tutto_il_giorno" id="tutto_il_giorno">*
-                    <p> <?= $tuttoIlGiornoErr ?> </p>
+                    <p> <?= $errors['tutto_il_giornoErr'] ?> </p>
                 </div>
             </label>
 
@@ -68,11 +72,11 @@ require __DIR__ . '/../../DB/add-row.php';
                     <select name="id_posto" id="id_posto">
                         <option value="" selected="selected">Scegli posto</option>*
                     </select>
-                    <p> <?= $idPostoErr ?> </p>
+                    <p> <?= $errors['id_postoErr'] ?> </p>
                 </div>
             </label>
             <?php
-            if (isset($_POST['submit']) && $nomeErr && $emailErr && $stanzaErr && $giornoErr && $oraArrivoErr && $oraPartenzaErr && $tuttoIlGiornoErr && $idPostoErr == NULL):
+            if (isset($_POST['submit']) && empty(array_filter($errors))):
                 ?>
                 <div>
                     <h3>Nuovo utente inserito correttamente.Torna alla schermata <a

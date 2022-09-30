@@ -1,7 +1,18 @@
 <?php
 
-function deactivate(): void
+namespace Plugin\Base;
+class Deactivate
 {
-    flush_rewrite_rules();
 
+    function __construct($file)
+    {
+        register_deactivation_hook($file, [$this, 'deactivate']);
+    }
+
+
+    function deactivate(): void
+    {
+        flush_rewrite_rules();
+
+    }
 }
