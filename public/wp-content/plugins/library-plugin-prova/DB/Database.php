@@ -52,10 +52,9 @@ class Database
 
         if ($this->wpdb->get_var("SHOW TABLES LIKE '" . self::TABLE_BIBLIOTECA . "'") != self::TABLE_BIBLIOTECA) {
             $table_biblioteca = "CREATE TABLE " . self::TABLE_BIBLIOTECA . " (
-            id INT(10) AUTO_INCREMENT,
-            nome VARCHAR(50) NOT NULL,
-            stanze_tot INT(10) NOT NULL,
-            PRIMARY KEY  (id)
+            id_biblioteca INT(10) AUTO_INCREMENT,
+            nome_biblioteca VARCHAR(50) NOT NULL,
+            PRIMARY KEY  (id_biblioteca)
         )" . $charset_collate . ";";
 
             dbDelta($table_biblioteca);
@@ -63,13 +62,13 @@ class Database
 
         if ($this->wpdb->get_var("SHOW TABLES LIKE '" . self::TABLE_BIBLIOTECA_STANZA . "'") != self::TABLE_BIBLIOTECA_STANZA) {
             $table_biblioteca_stanza = "CREATE TABLE " . self::TABLE_BIBLIOTECA_STANZA . " (
-            id INT(10) AUTO_INCREMENT,
-            nome VARCHAR(50) NOT NULL,
+            id_stanza INT(10) AUTO_INCREMENT,
+            nome_stanza VARCHAR(50) NOT NULL,
             posti_totali INT(5) NOT NULL,
             posti_disponibili INT(5) NOT NULL,
             id_biblioteca INT(10),
-            PRIMARY KEY  (id),
-            FOREIGN KEY (id_biblioteca) REFERENCES " . self::TABLE_BIBLIOTECA . "(id)
+            PRIMARY KEY  (id_stanza),
+            FOREIGN KEY (id_biblioteca) REFERENCES " . self::TABLE_BIBLIOTECA . "(id_biblioteca)
         )" . $charset_collate . ";";
 
             dbDelta($table_biblioteca_stanza);
@@ -77,12 +76,12 @@ class Database
 
         if ($this->wpdb->get_var("SHOW TABLES LIKE '" . self::TABLE_BIBLIOTECA_POSTO . "'") != self::TABLE_BIBLIOTECA_POSTO) {
             $table_biblioteca_posto = "CREATE TABLE " . self::TABLE_BIBLIOTECA_POSTO . " (
-            id INT(10) AUTO_INCREMENT,
+            id_posto INT(10) AUTO_INCREMENT,
             numero_posto INT(5) NOT NULL,
             tipologia BOOLEAN,
             id_stanza INT(10),
-            PRIMARY KEY  (id),
-            FOREIGN KEY (id_stanza) REFERENCES " . self::TABLE_BIBLIOTECA_STANZA . "(id)
+            PRIMARY KEY  (id_posto),
+            FOREIGN KEY (id_stanza) REFERENCES " . self::TABLE_BIBLIOTECA_STANZA . "(id_stanza)
         )" . $charset_collate . ";";
 
             dbDelta($table_biblioteca_posto);
@@ -91,7 +90,7 @@ class Database
 
         if ($this->wpdb->get_var("SHOW TABLES LIKE '" . self::TABLE_PRENOTAZIONE . "'") != self::TABLE_PRENOTAZIONE) {
             $table_prenotazione = "CREATE TABLE " . self::TABLE_PRENOTAZIONE . " (
-            id INT(10) AUTO_INCREMENT,
+            id_prenotazione INT(10) AUTO_INCREMENT,
             id_utente BIGINT(20) UNSIGNED,
             nome_utente VARCHAR(50),
             email_utente VARCHAR(100),
@@ -102,11 +101,11 @@ class Database
             tutto_il_giorno BOOLEAN,
             id_posto INT(10),
             qr_code BOOLEAN,
-            PRIMARY KEY  (id),
+            PRIMARY KEY  (id_prenotazione),
             FOREIGN KEY (id_utente) REFERENCES " . self::TABLE_UTENTI . "(ID),
             FOREIGN KEY (nome_utente) REFERENCES " . self::TABLE_UTENTI . "(user_login),
             FOREIGN KEY (email_utente) REFERENCES " . self::TABLE_UTENTI . "(user_email),
-            FOREIGN KEY (id_posto) REFERENCES " . self::TABLE_BIBLIOTECA_POSTO . "(id)
+            FOREIGN KEY (id_posto) REFERENCES " . self::TABLE_BIBLIOTECA_POSTO . "(id_posto)
         )" . $charset_collate . ";";
 
             dbDelta($table_prenotazione);

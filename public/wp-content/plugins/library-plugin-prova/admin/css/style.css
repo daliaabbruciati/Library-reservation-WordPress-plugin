@@ -1,4 +1,4 @@
-/* AdminMenu/Panoramica: db-view */
+/* AdminMenu/Panoramica: booking-view */
 .nav-tabs {
     float: left;
     width: 100%;
@@ -118,7 +118,15 @@ div.ui-toggle label:hover, div.ui-toggle label > div:hover {
     background-color: #dddddd;
 }
 
-/* AdminMenu/Aggiungi nuovo utente:add-new-user*/
+.button-edit{
+    /*display: flex;*/
+    padding: 4px 16px;
+    border-color: #0073aa;
+}
+
+
+/* AdminMenu/Aggiungi nuovo utente:add-new-user */
+
 .form-container{
     display: flex;
     flex-direction: column;
@@ -134,7 +142,7 @@ div.ui-toggle label:hover, div.ui-toggle label > div:hover {
 .form-container label{
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .form-container input{

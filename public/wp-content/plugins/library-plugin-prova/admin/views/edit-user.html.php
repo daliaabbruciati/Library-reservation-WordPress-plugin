@@ -22,7 +22,7 @@ $newNome = $newEmail = $newStanza = $newGiorno = $newOra_arrivo = $newOra_parten
             <?php
 //            $result = $wpdb->get_results(
 //                $wpdb->prepare("SELECT * FROM " . $db_table_prenotazione . " WHERE id = %d", $_POST['id']));
-            $result = $mydb->select_by_value(Database::TABLE_PRENOTAZIONE,'id',$_POST['id']);
+            $result = $mydb->select_by_value($mydb::TABLE_PRENOTAZIONE,'id',$_POST['id']);
             if ($result > 0):
             foreach ($result as $row):
             ?>
@@ -91,7 +91,7 @@ $newNome = $newEmail = $newStanza = $newGiorno = $newOra_arrivo = $newOra_parten
         <?php
         else:
             ?>
-            <h3>Vai alla schermata <a href="admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fdb-view.html.php">Panoramica</a>
+            <h3>Vai alla schermata <a href="admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fbooking-view.html.php">Panoramica</a>
                 e clicca sul pulsante 'Modifica' per editare i dati dell'utente</h3>
         <?php
         endif;

@@ -17,7 +17,7 @@ class AdminMenu
             'Lista prenotazioni',
             'Lista prenotazioni',
             'manage_options',
-            plugin_dir_path(__FILE__) . './views/db-view.html.php',
+            plugin_dir_path(__FILE__) . './views/booking-view.html.php',
             null,
             'dashicons-book',
             90
@@ -25,7 +25,7 @@ class AdminMenu
 
 
         add_submenu_page(
-            plugin_dir_path(__FILE__) . './views/db-view.html.php',
+            plugin_dir_path(__FILE__) . './views/booking-view.html.php',
             'Aggiungi prenotazione',
             'Aggiungi prenotazione',
             'manage_options',
@@ -35,7 +35,7 @@ class AdminMenu
         );
 
         add_submenu_page(
-            plugin_dir_path(__FILE__) . './views/db-view.html.php',
+            plugin_dir_path(__FILE__) . './views/booking-view.html.php',
             'Modifica prenotazione',
             'Modifica prenotazione',
             'manage_options',
