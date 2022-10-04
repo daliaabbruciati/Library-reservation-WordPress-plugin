@@ -57,7 +57,14 @@ class Database
             PRIMARY KEY  (id_biblioteca)
         )" . $charset_collate . ";";
 
+//            $query_insert = "INSERT INTO ".self::TABLE_BIBLIOTECA." (id_biblioteca, nome_biblioteca) VALUES (1, 'Senigallia')";
+
             dbDelta($table_biblioteca);
+
+            $this->wpdb->insert(self::TABLE_BIBLIOTECA,[
+                'id_biblioteca' => 1,
+                'nome_biblioteca' => 'Biblioteca Senigallia'
+            ]);
         }
 
         if ($this->wpdb->get_var("SHOW TABLES LIKE '" . self::TABLE_BIBLIOTECA_STANZA . "'") != self::TABLE_BIBLIOTECA_STANZA) {
@@ -72,6 +79,14 @@ class Database
         )" . $charset_collate . ";";
 
             dbDelta($table_biblioteca_stanza);
+
+            $this->wpdb->insert(self::TABLE_BIBLIOTECA_STANZA,[
+                'id_stanza' => 1,
+                'nome_stanza' => 'Stanza 1',
+                'posti_totali' => 120,
+                'posti_disponibili' => 120,
+                'id_biblioteca' => 1
+            ]);
         }
 
         if ($this->wpdb->get_var("SHOW TABLES LIKE '" . self::TABLE_BIBLIOTECA_POSTO . "'") != self::TABLE_BIBLIOTECA_POSTO) {
@@ -114,12 +129,12 @@ class Database
     }
 
 
-    public function select_by_value($table, $column, $value)
+    public function select_by_value($table, $column, $value): array
     {
         return $this->wpdb->get_results("SELECT {$column} FROM {$table} WHERE {$column} = '{$value}'");
     }
 
-    public function select_all($table)
+    public function select_all($table): array
     {
         return $this->wpdb->get_results("SELECT * FROM {$table}");
     }

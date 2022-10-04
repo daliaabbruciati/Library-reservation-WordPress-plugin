@@ -94,11 +94,12 @@ $mydb = new Database(__FILE__);
 
 
         <div id="tab-2" class="tab-pane">
+            <h3>Qui puoi gestire le impostazioni generali della Biblioteca</h3>
+            <p>Clicca sui pulsanti "Modifica" o "Elimina" per modificare o cancellare i dati.</p>
             <?php include __DIR__ . '/../../DB/update-row.php'; ?>
             <table class="db-table">
                 <thead class="db-th">
                 <tr class="db-tr">
-                    <!--                    <th class="db-th">Id biblioteca</th>-->
                     <th class="db-th">Nome biblioteca</th>
                     <th class="db-th">id stanza</th>
                     <th class="db-th">Nome stanza</th>
@@ -110,13 +111,26 @@ $mydb = new Database(__FILE__);
                 </thead>
                 <tbody>
                 <?php
+                $posti_disp = $wpdb->get_var("SELECT posti_disponibili FROM " . $mydb::TABLE_BIBLIOTECA_STANZA . " ");
+
+                $get_stanza = $wpdb->get_var("SELECT id_stanza FROM " . $mydb::TABLE_BIBLIOTECA_STANZA . " ");
+
+                $i = 1;
+
+                $row_count = $wpdb->get_var("SELECT COUNT(*) FROM " . $mydb::TABLE_BIBLIOTECA_POSTO . " ");
+
+                while ($i <= $posti_disp) {
+                    if ($posti_disp === $row_count) break;
+                    $query = $wpdb->get_results('INSERT INTO ' . $mydb::TABLE_BIBLIOTECA_POSTO . ' SET numero_posto = ' . $i . ', id_stanza = ' . $get_stanza . ' ');
+                    $i += 1;
+                }
+
                 $join = $wpdb->get_results('SELECT * FROM ' . $mydb::TABLE_BIBLIOTECA . ' INNER JOIN ' . $mydb::TABLE_BIBLIOTECA_STANZA . ' ON ' . $mydb::TABLE_BIBLIOTECA . '.id_biblioteca = ' . $mydb::TABLE_BIBLIOTECA_STANZA . '.id_biblioteca');
+
                 if (!empty($join)):
                 foreach ($join as $row):
                 ?>
                 <tr class="db-tr">
-                    <!--                    <td class="db-td">--><?php //echo $row->id_biblioteca;
-                    ?><!--</td>-->
                     <td class="db-td"><?php echo $row->nome_biblioteca; ?></td>
                     <td class="db-td"><?php echo $row->id_stanza; ?></td>
                     <td class="db-td"><?php echo $row->nome_stanza; ?></td>
@@ -143,35 +157,3 @@ $mydb = new Database(__FILE__);
         </div>
     </div>
 </div>
-
-
-<!--<h3>Biblioteca</h3>-->
-<!--                <div class="form-container">-->
-<!--                    <label for="nome_biblio">Nome biblioteca-->
-<!--                        <div>-->
-<!--                            <input type="text" name="nome_biblio" id="nome_biblio" value="--><? //= $fields['nome_biblio'] ?><!--"-->
-<!--                                   placeholder="Inserisci nome biblioteca">-->
-<!--                        </div>-->
-<!--                    </label>-->
-<!--                </div>-->
-<!--                <h3>Stanza</h3>-->
-<!--                <div class="form-container">-->
-<!--                    <label for="nome_stanza">Nome stanza-->
-<!--                        <div>-->
-<!--                            <input type="text" name="nome_stanza" id="nome_stanza" value="--><? //= $fields['nome_stanza'] ?><!--"-->
-<!--                                   placeholder="Inserisci nome stanza">-->
-<!--                        </div>-->
-<!--                    </label>-->
-<!--                    <label for="posti_totali">Posti totali-->
-<!--                        <div>-->
-<!--                            <input type="number" name="posti_totali" id="posti_totali" value="--><? //= $fields['posti_tot'] ?><!--"-->
-<!--                                   placeholder="Inserisci numero posti totali">-->
-<!--                        </div>-->
-<!--                    </label>-->
-<!--                    <label for="posti_disponibili">Posti disponibili-->
-<!--                        <div>-->
-<!--                            <p>--><? //= $fields['posti_disponibili'] ?><!--</p>-->
-<!--                        </div>-->
-<!--                    </label>-->
-<!--                </div>-->
-<!--                <input type="submit" name="submit-edit" id="submit-edit" class="button button-primary" value="Aggiorna modifiche"> -->
