@@ -50,6 +50,4 @@ require_once __DIR__ . '/DB/Database.php';
 $database = new Database(__FILE__);
 $database->create_table();
 
-/* Includo la connession al db*/
-//require_once __DIR__ . '/DB/start-connection.php';
 

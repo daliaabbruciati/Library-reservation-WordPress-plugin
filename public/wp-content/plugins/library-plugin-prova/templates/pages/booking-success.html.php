@@ -7,15 +7,7 @@
     <link rel="stylesheet" href="<?php echo plugin_dir_url(__DIR__) . '/../css/booking-success.css'; ?>">
 </head>
 <body>
-<?php
-session_start();
-wp_head();
-get_header();
-//wp_nav_menu([
-//    'theme_location' => 'library-primary-menu'
-//]);
-
-?>
+<?php include 'header.html.php';?>
 
 <div class="container">
     <h2>Prenotazione effettuata!</h2>
@@ -26,7 +18,7 @@ get_header();
     <a href="/prenotazione">Torna alla home</a>
 </div>
 
-<?php get_footer(); ?>
+<?php include 'footer.html.php';?>
 
 </body>
 </html>

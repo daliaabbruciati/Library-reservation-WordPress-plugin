@@ -9,15 +9,7 @@
 </head>
 <body>
 
-<?php
-//session_start();
-wp_head();
-get_header();
-//wp_nav_menu([
-//    'theme_location' => 'library-primary-menu'
-//]);
-
-?>
+<?php include 'header.html.php'; ?>
 
 <div class="container">
     <div class="container__welcome">
@@ -53,7 +45,7 @@ if(isset($_POST['submit_user'])){
     include __DIR__.'/../../includes/functions/validation.php';
 }
 
-get_footer(); ?>
+include 'footer.html.php';?>
 
 </body>
 </html>

@@ -8,19 +8,11 @@
     <link rel="stylesheet" href="<?php echo plugin_dir_url(__DIR__) . '/../css/book-seat.css'; ?>">
 </head>
 <body>
-<?php
-session_start();
-$nome = $_SESSION['user_login'];
-wp_head();
-get_header();
-//wp_nav_menu([
-//    'theme_location' => 'library-primary-menu'
-//]);
 
-?>
+<?php include 'header.html.php'; ?>
 
 <div class="container">
-    <p>Ciao <?php $nome ?>.</p>
+    <p>Ciao <?= $_SESSION['nome'] ?>.</p>
     <p>Di seguito troverai: a sinistra il form con i campi da completare e a destra la piantina della biblioteca con i relativi tavoli numerati.</p>
     <p>Una volta completato, clicca su 'Conferma' per effettuare la prenotazione.</p>
     <div class="container__content">
@@ -68,7 +60,7 @@ get_header();
     </div>
 </div>
 
-<?php get_footer(); ?>
+<?php include 'footer.html.php';?>
 
 </body>
 </html>

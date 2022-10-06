@@ -7,17 +7,13 @@
     <link rel="stylesheet" href="<?= plugin_dir_url(__DIR__) . '/../css/signup.css'; ?>">
 </head>
 <body>
-<?php
-wp_head();
-get_header();
-//wp_nav_menu([
-//    'theme_location' => 'library-primary-menu'
-//]);
-?>
 
 <?php
+include 'header.html.php';
+
 if (isset($_POST['registrati']) && $valid):
     include_once __DIR__ . '/./register-success.html.php';
+    $_SESSION['nome'] = $_POST['user_nicename'];
     ?>
 <?php
 
@@ -68,7 +64,7 @@ else:
     <?php endif; ?>
 </div>
 
-<?php get_footer(); ?>
+<?php include 'footer.html.php';?>
 
 </body>
 </html>
