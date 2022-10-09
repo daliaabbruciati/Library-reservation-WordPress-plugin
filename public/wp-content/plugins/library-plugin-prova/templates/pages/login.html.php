@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="it">
 <head>
@@ -9,7 +8,13 @@
 </head>
 <body>
 
-<?php include 'header.html.php'; ?>
+<?php include 'header.html.php';
+
+if (isset($_POST['submit-login']) && !array_filter($errors)){
+    $_SESSION['nome'] = $checkUserName;
+}
+
+?>
 
 <div class="container">
     <div class="container__welcome">
@@ -21,17 +26,22 @@
         <p><strong>Accedi</strong> per proseguire.</p>
     </div>
     <div class="container__form">
-        <form class="form" action="/scegli-posto" method="post">
+        <form class="form" action="<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>" method="post">
             <div class="form__email">
                 <label for="user_email">Email</label>
-                <input name="user_email" type="email" id="user_email" aria-describedby="emailHelp">
+                <div class="form--error">
+                    <input name="user_email" type="email" id="user_email" value="<?= $fields['email'] ?>">
+                    <p><?= $errors['email']; ?></p>
+                </div>
             </div>
             <div class="form__password">
                 <label for="user_pass">Password</label>
-                <input name="user_pass" type="password" id="user_pass">
+                <div class="form--error">
+                    <input name="user_pass" type="password" id="user_pass" value="<?= $fields['password'] ?>">
+                    <p><?= $errors['password']; ?></p>
+                </div>
             </div>
-
-            <input class="form__submit" type="submit" name="submit_user" value="Accedi">
+            <input class="form__submit" type="submit" name="submit-login" value="Accedi">
         </form>
         <p class="container__go-to-signup">
             Non sei ancora registrato? <a href="/signup">Crea account</a>
@@ -40,12 +50,7 @@
 </div>
 
 
-<?php
-if(isset($_POST['submit_user'])){
-    include __DIR__.'/../../includes/functions/validation.php';
-}
-
-include 'footer.html.php';?>
+<?php include 'footer.html.php'; ?>
 
 </body>
 </html>

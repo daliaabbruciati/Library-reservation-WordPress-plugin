@@ -6,3 +6,8 @@ get_header();
 //    'theme_location' => 'library-primary-menu'
 //]);
 
+?>
+
+<div>
+    <a href="/logout">LOGOUT</a>
+</div>

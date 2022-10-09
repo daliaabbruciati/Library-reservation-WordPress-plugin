@@ -33,6 +33,13 @@
     min-width: 400px;
 }
 
+.form--error > p{
+    display: flex;
+    flex-direction: column;
+    color: red;
+    font-size: 13px;
+}
+
 .form__email {
     display: flex;
     justify-content: space-between;

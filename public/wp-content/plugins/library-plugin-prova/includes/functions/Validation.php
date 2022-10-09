@@ -14,13 +14,6 @@ class Validation
     }
 
 
-    public function navigateTo(string $url): void
-    {
-        /*Esempio: navigate('/prenotazione'), navigate('/scegli-posto'), ...;*/
-        header('Location: ' . $url);
-        exit;
-    }
-
     public function isValidName($name): bool
     {
         /*
@@ -62,32 +55,5 @@ class Validation
         $result = $this->wpdb->get_results("SELECT {$column} FROM {$table} WHERE {$column} = '{$email}'");
         return !empty($result);
     }
-
-//    function validateUser($email, $password): void
-//    {
-//
-////$email = $_SESSION['user_email'];
-////$password = $_SESSION['user_pass'];
-//        $result = $this->wpdb->get_results("SELECT user_email, user_pass FROM " . $db_table_utenti .
-//            " WHERE user_email = " . $email . " and user_pass = md5(" . $password . ");");
-//
-//        if (!$result) {
-//            echo "Cannot execute query";
-//            exit;
-//        }
-//
-//        $num_rows = $this->wpdb->num_rows;
-//        if ($num_rows == 1) {
-//            $_SESSION['login'] = 'OK';
-//            $_SESSION['user_email'] = $email;
-//            $_SESSION['user_pass'] = $password;
-//            $redirect = "book-seat.php";
-//        } else {
-//            $redirect = "signup.php";
-//        }
-//        $this->wpdb->close();
-//        navigateTo($redirect);
-//    }
-//
 
 }

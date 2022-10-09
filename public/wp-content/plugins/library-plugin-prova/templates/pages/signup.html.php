@@ -13,9 +13,7 @@ include 'header.html.php';
 
 if (isset($_POST['registrati']) && $valid):
     include_once __DIR__ . '/./register-success.html.php';
-    $_SESSION['nome'] = $_POST['user_nicename'];
-    ?>
-<?php
+    $_SESSION['nome'] = $fields['nome'];
 
 else:
 

@@ -16,8 +16,9 @@ class Pages
         $page_signup = 'Signup';
         $page_scegli_posto = 'Scegli posto';
         $page_booking_successful = 'Prenotazione confermata';
+        $page_logout = 'Logout';
 
-        if (get_page_by_title($page_prenotazione) == NULL && get_page_by_title($page_signup) == NULL && get_page_by_title($page_scegli_posto) == NULL && get_page_by_title($page_booking_successful) == NULL) {
+        if (get_page_by_title($page_prenotazione) == NULL && get_page_by_title($page_signup) == NULL && get_page_by_title($page_scegli_posto) == NULL && get_page_by_title($page_booking_successful) == NULL && get_page_by_title($page_logout) == NULL) {
 
             $prenotazione = [
                 'post_title' => $page_prenotazione,
@@ -47,10 +48,18 @@ class Pages
                 'post_type' => 'page'
             ];
 
+            $logout = [
+                'post_title' => $page_logout,
+                'post_content' => '',
+                'post_status' => 'publish',
+                'post_type' => 'page'
+            ];
+
             wp_insert_post($prenotazione);
             wp_insert_post($signup);
             wp_insert_post($scegli_posto);
             wp_insert_post($booking_successful);
+            wp_insert_post($logout);
         }
     }
 }

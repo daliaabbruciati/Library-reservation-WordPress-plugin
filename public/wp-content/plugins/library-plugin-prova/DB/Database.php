@@ -11,7 +11,7 @@ class Database
     public const TABLE_PRENOTAZIONE = 'wp_prenotazione';
     public const TABLE_UTENTI = 'wp_users';
 
-    private $wpdb;
+    protected $wpdb;
     public string $output;
 
 
@@ -126,6 +126,13 @@ class Database
             dbDelta($table_prenotazione);
         }
 
+    }
+
+    public function navigateTo(string $url): void
+    {
+        /*Esempio: navigate('/prenotazione'), navigate('/scegli-posto'), ...;*/
+        header('Location: ' . $url);
+        exit;
     }
 
 
