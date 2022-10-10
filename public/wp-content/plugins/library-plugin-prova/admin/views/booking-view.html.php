@@ -125,7 +125,8 @@ $mydb = new Database(__FILE__);
                     $i += 1;
                 }
 
-                $join = $wpdb->get_results('SELECT * FROM ' . $mydb::TABLE_BIBLIOTECA . ' INNER JOIN ' . $mydb::TABLE_BIBLIOTECA_STANZA . ' ON ' . $mydb::TABLE_BIBLIOTECA . '.id_biblioteca = ' . $mydb::TABLE_BIBLIOTECA_STANZA . '.id_biblioteca');
+                $join = $wpdb->get_results('SELECT * FROM ' . $mydb::TABLE_BIBLIOTECA . ' INNER JOIN ' . $mydb::TABLE_BIBLIOTECA_STANZA .
+                    ' ON ' . $mydb::TABLE_BIBLIOTECA . '.id_biblioteca = ' . $mydb::TABLE_BIBLIOTECA_STANZA . '.id_biblioteca');
 
                 if (!empty($join)):
                 foreach ($join as $row):

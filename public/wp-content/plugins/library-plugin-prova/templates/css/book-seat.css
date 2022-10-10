@@ -1,4 +1,4 @@
-.container{
+.container {
     max-width: 1000px;
     /*display: flex;*/
     /*justify-content: space-between;*/
@@ -6,61 +6,78 @@
 }
 
 
-.container__content{
+.container__content {
     display: flex;
     justify-content: space-between;
     padding: 30px 0;
 }
 
-
-.container__form{
+.container__form {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.form{
+
+.form {
     display: flex;
     flex-direction: column;
     padding: 10px 0;
     min-width: 500px;
 }
-.form__stanza{
+
+.form--error{
+    display: flex;
+    flex-direction: column;
+}
+
+.form--error > p{
+    color: red;
+    font-size: 13px;
+}
+
+.form__stanza {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
 }
-.form__giorno{
+
+.form__giorno {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
 }
-.form__ora-arrivo{
+
+.form__ora-arrivo {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
 }
-.form__ora-partenza{
+
+.form__ora-partenza {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
 }
-.form__tutto-il-giorno{
+
+.form__tutto-il-giorno {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
 }
-.form__posto{
+
+.form__posto {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
 }
-.form__submit{
+
+.form__submit {
     display: flex;
     justify-content: center;
     margin: 20px 0;

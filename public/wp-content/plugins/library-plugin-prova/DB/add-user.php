@@ -16,7 +16,7 @@ if (isset($_POST['submit'])) {
     $fields['giorno'] = $_POST['giorno'];
     $fields['ora_arrivo'] = $_POST['ora_arrivo'];
     $fields['ora_partenza'] = $_POST['ora_partenza'];
-    $fields['tutto_il_giorno'] = $_POST['tutto_il_giorno'];
+    $fields['tutto_il_giorno'] = $_POST['tutto_il_giorno'] ?? 'no';
     $fields['id_posto'] = $_POST['id_posto'];
 
     print_r(array_filter($fields));

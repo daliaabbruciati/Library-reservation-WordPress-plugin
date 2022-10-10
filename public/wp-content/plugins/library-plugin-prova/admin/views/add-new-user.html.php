@@ -64,7 +64,7 @@ include __DIR__ . '/../../DB/add-user.php';
 
             <label for="tutto_il_giorno">Tutto il giorno *
                 <div class="form--error">
-                    <input type="checkbox" name="tutto_il_giorno" id="tutto_il_giorno">
+                    <input type="checkbox" name="tutto_il_giorno" id="tutto_il_giorno" value="yes">
                     <p> <?= $errors['tutto_il_giornoErr'] ?> </p>
                 </div>
             </label>
