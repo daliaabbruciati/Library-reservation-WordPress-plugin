@@ -68,10 +68,7 @@ if (isset($_POST['registrati'])) {
         }
     }
 
-    if (array_filter($errors)) {
-        //ci sono errori
-        echo "ERRORE: dati errati";
-    } else {
+    if (empty(array_filter($errors))) {
         /* se tutti i campi sono validi */
         $wpdb->insert($db::TABLE_UTENTI, [
             'user_login' => $_POST['user_login'],

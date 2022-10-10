@@ -1,0 +1,13 @@
+.container-logout{
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 220px;
+}
+
+.container-logout__link{
+    color: #FCFCFC;
+    background: #28303D;
+    border: 1px solid black;
+    padding: 8px;
+    text-decoration: none;
+}

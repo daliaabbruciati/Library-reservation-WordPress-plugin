@@ -8,6 +8,12 @@ get_header();
 
 ?>
 
-<div>
-    <a href="/logout">LOGOUT</a>
+<head>
+    <title>Biblioteca</title>
+    <link rel="stylesheet" href="<?php echo plugin_dir_url(__DIR__) . '/../css/logout.css'; ?>">
+</head>
+<body>
+<div class="container-logout">
+    <a class="container-logout__link" href="/logout">LOGOUT</a>
 </div>
+</body>
