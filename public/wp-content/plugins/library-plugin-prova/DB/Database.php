@@ -93,7 +93,7 @@ class Database
             $table_biblioteca_posto = "CREATE TABLE " . self::TABLE_BIBLIOTECA_POSTO . " (
             id_posto INT(10) AUTO_INCREMENT,
             numero_posto INT(5) NOT NULL,
-            disponibile BOOLEAN DEFAULT 0,
+            disponibile TINYINT DEFAULT 1,
             id_stanza INT(10),
             PRIMARY KEY  (id_posto),
             FOREIGN KEY (id_stanza) REFERENCES " . self::TABLE_BIBLIOTECA_STANZA . "(id_stanza)
@@ -127,6 +127,54 @@ class Database
 
     }
 
+    public function getAvailableSeats(): void
+    {
+        /* Prendo il numero totale dei posti disponibili nella stanza */
+        $posti_tot = $this->wpdb->get_var("SELECT posti_totali FROM " . self::TABLE_BIBLIOTECA_STANZA . ";");
+
+        /* Prendo l'id della stanza corrispondente */
+        $get_stanza = $this->wpdb->get_var("SELECT id_stanza FROM " . self::TABLE_BIBLIOTECA_STANZA . ";");
+
+        $i = 1;
+
+        /* Prendo il numero di righe presenti nella tabella wp_biblioteca_posto */
+        $row_count = $this->wpdb->get_var("SELECT COUNT(*) FROM " . self::TABLE_BIBLIOTECA_POSTO . ";");
+
+        /* Creo tanti record quanti sono i posti totali presenti nella stanza selezionata */
+        while ($i <= $posti_tot) {
+            if ($posti_tot === $row_count) break;
+
+            $this->wpdb->get_results('INSERT INTO ' . self::TABLE_BIBLIOTECA_POSTO .
+                ' SET numero_posto = ' . $i . ', id_stanza = ' . $get_stanza . ' ');
+            $i += 1;
+        }
+    }
+
+    public function getPostiRimanenti(){
+        /* Restituisce il numero di posti ancora disponibili, cioè con flag 'disponibile' = TRUE */
+        return $this->wpdb->get_var("SELECT COUNT(*) FROM ".self::TABLE_BIBLIOTECA_POSTO.
+            " WHERE disponibile = 1;");
+    }
+
+    public function updateAvailableSeats($field){
+
+        /* Aggiorno il flag 'disponibile' del posto selezinato durante la prenotazine a FALSE */
+        $this->wpdb->update(self::TABLE_BIBLIOTECA_POSTO,[
+            'disponibile' => 0
+        ],[
+            'numero_posto' => $field['numero_posto']
+        ]);
+
+        /* Aggiorno il numero di posti disponibili nella tabella 'wp_biblioteca_stanza'
+        in base al numero di posti che hanno il flag 'disponibile' settato a TRUE */
+        $this->wpdb->update(self::TABLE_BIBLIOTECA_STANZA,[
+            'posti_disponibili' => $this->getPostiRimanenti()
+        ],[
+            'nome_stanza' => $field['stanza']
+        ]);
+
+    }
+
     public function navigateTo(string $url): void
     {
         /*Esempio: navigate('/prenotazione'), navigate('/scegli-posto'), ...;*/
@@ -145,5 +193,19 @@ class Database
         return $this->wpdb->get_results("SELECT * FROM {$table}");
     }
 
+    public function do_reservation(array $field){
+        $this->wpdb->insert(self::TABLE_PRENOTAZIONE,[
+            'id_utente' => $field['id_utente'],
+            'nome_utente' => $field['nome_utente'],
+            'email_utente' => $field['email_utente'],
+            'stanza' => $field['stanza'],
+            'giorno' => $field['giorno'],
+            'ora_arrivo' => $field['ora_arrivo'],
+            'ora_partenza' => $field['ora_partenza'],
+            'tutto_il_giorno' => $field['tutto_il_giorno'],
+            'numero_posto' => $field['numero_posto'],
+            'qr_code' => ''
+        ]);
+    }
 
 }

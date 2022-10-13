@@ -3,7 +3,7 @@
 use Plugin\DB\Database;
 
 include_once __DIR__ . '/../../DB/Database.php';
-$mydb = new Database(__FILE__);
+$db = new Database(__FILE__);
 
 ?>
 
@@ -20,7 +20,7 @@ $mydb = new Database(__FILE__);
 <div class="wrap">
     <h1>Library Reservation plugin management </h1>
     <?php settings_errors(); ?>
-    <?= $mydb->start_connection(); ?>
+    <?= $db->start_connection(); ?>
 
     <div class="nav nav-tabs">
         <li class="active"><a href="#tab-1">Vista prenotazioni</a></li>
@@ -44,7 +44,7 @@ $mydb = new Database(__FILE__);
                     <th class="db-th">Ora arrivo</th>
                     <th class="db-th">Ora partenza</th>
                     <th class="db-th">Tutto il giorno</th>
-                    <th class="db-th">Id posto</th>
+                    <th class="db-th">Numero posto</th>
                     <th class="db-th">QR code</th>
                     <th class="db-th">Modifica</th>
                     <th class="db-th">Elimina</th>
@@ -52,7 +52,7 @@ $mydb = new Database(__FILE__);
                 </thead>
                 <tbody>
                 <?php
-                $result = $mydb->select_all($mydb::TABLE_PRENOTAZIONE);
+                $result = $db->select_all($db::TABLE_PRENOTAZIONE);
                 if ($result > 0):
                     foreach ($result as $row):
                         ?>
@@ -81,7 +81,7 @@ $mydb = new Database(__FILE__);
 
                                 <?php
                                 if (isset($_POST['submit']) && $row->id_prenotazione == $_POST['id_prenotazione']) {
-                                    $wpdb->delete($mydb::TABLE_PRENOTAZIONE, [
+                                    $wpdb->delete($db::TABLE_PRENOTAZIONE, [
                                         'id_prenotazione' => $row->id_prenotazione
                                     ]);
                                 }
@@ -106,7 +106,7 @@ $mydb = new Database(__FILE__);
         <div id="tab-2" class="tab-pane">
             <h3>Qui puoi gestire le impostazioni generali della Biblioteca</h3>
             <p>Clicca sui pulsanti "Modifica" o "Elimina" per modificare o cancellare i dati.</p>
-            <?php include __DIR__ . '/../../DB/update-row.php'; ?>
+            <?php include __DIR__ . '/../../DB/edit-res.php'; ?>
             <table class="db-table">
                 <thead class="db-th">
                 <tr class="db-tr">
@@ -121,22 +121,22 @@ $mydb = new Database(__FILE__);
                 </thead>
                 <tbody>
                 <?php
-                $posti_disp = $wpdb->get_var("SELECT posti_disponibili FROM " . $mydb::TABLE_BIBLIOTECA_STANZA . " ");
+//                $posti_disp = $wpdb->get_var("SELECT posti_disponibili FROM " . $mydb::TABLE_BIBLIOTECA_STANZA . " ");
+//
+//                $get_stanza = $wpdb->get_var("SELECT id_stanza FROM " . $mydb::TABLE_BIBLIOTECA_STANZA . " ");
+//
+//                $i = 1;
+//
+//                $row_count = $wpdb->get_var("SELECT COUNT(*) FROM " . $mydb::TABLE_BIBLIOTECA_POSTO . " ");
+//
+//                while ($i <= $posti_disp) {
+//                    if ($posti_disp === $row_count) break;
+//                    $query = $wpdb->get_results('INSERT INTO ' . $db::TABLE_BIBLIOTECA_POSTO . ' SET numero_posto = ' . $i . ', id_stanza = ' . $get_stanza . ' ');
+//                    $i += 1;
+//                }
 
-                $get_stanza = $wpdb->get_var("SELECT id_stanza FROM " . $mydb::TABLE_BIBLIOTECA_STANZA . " ");
-
-                $i = 1;
-
-                $row_count = $wpdb->get_var("SELECT COUNT(*) FROM " . $mydb::TABLE_BIBLIOTECA_POSTO . " ");
-
-                while ($i <= $posti_disp) {
-                    if ($posti_disp === $row_count) break;
-                    $query = $wpdb->get_results('INSERT INTO ' . $mydb::TABLE_BIBLIOTECA_POSTO . ' SET numero_posto = ' . $i . ', id_stanza = ' . $get_stanza . ' ');
-                    $i += 1;
-                }
-
-                $join = $wpdb->get_results('SELECT * FROM ' . $mydb::TABLE_BIBLIOTECA . ' INNER JOIN ' . $mydb::TABLE_BIBLIOTECA_STANZA .
-                    ' ON ' . $mydb::TABLE_BIBLIOTECA . '.id_biblioteca = ' . $mydb::TABLE_BIBLIOTECA_STANZA . '.id_biblioteca');
+                $join = $wpdb->get_results('SELECT * FROM ' . $db::TABLE_BIBLIOTECA . ' INNER JOIN ' . $db::TABLE_BIBLIOTECA_STANZA .
+                    ' ON ' . $db::TABLE_BIBLIOTECA . '.id_biblioteca = ' . $db::TABLE_BIBLIOTECA_STANZA . '.id_biblioteca');
 
                 if (!empty($join)):
                     foreach ($join as $row):

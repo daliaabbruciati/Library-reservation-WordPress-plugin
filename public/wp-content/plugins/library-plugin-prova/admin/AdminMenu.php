@@ -39,7 +39,7 @@ class AdminMenu
             'Modifica prenotazione',
             'Modifica prenotazione',
             'manage_options',
-            plugin_dir_path(__FILE__) . './views/edit-user.html.php',
+            plugin_dir_path(__FILE__) . './views/edit-res.html.php',
             null,
             91
         );

@@ -14,15 +14,9 @@ $error = ['stanza' => '', 'giorno' => '', 'ora_arrivo' => '', 'ora_partenza' => 
 $roomName = $wpdb->get_results("SELECT nome_stanza FROM " . $db::TABLE_BIBLIOTECA_STANZA . ";");
 
 /* Query che restituisce tutti i posti disponibili e selezionabili per la prenotazione */
-$seatNum = $wpdb->get_results("SELECT numero_posto FROM " . $db::TABLE_BIBLIOTECA_POSTO . ";");
+$seatNum = $wpdb->get_results("SELECT numero_posto FROM " . $db::TABLE_BIBLIOTECA_POSTO .
+    " WHERE disponibile = 1;");
 
-//$findIdPosto = $wpdb->get_var("SELECT id_posto FROM " . $db::TABLE_BIBLIOTECA_POSTO .
-//    " WHERE numero_posto = '" . $field['numero_posto'] . "';");
-
-//$findUser = $wpdb->get_results("SELECT * FROM " . $db::TABLE_UTENTI .
-//    " WHERE user_email = '" . $_SESSION['email'] . "';");
-
-//print_r($findUser);
 
 
 if (isset($_POST['submit_prenotazione'])) {
@@ -60,18 +54,8 @@ if (isset($_POST['submit_prenotazione'])) {
 
 
     if(empty(array_filter($error))){
-        $wpdb->insert($db::TABLE_PRENOTAZIONE,[
-            'id_utente' => $field['id_utente'],
-            'nome_utente' => $field['nome_utente'],
-            'email_utente' => $field['email_utente'],
-            'stanza' => $field['stanza'],
-            'giorno' => $field['giorno'],
-            'ora_arrivo' => $field['ora_arrivo'],
-            'ora_partenza' => $field['ora_partenza'],
-            'tutto_il_giorno' => $field['tutto_il_giorno'],
-            'numero_posto' => $field['numero_posto'],
-            'qr_code' => ''
-        ]);
+        $db->do_reservation($field);
+        $db->updateAvailableSeats($field);
     }
     print_r(array_filter($field));
 }

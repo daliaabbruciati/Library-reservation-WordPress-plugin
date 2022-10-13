@@ -79,7 +79,7 @@ $newNome = $newEmail = $newStanza = $newGiorno = $newOra_arrivo = $newOra_parten
             </label>
 
             <?php
-            include __DIR__ . '/../../DB/update-row.php';
+            include __DIR__ . '/../../DB/edit-res.php';
             ?>
             <input type="hidden" name="id_prenotazione" value="<?= $row->id_prenotazione; ?>">
             <input type="submit" name="edit" id="edit" class="button button-primary" value="Salva modifiche">
