@@ -9,56 +9,56 @@ use Plugin\Functions\Validation;
 $validation = new Validation();
 $db = new Database(__FILE__);
 
-$errors = ['nome' => '', 'username' => '', 'email' => '', 'password' => ''];
-$fields = ['nome' => '', 'username' => '', 'email' => '', 'password' => ''];
+$error = ['nome' => '', 'username' => '', 'email' => '', 'password' => ''];
+$field = ['nome' => '', 'username' => '', 'email' => '', 'password' => ''];
 $valid = true;
 
 
 if (isset($_POST['registrati'])) {
-    $fields['nome'] = $_POST['user_login'];
-    $fields['username'] = $_POST['user_nicename'];
-    $fields['email'] = $_POST['user_email'];
-    $fields['password'] = $_POST['user_pass'];
+    $field['nome'] = $_POST['user_login'];
+    $field['username'] = $_POST['user_nicename'];
+    $field['email'] = $_POST['user_email'];
+    $field['password'] = $_POST['user_pass'];
 
 
     /* controllo errori sui campi */
-    if (empty($fields['nome'])) {
+    if (empty($field['nome'])) {
         $valid = false;
-        $errors['nome'] = 'Compila campo nome';
+        $error['nome'] = 'Compila campo nome';
     } else {
-        if (!$validation->isValidName($fields['nome'])) {
+        if (!$validation->isValidName($field['nome'])) {
             $valid = false;
-            $errors['nome'] = 'Formato nome errato';
+            $error['nome'] = 'Formato nome errato';
         }
     }
 
-    if (empty($fields['username'])) {
+    if (empty($field['username'])) {
         $valid = false;
-        $errors['username'] = 'Compila campo username';
+        $error['username'] = 'Compila campo username';
     }
 
-    if (empty($fields['email'])) {
+    if (empty($field['email'])) {
         $valid = false;
-        $errors['email'] = 'Compila campo email';
+        $error['email'] = 'Compila campo email';
     } else {
-        if (!$validation->isValidEmail($fields['email'])) {
+        if (!$validation->isValidEmail($field['email'])) {
             $valid = false;
-            $errors['email'] = 'Email non valida';
+            $error['email'] = 'Email non valida';
         }
-        if ($validation->isAlreadyRegistered('wp_users', 'user_email', $fields['email'])) {
+        if ($validation->isAlreadyRegistered('wp_users', 'user_email', $field['email'])) {
             $valid = false;
-            $errors['email'] = "Utente gia registrato.
+            $error['email'] = "Utente gia registrato.
                  <p>Torna indietro e accedi.</p>";
         }
     }
 
-    if (empty($fields['password'])) {
+    if (empty($field['password'])) {
         $valid = false;
-        $errors['password'] = 'Compila campo password';
+        $error['password'] = 'Compila campo password';
     } else {
-        if (!$validation->isValidPassword($fields['password'])) {
+        if (!$validation->isValidPassword($field['password'])) {
             $valid = false;
-            $errors['password'] = "Password non valida. Deve:
+            $error['password'] = "Password non valida. Deve:
                     <p>- contenere almeno un numero;</p>
                     <p>- contenere almeno una lettera maiuscola;</p>
                     <p>- contenere almeno una lettera minuscola;</p>
@@ -68,7 +68,7 @@ if (isset($_POST['registrati'])) {
         }
     }
 
-    if (empty(array_filter($errors))) {
+    if (empty(array_filter($error))) {
         /* se tutti i campi sono validi */
         $wpdb->insert($db::TABLE_UTENTI, [
             'user_login' => $_POST['user_login'],

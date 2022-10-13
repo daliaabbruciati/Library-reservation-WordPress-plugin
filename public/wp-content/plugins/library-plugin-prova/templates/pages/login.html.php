@@ -10,8 +10,9 @@
 
 <?php include 'header.html.php';
 
-if (isset($_POST['submit-login']) && !array_filter($errors)){
+if (isset($_POST['submit-login']) && empty(array_filter($error))){
     $_SESSION['nome'] = $checkUserName;
+    $_SESSION['email'] = $field['email'];
 }
 
 ?>
@@ -30,15 +31,15 @@ if (isset($_POST['submit-login']) && !array_filter($errors)){
             <div class="form__email">
                 <label for="user_email">Email</label>
                 <div class="form--error">
-                    <input name="user_email" type="email" id="user_email" value="<?= $fields['email'] ?>">
-                    <p><?= $errors['email']; ?></p>
+                    <input name="user_email" type="email" id="user_email" value="<?= $field['email'] ?>">
+                    <p><?= $error['email']; ?></p>
                 </div>
             </div>
             <div class="form__password">
                 <label for="user_pass">Password</label>
                 <div class="form--error">
-                    <input name="user_pass" type="password" id="user_pass" value="<?= $fields['password'] ?>">
-                    <p><?= $errors['password']; ?></p>
+                    <input name="user_pass" type="password" id="user_pass" value="<?= $field['password'] ?>">
+                    <p><?= $error['password']; ?></p>
                 </div>
             </div>
             <input class="form__submit" type="submit" name="submit-login" value="Accedi">

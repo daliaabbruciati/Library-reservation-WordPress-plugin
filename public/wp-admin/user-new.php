@@ -381,11 +381,11 @@ if ( current_user_can( 'create_users' ) ) {
 ?>
 </h1>
 
-<?php if ( isset( $errors ) && is_wp_error( $errors ) ) : ?>
+<?php if ( isset( $error ) && is_wp_error( $error ) ) : ?>
 	<div class="error">
 		<ul>
 		<?php
-		foreach ( $errors->get_error_messages() as $err ) {
+		foreach ($error->get_error_messages() as $err ) {
 			echo "<li>$err</li>\n";
 		}
 		?>

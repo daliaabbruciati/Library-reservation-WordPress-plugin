@@ -7,10 +7,20 @@ $mydb = new Database(__FILE__);
 
 ?>
 
+<!doctype html>
+
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Library reservation view</title>
+    <script src="<?= plugin_dir_url(__DIR__) .'/../../js/script.js';?>"></script>
+</head>
+<body>
 <div class="wrap">
     <h1>Library Reservation plugin management </h1>
     <?php settings_errors(); ?>
-    <?php echo $mydb->start_connection(); ?>
+    <?= $mydb->start_connection(); ?>
 
     <div class="nav nav-tabs">
         <li class="active"><a href="#tab-1">Vista prenotazioni</a></li>
@@ -47,22 +57,22 @@ $mydb = new Database(__FILE__);
                     foreach ($result as $row):
                         ?>
                         <tr class="db-tr">
-                            <td class="db-td"><?php echo $row->id; ?></td>
-                            <td class="db-td"><?php echo $row->id_utente; ?></td>
-                            <td class="db-td"><?php echo $row->nome_utente; ?></td>
-                            <td class="db-td"><?php echo $row->email_utente; ?></td>
-                            <td class="db-td"><?php echo $row->stanza; ?></td>
-                            <td class="db-td"><?php echo $row->giorno; ?></td>
-                            <td class="db-td"><?php echo $row->ora_arrivo; ?></td>
-                            <td class="db-td"><?php echo $row->ora_partenza; ?></td>
-                            <td class="db-td"><?php echo $row->tutto_il_giorno; ?></td>
-                            <td class="db-td"><?php echo $row->id_posto; ?></td>
-                            <td class="db-td"><?php echo $row->qr_code; ?></td>
+                            <td class="db-td"><?= $row->id_prenotazione; ?></td>
+                            <td class="db-td"><?= $row->id_utente; ?></td>
+                            <td class="db-td"><?= $row->nome_utente; ?></td>
+                            <td class="db-td"><?= $row->email_utente; ?></td>
+                            <td class="db-td"><?= $row->stanza; ?></td>
+                            <td class="db-td"><?= $row->giorno; ?></td>
+                            <td class="db-td"><?= $row->ora_arrivo; ?></td>
+                            <td class="db-td"><?= $row->ora_partenza; ?></td>
+                            <td class="db-td"><?= $row->tutto_il_giorno; ?></td>
+                            <td class="db-td"><?= $row->numero_posto; ?></td>
+                            <td class="db-td"><?= $row->qr_code; ?></td>
                             <td class="db-td">
 
                                 <form method="post"
-                                      action="admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2F-user.html.php">
-                                    <input type="hidden" name="id" value="<?= $row->id; ?>">
+                                      action="http://localhost:10003/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fedit-user.html.php">
+                                    <input type="hidden" name="id_prenotazione" value="<?= $row->id_prenotazione; ?>">
                                     <input type="submit" name="save" id="save" class="button button-secondary"
                                            value="Modifica">
                                 </form>
@@ -70,15 +80,15 @@ $mydb = new Database(__FILE__);
                             <td class="db-td">
 
                                 <?php
-                                if (isset($_POST['submit']) && $row->id == $_POST['id']) {
+                                if (isset($_POST['submit']) && $row->id_prenotazione == $_POST['id_prenotazione']) {
                                     $wpdb->delete($mydb::TABLE_PRENOTAZIONE, [
-                                        'id' => $row->id
+                                        'id_prenotazione' => $row->id_prenotazione
                                     ]);
                                 }
                                 ?>
 
-                                <form method="post" action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']) ?>">
-                                    <input type="hidden" name="id" value="<?= $row->id; ?>">
+                                <form method="post" action="<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>">
+                                    <input type="hidden" name="id_prenotazione" value="<?= $row->id_prenotazione; ?>">
                                     <input type="submit" name="submit" class="button button-link-delete"
                                            value="Elimina">
                                 </form>
@@ -129,22 +139,22 @@ $mydb = new Database(__FILE__);
                     ' ON ' . $mydb::TABLE_BIBLIOTECA . '.id_biblioteca = ' . $mydb::TABLE_BIBLIOTECA_STANZA . '.id_biblioteca');
 
                 if (!empty($join)):
-                foreach ($join as $row):
+                    foreach ($join as $row):
                 ?>
                 <tr class="db-tr">
-                    <td class="db-td"><?php echo $row->nome_biblioteca; ?></td>
-                    <td class="db-td"><?php echo $row->id_stanza; ?></td>
-                    <td class="db-td"><?php echo $row->nome_stanza; ?></td>
-                    <td class="db-td"><?php echo $row->posti_totali; ?></td>
-                    <td class="db-td"><?php echo $row->posti_disponibili; ?></td>
+                    <td class="db-td"><?= $row->nome_biblioteca; ?></td>
+                    <td class="db-td"><?= $row->id_stanza; ?></td>
+                    <td class="db-td"><?= $row->nome_stanza; ?></td>
+                    <td class="db-td"><?= $row->posti_totali; ?></td>
+                    <td class="db-td"><?= $row->posti_disponibili; ?></td>
                     <td class="db-td">
-                        <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post">
+                        <form action="<?= htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post">
                             <input type="hidden" name="id" value="<?= $row->id_stanza; ?>">
                             <input type="submit" name="save" id="save" class="button button-secondary" value="Modifica">
                         </form>
                     </td>
                     <td class="db-td">
-                        <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post">
+                        <form action="<?= htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post">
                             <input type="hidden" name="id" value="<?= $row->id_stanza; ?>">
                             <input type="submit" name="delete" id="delete" class="button button-link-delete"
                                    value="Elimina">
@@ -158,3 +168,4 @@ $mydb = new Database(__FILE__);
         </div>
     </div>
 </div>
+</body>

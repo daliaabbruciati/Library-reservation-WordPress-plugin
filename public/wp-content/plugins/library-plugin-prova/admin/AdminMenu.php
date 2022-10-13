@@ -29,7 +29,7 @@ class AdminMenu
             'Aggiungi prenotazione',
             'Aggiungi prenotazione',
             'manage_options',
-            plugin_dir_path(__FILE__) . './views/add-new-user.html.php',
+            plugin_dir_path(__FILE__) . './views/add-new-res.html.php',
             null,
             90
         );

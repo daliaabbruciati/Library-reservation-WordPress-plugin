@@ -7,50 +7,74 @@ use Plugin\DB\Database;
 include_once __DIR__ . '/../DB/Database.php';
 $db = new Database(__FILE__);
 
-$fields = ['stanza' => '', 'giorno' => '', 'ora_arrivo' => '', 'ora_partenza' => '', 'tutto_il_giorno' => '', 'id_posto' => ''];
-$errors = ['stanza' => '', 'giorno' => '', 'ora_arrivo' => '', 'ora_partenza' => '', 'tutto_il_giorno' => '', 'id_posto' => ''];
-
-
-/* Query che restituisce tutti i posti disponibili e selezionabili per la prenotazione */
-$seatNum = $wpdb->get_results("SELECT numero_posto FROM ".$db::TABLE_BIBLIOTECA_POSTO.";");
+$field = ['id_utente' => '', 'nome_utente' => '', 'email_utente' => '', 'stanza' => '', 'giorno' => '', 'ora_arrivo' => '', 'ora_partenza' => '', 'tutto_il_giorno' => '', 'numero_posto' => ''];
+$error = ['stanza' => '', 'giorno' => '', 'ora_arrivo' => '', 'ora_partenza' => '', 'tutto_il_giorno' => '', 'numero_posto' => ''];
 
 /* Query che restituisce tutte le stanze disponibili e selezionabili per la prenotazione */
-$roomName = $wpdb->get_results("SELECT nome_stanza FROM ".$db::TABLE_BIBLIOTECA_STANZA.";");
+$roomName = $wpdb->get_results("SELECT nome_stanza FROM " . $db::TABLE_BIBLIOTECA_STANZA . ";");
+
+/* Query che restituisce tutti i posti disponibili e selezionabili per la prenotazione */
+$seatNum = $wpdb->get_results("SELECT numero_posto FROM " . $db::TABLE_BIBLIOTECA_POSTO . ";");
+
+//$findIdPosto = $wpdb->get_var("SELECT id_posto FROM " . $db::TABLE_BIBLIOTECA_POSTO .
+//    " WHERE numero_posto = '" . $field['numero_posto'] . "';");
+
+//$findUser = $wpdb->get_results("SELECT * FROM " . $db::TABLE_UTENTI .
+//    " WHERE user_email = '" . $_SESSION['email'] . "';");
+
+//print_r($findUser);
 
 
-
-if(isset($_POST['submit_prenotazione'])){
-    $fields['stanza'] = $_POST['stanza'];
-    $fields['giorno'] = $_POST['giorno'];
-    $fields['ora_arrivo'] = $_POST['ora_arrivo'];
-    $fields['ora_partenza'] = $_POST['ora_partenza'];
-    $fields['tutto_il_giorno'] = $_POST['tutto_il_giorno'] ?? 'no';
-    $fields['id_posto'] = $_POST['id_posto'];
+if (isset($_POST['submit_prenotazione'])) {
+    $field['id_utente'] = $_POST['id_utente'];
+    $field['nome_utente'] = $_POST['nome_utente'];
+    $field['email_utente'] = $_POST['email_utente'];
+    $field['stanza'] = $_POST['stanza'];
+    $field['giorno'] = $_POST['giorno'];
+    $field['ora_arrivo'] = $_POST['ora_arrivo'];
+    $field['ora_partenza'] = $_POST['ora_partenza'];
+    $field['tutto_il_giorno'] = $_POST['tutto_il_giorno'] ?? 'no';
+    $field['numero_posto'] = $_POST['numero_posto'];
 
 
     /* Controllo campi vuoti */
-    if(empty($fields['stanza'])){
-        $errors['stanza'] = 'Stanza non selezionata';
+    if (empty($field['stanza'])) {
+        $error['stanza'] = 'Stanza non selezionata';
     }
-    if(empty($fields['giorno'])){
-        $errors['giorno'] = 'Compila campo giorno';
+    if (empty($field['giorno'])) {
+        $error['giorno'] = 'Compila campo giorno';
     }
-    if(empty($fields['ora_arrivo'])){
-        $errors['ora_arrivo'] = 'Compila campo ora arrivo';
+    if (empty($field['ora_arrivo'])) {
+        $error['ora_arrivo'] = 'Compila campo ora arrivo';
     }
-    if(empty($fields['ora_partenza'])){
-        $errors['ora_partenza'] = 'Compila campo ora partenza';
+    if (empty($field['ora_partenza'])) {
+        $error['ora_partenza'] = 'Compila campo ora partenza';
     }
-    if(empty($fields['tutto_il_giorno'])){
-        $errors['tutto_il_giorno'] = 'Compila campo';
+    if (empty($field['tutto_il_giorno'])) {
+        $error['tutto_il_giorno'] = 'Compila campo';
     }
-    if(empty($fields['id_posto'])){
-        $errors['id_posto'] = 'Posto non selezionato';
+    if (empty($field['numero_posto'])) {
+        $error['numero_posto'] = 'Posto non selezionato';
     }
 
 
-    print_r(array_filter($fields));
+
+    if(empty(array_filter($error))){
+        $wpdb->insert($db::TABLE_PRENOTAZIONE,[
+            'id_utente' => $field['id_utente'],
+            'nome_utente' => $field['nome_utente'],
+            'email_utente' => $field['email_utente'],
+            'stanza' => $field['stanza'],
+            'giorno' => $field['giorno'],
+            'ora_arrivo' => $field['ora_arrivo'],
+            'ora_partenza' => $field['ora_partenza'],
+            'tutto_il_giorno' => $field['tutto_il_giorno'],
+            'numero_posto' => $field['numero_posto'],
+            'qr_code' => ''
+        ]);
+    }
+    print_r(array_filter($field));
 }
 
 
-include_once __DIR__.'/./pages/book-seat.html.php';
+include_once __DIR__ . '/./pages/book-seat.html.php';

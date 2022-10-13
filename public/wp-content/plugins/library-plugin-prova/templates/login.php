@@ -5,38 +5,38 @@ use Plugin\DB\Database;
 include_once __DIR__ . '/../DB/Database.php';
 $db = new Database(__FILE__);
 
-$fields = ['email' => '', 'password' => ''];
-$errors = ['email' => '', 'password' => ''];
+$field = ['email' => '', 'password' => ''];
+$error = ['email' => '', 'password' => ''];
 $valid = true;
 
 if (isset($_POST['submit-login'])) {
-    $fields['email'] = $_POST['user_email'];
-    $fields['password'] = $_POST['user_pass'];
+    $field['email'] = $_POST['user_email'];
+    $field['password'] = $_POST['user_pass'];
 
     /* Query per trovare il valore della password corrispondente all'email
      * inserita dall'utente.
      */
     $findUserPwd = $wpdb->get_var("SELECT user_pass FROM " . $db::TABLE_UTENTI .
-        " WHERE user_email = '" . $fields['email'] . "';");
+        " WHERE user_email = '" . $field['email'] . "';");
 
     /* Query per trovare il nome corrispondente all'email inserita dall'utente. */
     $checkUserName = $wpdb->get_var("SELECT user_login FROM " . $db::TABLE_UTENTI .
-        " WHERE user_email = '" . $fields['email'] . "';");
+        " WHERE user_email = '" . $field['email'] . "';");
 
     /* Controllo che i campi non siano vuoti e che la password inserita
      * dall'utente corrisposnda a quella inserita da esso durante la registrazione.
      */
-    if (empty($fields['email'])) {
+    if (empty($field['email'])) {
         $valid = false;
-        $errors['email'] = 'Compila campo email';
+        $error['email'] = 'Compila campo email';
     }
-    if (empty($fields['password'])) {
+    if (empty($field['password'])) {
         $valid = false;
-        $errors['password'] = 'Compila campo password';
+        $error['password'] = 'Compila campo password';
     } else {
-        $check = wp_check_password($fields['password'], $findUserPwd);
+        $check = wp_check_password($field['password'], $findUserPwd);
         if (!$check) {
-            $errors['password'] = "Password errata";
+            $error['password'] = "Password errata";
         }
     }
 
@@ -44,7 +44,7 @@ if (isset($_POST['submit-login'])) {
      * sono corretti, quindi posso navigare alla pagina per la
      * scelta del posto in aula studio.
      */
-    if (empty(array_filter($errors))) header('Location: scegli-posto');
+    if (empty(array_filter($error))) header('Location: scegli-posto');
 
 }
 

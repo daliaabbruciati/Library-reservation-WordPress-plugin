@@ -93,7 +93,7 @@ class Database
             $table_biblioteca_posto = "CREATE TABLE " . self::TABLE_BIBLIOTECA_POSTO . " (
             id_posto INT(10) AUTO_INCREMENT,
             numero_posto INT(5) NOT NULL,
-            tipologia BOOLEAN,
+            disponibile BOOLEAN DEFAULT 0,
             id_stanza INT(10),
             PRIMARY KEY  (id_posto),
             FOREIGN KEY (id_stanza) REFERENCES " . self::TABLE_BIBLIOTECA_STANZA . "(id_stanza)
@@ -109,18 +109,17 @@ class Database
             id_utente BIGINT(20) UNSIGNED,
             nome_utente VARCHAR(50),
             email_utente VARCHAR(100),
-            stanza INT(10),
+            stanza VARCHAR(100),
             giorno DATE NOT NULL,
             ora_arrivo TIME NOT NULL,
             ora_partenza TIME NOT NULL,
             tutto_il_giorno BOOLEAN,
-            id_posto INT(10),
+            numero_posto INT(10),
             qr_code BOOLEAN,
             PRIMARY KEY  (id_prenotazione),
             FOREIGN KEY (id_utente) REFERENCES " . self::TABLE_UTENTI . "(ID),
             FOREIGN KEY (nome_utente) REFERENCES " . self::TABLE_UTENTI . "(user_login),
-            FOREIGN KEY (email_utente) REFERENCES " . self::TABLE_UTENTI . "(user_email),
-            FOREIGN KEY (id_posto) REFERENCES " . self::TABLE_BIBLIOTECA_POSTO . "(id_posto)
+            FOREIGN KEY (email_utente) REFERENCES " . self::TABLE_UTENTI . "(user_email)
         )" . $charset_collate . ";";
 
             dbDelta($table_prenotazione);

@@ -1,9 +1,9 @@
 <?php
 
-$fields = ['nome_biblio' => '', 'nome_stanza' => '', 'posti_tot' => '', 'posti_disponibili' => ''];
-//$errors = ['nomeErr' => '', 'emailErr' => '', 'stanzaErr' => '', 'giornoErr' => '', 'ora_arrivoErr' => '', 'ora_partenzaErr' => '', 'tutto_il_giornoErr' => '', 'id_postoErr' => ''];
+$field = ['id_utente' => '', 'nome_utente' => '', 'email_utente' => '', 'stanza' => '', 'giorno' => '', 'ora_arrivo' => '', 'ora_partenza' => '', 'tutto_il_giorno' => '', 'numero_posto' => ''];
+$error = ['stanza' => '', 'giorno' => '', 'ora_arrivo' => '', 'ora_partenza' => '', 'tutto_il_giorno' => '', 'numero_posto' => ''];
 
-if (isset($_POST['edit']) && $row->id === $_POST['id']) {
+if (isset($_POST['edit']) && $row->id_prenotazione === $_POST['id_prenotazione']) {
     $newNome = $_POST['nome_utente'];
     $newEmail = $_POST['email_utente'];
     $newStanza = $_POST['stanza'];
@@ -11,7 +11,16 @@ if (isset($_POST['edit']) && $row->id === $_POST['id']) {
     $newOra_arrivo = $_POST['ora_arrivo'];
     $newOra_partenza = $_POST['ora_partenza'];
     $newTuttoIlGiorno = $_POST['tutto_il_giorno'];
-    $newId_posto = $_POST['id_posto'];
+    $newNumero_posto = $_POST['numero_posto'];
+//    $field['id_utente'] = $_POST['id_utente'];
+//    $field['nome_utente'] = $_POST['nome_utente'];
+//    $field['email_utente'] = $_POST['email_utente'];
+//    $field['stanza'] = $_POST['stanza'];
+//    $field['giorno'] = $_POST['giorno'];
+//    $field['ora_arrivo'] = $_POST['ora_arrivo'];
+//    $field['ora_partenza'] = $_POST['ora_partenza'];
+//    $field['tutto_il_giorno'] = $_POST['tutto_il_giorno'] ?? 'no';
+//    $field['numero_posto'] = $_POST['numero_posto'];
 
     $wpdb->update($mydb::TABLE_PRENOTAZIONE, [
         'nome_utente' => $newNome,
@@ -21,9 +30,9 @@ if (isset($_POST['edit']) && $row->id === $_POST['id']) {
         'ora_arrivo' => $newOra_arrivo,
         'ora_partenza' => $newOra_partenza,
         'tutto_il_giorno' => $newTuttoIlGiorno,
-        'id_posto' => $newId_posto,
+        'numero_posto' => $newNumero_posto,
     ], [
-        'id' => $row->id
+        'id_prenotazione' => $row->id_prenotazione
     ]);
     echo '<h3>Utente modificato correttamente. Torna alla pagina <a href="admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fdb-view.html.php">Panoramica</a></h3>';
 }

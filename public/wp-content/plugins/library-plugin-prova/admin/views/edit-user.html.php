@@ -22,7 +22,7 @@ $newNome = $newEmail = $newStanza = $newGiorno = $newOra_arrivo = $newOra_parten
             <?php
 //            $result = $wpdb->get_results(
 //                $wpdb->prepare("SELECT * FROM " . $db_table_prenotazione . " WHERE id = %d", $_POST['id']));
-            $result = $mydb->select_by_value($mydb::TABLE_PRENOTAZIONE,'id',$_POST['id']);
+            $result = $mydb->select_by_value($mydb::TABLE_PRENOTAZIONE,'id_prenotazione',$_POST['id_prenotazione']);
             if ($result > 0):
             foreach ($result as $row):
             ?>
@@ -71,17 +71,17 @@ $newNome = $newEmail = $newStanza = $newGiorno = $newOra_arrivo = $newOra_parten
             </label>
 
 
-            <label for="id_posto">Numero posto
+            <label for="numero_posto">Numero posto
                 <div>
-                    <input type="number" name="id_posto"
-                           value="<?= $row->id_posto ?>">
+                    <input type="number" name="numero_posto"
+                           value="<?= $row->numero_posto ?>">
                 </div>
             </label>
 
             <?php
             include __DIR__ . '/../../DB/update-row.php';
             ?>
-            <input type="hidden" name="id" value="<?= $row->id; ?>">
+            <input type="hidden" name="id_prenotazione" value="<?= $row->id_prenotazione; ?>">
             <input type="submit" name="edit" id="edit" class="button button-primary" value="Salva modifiche">
         </form>
         <?php

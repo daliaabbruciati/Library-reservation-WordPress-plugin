@@ -13,7 +13,7 @@ include 'header.html.php';
 
 if (isset($_POST['registrati']) && $valid):
     include_once __DIR__ . '/./register-success.html.php';
-    $_SESSION['nome'] = $fields['nome'];
+    $_SESSION['nome'] = $field['nome'];
 
 else:
 
@@ -25,33 +25,33 @@ else:
             <div class="form__nome-utente">
                 <label for="user_login">Nome e cognome</label>
                 <div class="form--error">
-                    <input name="user_login" type="text" id="user_login" value="<?= $fields['nome'] ?>"
+                    <input name="user_login" type="text" id="user_login" value="<?= $field['nome'] ?>"
                            placeholder="Inserisci nome e cognome">*
-                    <p> <?= $errors['nome'] ?> </p>
+                    <p> <?= $error['nome'] ?> </p>
                 </div>
             </div>
             <div class="form__nome-utente">
                 <label for="user_nicename">Username</label>
                 <div class="form--error">
-                    <input name="user_nicename" type="text" id="user_nicename" value="<?= $fields['username'] ?>"
+                    <input name="user_nicename" type="text" id="user_nicename" value="<?= $field['username'] ?>"
                            placeholder="Inserisci username">*
-                    <p> <?= $errors['username'] ?> </p>
+                    <p> <?= $error['username'] ?> </p>
                 </div>
             </div>
             <div class="form__email">
                 <label for="user_email">Email </label>
                 <div class="form--error">
-                    <input name="user_email" type="email" id="user_email" value="<?= $fields['email'] ?>"
+                    <input name="user_email" type="email" id="user_email" value="<?= $field['email'] ?>"
                            aria-describedby="emailHelp"
                            placeholder="Inserisci email">*
-                    <p> <?= $errors['email'] ?> </p>
+                    <p> <?= $error['email'] ?> </p>
                 </div>
             </div>
             <div class="form__password">
                 <label for="user_pass">Password</label>
                 <div class="form--error">
                     <input name="user_pass" type="password" id="user_pass" placeholder="Inserisci password">*
-                    <p> <?= $errors['password'] ?> </p>
+                    <p> <?= $error['password'] ?> </p>
                 </div>
             </div>
             <input type="hidden" name="user_registered" id="user_registered">

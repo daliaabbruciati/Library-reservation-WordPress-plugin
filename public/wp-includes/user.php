@@ -3600,11 +3600,11 @@ function _wp_get_current_user() {
  * @global WP_Error $errors WP_Error object.
  */
 function send_confirmation_on_profile_email() {
-	global $errors;
+	global $error;
 
 	$current_user = wp_get_current_user();
-	if ( ! is_object( $errors ) ) {
-		$errors = new WP_Error();
+	if ( ! is_object( $error ) ) {
+		$error = new WP_Error();
 	}
 
 	if ( $current_user->ID != $_POST['user_id'] ) {
@@ -3613,7 +3613,7 @@ function send_confirmation_on_profile_email() {
 
 	if ( $current_user->user_email != $_POST['email'] ) {
 		if ( ! is_email( $_POST['email'] ) ) {
-			$errors->add(
+			$error->add(
 				'user_email',
 				__( '<strong>Error</strong>: The email address is not correct.' ),
 				array(
@@ -3625,7 +3625,7 @@ function send_confirmation_on_profile_email() {
 		}
 
 		if ( email_exists( $_POST['email'] ) ) {
-			$errors->add(
+			$error->add(
 				'user_email',
 				__( '<strong>Error</strong>: The email address is already used.' ),
 				array(

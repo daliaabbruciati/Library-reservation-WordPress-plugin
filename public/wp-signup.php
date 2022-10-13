@@ -408,7 +408,7 @@ function signup_another_blog( $blogname = '', $blog_title = '', $errors = '' ) {
  *                   The function halts all execution if the user is not logged in.
  */
 function validate_another_blog_signup() {
-	global $blogname, $blog_title, $errors, $domain, $path;
+	global $blogname, $blog_title, $error, $domain, $path;
 	$current_user = wp_get_current_user();
 	if ( ! is_user_logged_in() ) {
 		die();
@@ -421,10 +421,10 @@ function validate_another_blog_signup() {
 	$path       = $result['path'];
 	$blogname   = $result['blogname'];
 	$blog_title = $result['blog_title'];
-	$errors     = $result['errors'];
+	$error     = $result['errors'];
 
-	if ( $errors->has_errors() ) {
-		signup_another_blog( $blogname, $blog_title, $errors );
+	if ( $error->has_errors() ) {
+		signup_another_blog( $blogname, $blog_title, $error );
 		return false;
 	}
 
