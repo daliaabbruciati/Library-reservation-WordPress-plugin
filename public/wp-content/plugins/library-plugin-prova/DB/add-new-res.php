@@ -9,15 +9,15 @@ $validation = new Validation();
 $db = new Database(__FILE__);
 
 $field = ['id_utente' => '', 'nome_utente' => '', 'email_utente' => '', 'stanza' => '', 'giorno' => '', 'ora_arrivo' => '', 'ora_partenza' => '', 'tutto_il_giorno' => '', 'numero_posto' => ''];
-$error = ['id_utente' => '', 'nome_utente' => '', 'email_utente' => '', 'stanza' => '', 'giorno' => '', 'ora_arrivo' => '', 'ora_partenza' => '', 'tutto_il_giorno' => '', 'numero_posto' => ''];
+$error = ['nome_utente' => '', 'email_utente' => '', 'stanza' => '', 'giorno' => '', 'ora_arrivo' => '', 'ora_partenza' => '', 'tutto_il_giorno' => '', 'numero_posto' => ''];
 
 
 /* Query che restituisce tutte le stanze disponibili e selezionabili per la prenotazione */
 $roomName = $wpdb->get_results("SELECT nome_stanza FROM " . $db::TABLE_BIBLIOTECA_STANZA . ";");
 
 /* Query che restituisce tutti i posti disponibili e selezionabili per la prenotazione */
-$seatNum = $wpdb->get_results("SELECT numero_posto FROM " . $db::TABLE_BIBLIOTECA_POSTO . ";");
-
+$seatNum = $wpdb->get_results("SELECT numero_posto FROM " . $db::TABLE_BIBLIOTECA_POSTO .
+    " WHERE disponibile = 1;");
 
 
 if (isset($_POST['submit'])) {
@@ -70,13 +70,9 @@ if (isset($_POST['submit'])) {
         $error['numero_posto'] = "<span class='error-field'>Campo numero posto errato.</span>";
     }
 
-
-    if (array_filter($error)) {
-        echo "<h4 class='error-field'>ERRORE inserimento: Compila tutti i campi</h4>";
-    } else {
+    if(empty(array_filter($error))){
         $db->do_reservation($field);
-        $db->updateAvailableSeats($field);
-        echo "<h3>Nuovo utente inserito correttamente.Torna alla schermata <a href='http://localhost:10003/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fbooking-view.html.php'>Panoramica</a>";
-
+        $db->updateAvailableSeats($field['numero_posto'],$field['stanza']);
+        echo "<span class='success-field'>Prenotazione inserita correttamente</span>";
     }
 }

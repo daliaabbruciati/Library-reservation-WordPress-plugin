@@ -55,7 +55,7 @@ if (isset($_POST['submit_prenotazione'])) {
 
     if(empty(array_filter($error))){
         $db->do_reservation($field);
-        $db->updateAvailableSeats($field);
+        $db->updateAvailableSeats($field['numero_posto'],$field['stanza']);
     }
     print_r(array_filter($field));
 }

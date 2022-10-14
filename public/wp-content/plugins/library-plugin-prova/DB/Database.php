@@ -151,18 +151,19 @@ class Database
     }
 
     public function getPostiRimanenti(){
-        /* Restituisce il numero di posti ancora disponibili, cioè con flag 'disponibile' = TRUE */
+        /* Restituisce il numero totale di posti ancora disponibili, cioè con flag 'disponibile' = TRUE */
         return $this->wpdb->get_var("SELECT COUNT(*) FROM ".self::TABLE_BIBLIOTECA_POSTO.
             " WHERE disponibile = 1;");
     }
 
-    public function updateAvailableSeats($field){
+    public function updateAvailableSeats($field_posto,$field_stanza): void
+    {
 
         /* Aggiorno il flag 'disponibile' del posto selezinato durante la prenotazine a FALSE */
         $this->wpdb->update(self::TABLE_BIBLIOTECA_POSTO,[
             'disponibile' => 0
         ],[
-            'numero_posto' => $field['numero_posto']
+            'numero_posto' => $field_posto
         ]);
 
         /* Aggiorno il numero di posti disponibili nella tabella 'wp_biblioteca_stanza'
@@ -170,9 +171,38 @@ class Database
         $this->wpdb->update(self::TABLE_BIBLIOTECA_STANZA,[
             'posti_disponibili' => $this->getPostiRimanenti()
         ],[
-            'nome_stanza' => $field['stanza']
+            'nome_stanza' => $field_stanza
         ]);
 
+    }
+
+    public function deleteReservation($row): void
+    {
+        /* Elimino il record della prenotazione dalla tabella 'wp_prenotazione' */
+        if (isset($_POST['delete']) &&
+            $row->id_prenotazione == $_POST['id_prenotazione'] &&
+            $row->numero_posto == $_POST['numero_posto']) {
+
+            /* Aggiorno il flag 'disponibile' = 1 (TRUE) del numero selezionato nella
+            prenotazione da elimiinare */
+            $this->wpdb->update(self::TABLE_BIBLIOTECA_POSTO,[
+                'disponibile' => 1
+            ],[
+                'numero_posto' => $row->numero_posto
+            ]);
+
+            /* Elimino la prenotazione */
+            $this->wpdb->delete(self::TABLE_PRENOTAZIONE, [
+                'id_prenotazione' => $row->id_prenotazione
+            ]);
+
+            $posti_rimanenti = self::getPostiRimanenti();
+            $this->wpdb->update(self::TABLE_BIBLIOTECA_STANZA,[
+                'posti_disponibili' => $posti_rimanenti
+            ],[
+                'nome_stanza' => $row->stanza
+            ]);
+        }
     }
 
     public function navigateTo(string $url): void
@@ -193,7 +223,8 @@ class Database
         return $this->wpdb->get_results("SELECT * FROM {$table}");
     }
 
-    public function do_reservation(array $field){
+    public function do_reservation(array $field): void
+    {
         $this->wpdb->insert(self::TABLE_PRENOTAZIONE,[
             'id_utente' => $field['id_utente'],
             'nome_utente' => $field['nome_utente'],

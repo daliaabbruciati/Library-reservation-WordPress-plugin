@@ -78,18 +78,15 @@ $db = new Database(__FILE__);
                                 </form>
                             </td>
                             <td class="db-td">
-
                                 <?php
-                                if (isset($_POST['submit']) && $row->id_prenotazione == $_POST['id_prenotazione']) {
-                                    $wpdb->delete($db::TABLE_PRENOTAZIONE, [
-                                        'id_prenotazione' => $row->id_prenotazione
-                                    ]);
-                                }
+                                    $db->deleteReservation($row);
+                                    echo "<span class='success-field'>Prenotazione eliminata con successo. Ricarica la pagina per aggiornare i dati</span>";
                                 ?>
-
                                 <form method="post" action="<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>">
                                     <input type="hidden" name="id_prenotazione" value="<?= $row->id_prenotazione; ?>">
-                                    <input type="submit" name="submit" class="button button-link-delete"
+                                    <input type="hidden" name="numero_posto" value="<?= $row->numero_posto; ?>">
+                                    <input type="hidden" name="stanza" value="<?= $row->stanza; ?>">
+                                    <input type="submit" name="delete" id="delete" class="button button-link-delete"
                                            value="Elimina">
                                 </form>
                             </td>
@@ -121,20 +118,6 @@ $db = new Database(__FILE__);
                 </thead>
                 <tbody>
                 <?php
-//                $posti_disp = $wpdb->get_var("SELECT posti_disponibili FROM " . $mydb::TABLE_BIBLIOTECA_STANZA . " ");
-//
-//                $get_stanza = $wpdb->get_var("SELECT id_stanza FROM " . $mydb::TABLE_BIBLIOTECA_STANZA . " ");
-//
-//                $i = 1;
-//
-//                $row_count = $wpdb->get_var("SELECT COUNT(*) FROM " . $mydb::TABLE_BIBLIOTECA_POSTO . " ");
-//
-//                while ($i <= $posti_disp) {
-//                    if ($posti_disp === $row_count) break;
-//                    $query = $wpdb->get_results('INSERT INTO ' . $db::TABLE_BIBLIOTECA_POSTO . ' SET numero_posto = ' . $i . ', id_stanza = ' . $get_stanza . ' ');
-//                    $i += 1;
-//                }
-
                 $join = $wpdb->get_results('SELECT * FROM ' . $db::TABLE_BIBLIOTECA . ' INNER JOIN ' . $db::TABLE_BIBLIOTECA_STANZA .
                     ' ON ' . $db::TABLE_BIBLIOTECA . '.id_biblioteca = ' . $db::TABLE_BIBLIOTECA_STANZA . '.id_biblioteca');
 

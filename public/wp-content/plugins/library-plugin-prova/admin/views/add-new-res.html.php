@@ -1,16 +1,11 @@
 <?php include __DIR__ . '/../../DB/add-new-res.php'; ?>
 
-<?php
-$findUserId = $wpdb->get_var("SELECT ID FROM " . $db::TABLE_UTENTI .
-    " WHERE user_email = '" . $field['email_utente'] . "';");
-echo $findUserId;
-?>
+
 <div class="wrap">
     <h1><?= esc_html(get_admin_page_title()); ?></h1>
     <p>Compila tutti i campi e poi clicca su 'Aggiungi' per inserire una nuova prenotazione</p>
     <div id="tab-2" class="tab-pane">
         <form class="form-container" method="post" action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>">
-            <input type="hidden" name="id_utente" id="id_utente" value="<?= $field['id_utente'] = $findUserId; ?>">
             <label for="nome_utente">Nome utente *
                 <div class="form--error">
                     <input type="text" name="nome_utente" id="nome_utente" value="<?= $field['nome_utente'] ?>"
@@ -26,6 +21,12 @@ echo $findUserId;
                     <p> <?= $error['email_utente'] ?> </p>
                 </div>
             </label>
+            <?php
+            /* Restituisce il valore dell'id riferito all'email dell'utente */
+            $findUserId = $wpdb->get_var("SELECT ID FROM " . $db::TABLE_UTENTI .
+                " WHERE user_email = '" . $field['email_utente'] . "';");
+            ?>
+            <input type="hidden" name="id_utente" id="id_utente" value="<?= $field['id_utente'] = $findUserId; ?>">
 
             <label for="stanza">Scegli stanza *
                 <div class="form--error">
