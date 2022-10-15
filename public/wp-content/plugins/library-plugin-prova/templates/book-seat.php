@@ -1,7 +1,5 @@
 <?php
 
-// Logica
-
 use Plugin\DB\Database;
 
 include_once __DIR__ . '/../DB/Database.php';
@@ -9,14 +7,6 @@ $db = new Database(__FILE__);
 
 $field = ['id_utente' => '', 'nome_utente' => '', 'email_utente' => '', 'stanza' => '', 'giorno' => '', 'ora_arrivo' => '', 'ora_partenza' => '', 'tutto_il_giorno' => '', 'numero_posto' => ''];
 $error = ['stanza' => '', 'giorno' => '', 'ora_arrivo' => '', 'ora_partenza' => '', 'tutto_il_giorno' => '', 'numero_posto' => ''];
-
-/* Query che restituisce tutte le stanze disponibili e selezionabili per la prenotazione */
-$roomName = $wpdb->get_results("SELECT nome_stanza FROM " . $db::TABLE_BIBLIOTECA_STANZA . ";");
-
-/* Query che restituisce tutti i posti disponibili e selezionabili per la prenotazione */
-$seatNum = $wpdb->get_results("SELECT numero_posto FROM " . $db::TABLE_BIBLIOTECA_POSTO .
-    " WHERE disponibile = 1;");
-
 
 
 if (isset($_POST['submit_prenotazione'])) {

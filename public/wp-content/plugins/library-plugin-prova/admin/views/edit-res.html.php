@@ -3,37 +3,37 @@
 use Plugin\DB\Database;
 
 include_once __DIR__ . '/../../DB/Database.php';
-$mydb = new Database(__FILE__);
+$db = new Database(__FILE__);
 
 $newNome = $newEmail = $newStanza = $newGiorno = $newOra_arrivo = $newOra_partenza = $newTuttoIlGiorno = $newId_posto = '';
+
+$result = $wpdb->get_results("SELECT * FROM ".$db::TABLE_PRENOTAZIONE.
+    " WHERE id_prenotazione = '".$_POST['id_prenotazione']."';");
+print_r($result);
 ?>
 
 
 <div class="wrap">
     <h1><?= esc_html(get_admin_page_title()); ?></h1>
     <?php
-    if ($_SERVER["REQUEST_METHOD"] === "POST"):
+        if ($_SERVER["REQUEST_METHOD"] === "POST"):
     ?>
     <p>Modifica i campi e poi clicca su 'Salva modifiche' per aggiornare i dati dell'utente utente</p>
     <div id="tab-2" class="tab-pane">
-        <form class="form-container"
-              method="post"
-              action="<?php echo($_SERVER['REQUEST_URI']); ?>">
+        <form class="form-container" method="post" action="<?php echo($_SERVER['REQUEST_URI']); ?>">
             <?php
-//            $result = $wpdb->get_results(
-//                $wpdb->prepare("SELECT * FROM " . $db_table_prenotazione . " WHERE id = %d", $_POST['id']));
-            $result = $mydb->select_by_value($mydb::TABLE_PRENOTAZIONE,'id_prenotazione',$_POST['id_prenotazione']);
-            if ($result > 0):
-            foreach ($result as $row):
+                if (!empty($result)):
+                foreach ($result as $row):
             ?>
-            <label for="nome_utente">Nome
+            <input type="hidden" name="id_utente" id="id_utente" value="<?= $row->id_utente?>">
+            <label for="nome_utente">Nome utente
                 <div>
                     <input type="text" name="nome_utente" id="nome_utente"
                            value="<?= $row->nome_utente ?>">
                 </div>
             </label>
 
-            <label for="email_utente">Email
+            <label for="email_utente">Email utente
                 <div>
                     <input type="text" name="email_utente" id="email_utente"
                            value="<?= $row->email_utente ?>">
@@ -42,13 +42,20 @@ $newNome = $newEmail = $newStanza = $newGiorno = $newOra_arrivo = $newOra_parten
 
             <label for="stanza">Stanza
                 <div>
-                    <input type="number" name="stanza" value="<?= $row->stanza ?>">
+                    <select name="stanza" id="stanza">
+                        <option value=""><?= $row->stanza ?></option>
+                        <?php
+                        foreach ($db->getRoomName() as $room):
+                            ?>
+                            <option value="<?= $room->nome_stanza ?>"><?= $room->nome_stanza ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
             </label>
 
             <label for="giorno">Giorno prenotazione
                 <div>
-                    <input type="datetime-local" name="giorno" value="<?= $row->giorno ?>">
+                    <input type="date" name="giorno" value="<?= $row->giorno ?>">
                 </div>
             </label>
 
@@ -66,23 +73,28 @@ $newNome = $newEmail = $newStanza = $newGiorno = $newOra_arrivo = $newOra_parten
 
             <label for="tutto_il_giorno">tutto il giorno
                 <div>
-                    <input type="checkbox" name="tutto_il_giorno" value="<?= $row->tutto_il_giorno ?>">
+                    <input type="checkbox" name="tutto_il_giorno"  id="tutto_il_giorno" value="yes">
                 </div>
             </label>
-
 
             <label for="numero_posto">Numero posto
                 <div>
-                    <input type="number" name="numero_posto"
-                           value="<?= $row->numero_posto ?>">
+                    <select name="numero_posto" id="numero_posto">
+                        <option value=""><?= $row->numero_posto ?></option>
+                        <?php
+                        foreach ($db->getSeatNum() as $seat):
+                            ?>
+                            <option value="<?= $seat->numero_posto ?>"><?= $seat->numero_posto ?></option>
+                        <?php
+                        endforeach;
+                        ?>
+                    </select>
                 </div>
             </label>
 
-            <?php
-            include __DIR__ . '/../../DB/edit-res.php';
-            ?>
+            <?php include __DIR__ . '/../../DB/edit-res.php'; ?>
             <input type="hidden" name="id_prenotazione" value="<?= $row->id_prenotazione; ?>">
-            <input type="submit" name="edit" id="edit" class="button button-primary" value="Salva modifiche">
+            <input type="submit" name="update" id="update" class="button button-primary" value="Salva modifiche">
         </form>
         <?php
          endforeach;

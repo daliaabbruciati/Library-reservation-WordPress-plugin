@@ -19,8 +19,10 @@ $db = new Database(__FILE__);
 <body>
 <div class="wrap">
     <h1>Library Reservation plugin management </h1>
-    <?php settings_errors(); ?>
-    <?= $db->start_connection(); ?>
+    <?php
+        settings_errors();
+        echo $db->start_connection();
+    ?>
 
     <div class="nav nav-tabs">
         <li class="active"><a href="#tab-1">Vista prenotazioni</a></li>
@@ -71,16 +73,16 @@ $db = new Database(__FILE__);
                             <td class="db-td">
 
                                 <form method="post"
-                                      action="http://localhost:10003/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fedit-user.html.php">
+                                      action="http://localhost:10003/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fedit-res.html.php">
                                     <input type="hidden" name="id_prenotazione" value="<?= $row->id_prenotazione; ?>">
-                                    <input type="submit" name="save" id="save" class="button button-secondary"
+                                    <input type="hidden" name="id_utente" value="<?= $row->id_utente; ?>">
+                                    <input type="submit" name="edit" id="edit" class="button button-secondary"
                                            value="Modifica">
                                 </form>
                             </td>
                             <td class="db-td">
                                 <?php
                                     $db->deleteReservation($row);
-                                    echo "<span class='success-field'>Prenotazione eliminata con successo. Ricarica la pagina per aggiornare i dati</span>";
                                 ?>
                                 <form method="post" action="<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>">
                                     <input type="hidden" name="id_prenotazione" value="<?= $row->id_prenotazione; ?>">
@@ -103,7 +105,7 @@ $db = new Database(__FILE__);
         <div id="tab-2" class="tab-pane">
             <h3>Qui puoi gestire le impostazioni generali della Biblioteca</h3>
             <p>Clicca sui pulsanti "Modifica" o "Elimina" per modificare o cancellare i dati.</p>
-            <?php include __DIR__ . '/../../DB/edit-res.php'; ?>
+<!--            --><?php //include __DIR__ . '/../../DB/edit-res.php'; ?>
             <table class="db-table">
                 <thead class="db-th">
                 <tr class="db-tr">

@@ -41,7 +41,7 @@
                         <select name="stanza" id="stanza">
                             <option value=""><?= isset($_POST['submit_prenotazione']) ? $field['stanza'] : 'Scegli stanza' ?></option>
                             <?php
-                            foreach ($roomName as $room):
+                            foreach ($db->getRoomName() as $room):
                                 ?>
                                 <option value="<?= $room->nome_stanza ?>"><?= $room->nome_stanza ?></option>
                             <?php endforeach; ?>
@@ -75,7 +75,7 @@
                 <div class="form__tutto-il-giorno">
                     <label for="tutto_il_giorno">Tutto il giorno</label>
                     <div class="form--error">
-                        <input name="tutto_il_giorno" type="checkbox" id="tutto_il_giorno" value="yes">
+                        <input type="checkbox" name="tutto_il_giorno"  id="tutto_il_giorno" value="yes">
                         <p><?= $error['tutto_il_giorno'] ?></p>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                         <select name="numero_posto" id="numero_posto">
                             <option value=""><?= isset($_POST['submit_prenotazione']) ? $field['numero_posto'] : 'Scegli posto' ?></option>
                             <?php
-                            foreach ($seatNum as $seat):
+                            foreach ($db->getSeatNum() as $seat):
                                 ?>
                                 <option value="<?= $seat->numero_posto ?>"><?= $seat->numero_posto ?></option>
                             <?php

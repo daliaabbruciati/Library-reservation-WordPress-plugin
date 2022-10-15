@@ -12,16 +12,7 @@ $field = ['id_utente' => '', 'nome_utente' => '', 'email_utente' => '', 'stanza'
 $error = ['nome_utente' => '', 'email_utente' => '', 'stanza' => '', 'giorno' => '', 'ora_arrivo' => '', 'ora_partenza' => '', 'tutto_il_giorno' => '', 'numero_posto' => ''];
 
 
-/* Query che restituisce tutte le stanze disponibili e selezionabili per la prenotazione */
-$roomName = $wpdb->get_results("SELECT nome_stanza FROM " . $db::TABLE_BIBLIOTECA_STANZA . ";");
-
-/* Query che restituisce tutti i posti disponibili e selezionabili per la prenotazione */
-$seatNum = $wpdb->get_results("SELECT numero_posto FROM " . $db::TABLE_BIBLIOTECA_POSTO .
-    " WHERE disponibile = 1;");
-
-
 if (isset($_POST['submit'])) {
-    $field['id_utente'] = $_POST['id_utente'];
     $field['nome_utente'] = $_POST['nome_utente'];
     $field['email_utente'] = $_POST['email_utente'];
     $field['stanza'] = $_POST['stanza'];
@@ -30,6 +21,12 @@ if (isset($_POST['submit'])) {
     $field['ora_partenza'] = $_POST['ora_partenza'];
     $field['tutto_il_giorno'] = $_POST['tutto_il_giorno'] ?? 'no';
     $field['numero_posto'] = $_POST['numero_posto'];
+
+    /* Restituisce il valore dell'id riferito all'email dell'utente */
+    $findUserId = $wpdb->get_var("SELECT ID FROM " . $db::TABLE_UTENTI .
+        " WHERE user_email = '" . $field['email_utente'] . "';");
+
+    $field['id_utente'] = $findUserId;
 
     print_r(array_filter($field));
 
@@ -75,4 +72,5 @@ if (isset($_POST['submit'])) {
         $db->updateAvailableSeats($field['numero_posto'],$field['stanza']);
         echo "<span class='success-field'>Prenotazione inserita correttamente</span>";
     }
+
 }

@@ -61,7 +61,7 @@ class Database
 
             dbDelta($table_biblioteca);
 
-            $this->wpdb->insert(self::TABLE_BIBLIOTECA,[
+            $this->wpdb->insert(self::TABLE_BIBLIOTECA, [
                 'id_biblioteca' => 1,
                 'nome_biblioteca' => 'Biblioteca Senigallia'
             ]);
@@ -80,7 +80,7 @@ class Database
 
             dbDelta($table_biblioteca_stanza);
 
-            $this->wpdb->insert(self::TABLE_BIBLIOTECA_STANZA,[
+            $this->wpdb->insert(self::TABLE_BIBLIOTECA_STANZA, [
                 'id_stanza' => 1,
                 'nome_stanza' => 'Stanza 1',
                 'posti_totali' => 120,
@@ -127,6 +127,52 @@ class Database
 
     }
 
+    public function getRoomName()
+    {
+        /* Query che restituisce tutte le stanze disponibili e selezionabili per la prenotazione */
+        return $this->wpdb->get_results("SELECT nome_stanza FROM " . self::TABLE_BIBLIOTECA_STANZA . ";");
+    }
+
+    public function getSeatNum()
+    {
+        /* Query che restituisce tutti i posti disponibili e selezionabili per la prenotazione */
+        return $this->wpdb->get_results("SELECT numero_posto FROM " . self::TABLE_BIBLIOTECA_POSTO .
+            " WHERE disponibile = 1;");
+    }
+
+    public function getNumOfAvailableSeats()
+    {
+        /* Restituisce il numero totale di posti ancora disponibili, cioè con flag 'disponibile' = TRUE */
+        return $this->wpdb->get_var("SELECT COUNT(*) FROM " . self::TABLE_BIBLIOTECA_POSTO .
+            " WHERE disponibile = 1;");
+    }
+
+    public function updateSeatsInRoom($field_stanza){
+        /* Aggiorno il numero di posti disponibili nella tabella 'wp_biblioteca_stanza'
+        in base al numero di posti che hanno il flag 'disponibile' settato a TRUE */
+        $this->wpdb->update(self::TABLE_BIBLIOTECA_STANZA,[
+           'posti_disponibili' => $this->getNumOfAvailableSeats()
+        ],[
+            'nome_stanza' => $field_stanza
+        ]);
+    }
+
+    public function getReservedSeats(){
+        return $this->wpdb->get_results("SELECT numero_posto FROM ".self::TABLE_PRENOTAZIONE.";");
+    }
+
+    public function updateReservedSeat(){
+        foreach ($this->getReservedSeats() as $prenotato){
+           $this->wpdb->update(self::TABLE_BIBLIOTECA_POSTO,[
+               'disponibile' => 0
+           ],[
+               'numero_posto' => $prenotato->numero_posto
+           ]);
+        }
+
+    }
+
+
     public function getAvailableSeats(): void
     {
         /* Prendo il numero totale dei posti disponibili nella stanza */
@@ -150,29 +196,17 @@ class Database
         }
     }
 
-    public function getPostiRimanenti(){
-        /* Restituisce il numero totale di posti ancora disponibili, cioè con flag 'disponibile' = TRUE */
-        return $this->wpdb->get_var("SELECT COUNT(*) FROM ".self::TABLE_BIBLIOTECA_POSTO.
-            " WHERE disponibile = 1;");
-    }
 
-    public function updateAvailableSeats($field_posto,$field_stanza): void
+    public function updateAvailableSeats($field_posto, $field_stanza): void
     {
-
         /* Aggiorno il flag 'disponibile' del posto selezinato durante la prenotazine a FALSE */
-        $this->wpdb->update(self::TABLE_BIBLIOTECA_POSTO,[
+        $this->wpdb->update(self::TABLE_BIBLIOTECA_POSTO, [
             'disponibile' => 0
-        ],[
+        ], [
             'numero_posto' => $field_posto
         ]);
 
-        /* Aggiorno il numero di posti disponibili nella tabella 'wp_biblioteca_stanza'
-        in base al numero di posti che hanno il flag 'disponibile' settato a TRUE */
-        $this->wpdb->update(self::TABLE_BIBLIOTECA_STANZA,[
-            'posti_disponibili' => $this->getPostiRimanenti()
-        ],[
-            'nome_stanza' => $field_stanza
-        ]);
+        $this->updateSeatsInRoom($field_stanza);
 
     }
 
@@ -185,9 +219,9 @@ class Database
 
             /* Aggiorno il flag 'disponibile' = 1 (TRUE) del numero selezionato nella
             prenotazione da elimiinare */
-            $this->wpdb->update(self::TABLE_BIBLIOTECA_POSTO,[
+            $this->wpdb->update(self::TABLE_BIBLIOTECA_POSTO, [
                 'disponibile' => 1
-            ],[
+            ], [
                 'numero_posto' => $row->numero_posto
             ]);
 
@@ -196,36 +230,21 @@ class Database
                 'id_prenotazione' => $row->id_prenotazione
             ]);
 
-            $posti_rimanenti = self::getPostiRimanenti();
-            $this->wpdb->update(self::TABLE_BIBLIOTECA_STANZA,[
+            $posti_rimanenti = self::getNumOfAvailableSeats();
+
+            $this->wpdb->update(self::TABLE_BIBLIOTECA_STANZA, [
                 'posti_disponibili' => $posti_rimanenti
-            ],[
+            ], [
                 'nome_stanza' => $row->stanza
             ]);
+            echo "<span class='success-field'>Prenotazione eliminata con successo. Ricarica la pagina per aggiornare i dati</span>";
         }
-    }
 
-    public function navigateTo(string $url): void
-    {
-        /*Esempio: navigate('/prenotazione'), navigate('/scegli-posto'), ...;*/
-        header('Location: ' . $url);
-        exit;
-    }
-
-
-    public function select_by_value($table, $column, $value): array
-    {
-        return $this->wpdb->get_results("SELECT {$column} FROM {$table} WHERE {$column} = '{$value}'");
-    }
-
-    public function select_all($table): array
-    {
-        return $this->wpdb->get_results("SELECT * FROM {$table}");
     }
 
     public function do_reservation(array $field): void
     {
-        $this->wpdb->insert(self::TABLE_PRENOTAZIONE,[
+        $this->wpdb->insert(self::TABLE_PRENOTAZIONE, [
             'id_utente' => $field['id_utente'],
             'nome_utente' => $field['nome_utente'],
             'email_utente' => $field['email_utente'],
@@ -238,5 +257,23 @@ class Database
             'qr_code' => ''
         ]);
     }
+
+    public function navigateTo(string $url): void
+    {
+        /*Esempio: navigate('/prenotazione'), navigate('/scegli-posto'), ...;*/
+        header('Location: ' . $url);
+        exit;
+    }
+
+    public function select_by_value($table, $column, $value): array
+    {
+        return $this->wpdb->get_results("SELECT {$column} FROM {$table} WHERE {$column} = '{$value}'");
+    }
+
+    public function select_all($table): array
+    {
+        return $this->wpdb->get_results("SELECT * FROM {$table}");
+    }
+
 
 }
