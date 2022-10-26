@@ -5,27 +5,27 @@ use Plugin\DB\Database;
 include_once __DIR__ . '/../../DB/Database.php';
 $db = new Database(__FILE__);
 
-$newNome = $newEmail = $newStanza = $newGiorno = $newOra_arrivo = $newOra_partenza = $newTuttoIlGiorno = $newId_posto = '';
-
-$result = $wpdb->get_results("SELECT * FROM ".$db::TABLE_PRENOTAZIONE.
-    " WHERE id_prenotazione = '".$_POST['id_prenotazione']."';");
-print_r($result);
 ?>
 
-
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST"):
+?>
 <div class="wrap">
     <h1><?= esc_html(get_admin_page_title()); ?></h1>
-    <?php
-        if ($_SERVER["REQUEST_METHOD"] === "POST"):
-    ?>
     <p>Modifica i campi e poi clicca su 'Salva modifiche' per aggiornare i dati dell'utente utente</p>
+    <?php
+    $oldValues = $wpdb->get_results("SELECT * FROM ".$db::TABLE_PRENOTAZIONE.
+    " WHERE id_prenotazione = '".$_POST['id_prenotazione']."';");
+    print_r($oldValues);
+    ?>
     <div id="tab-2" class="tab-pane">
         <form class="form-container" method="post" action="<?php echo($_SERVER['REQUEST_URI']); ?>">
             <?php
-                if (!empty($result)):
-                foreach ($result as $row):
+                if (!empty($oldValues)):
+                foreach ($oldValues as $row):
             ?>
             <input type="hidden" name="id_utente" id="id_utente" value="<?= $row->id_utente?>">
+
             <label for="nome_utente">Nome utente
                 <div>
                     <input type="text" name="nome_utente" id="nome_utente"
@@ -40,10 +40,10 @@ print_r($result);
                 </div>
             </label>
 
-            <label for="stanza">Stanza
+            <label for="nome_stanza">Stanza
                 <div>
-                    <select name="stanza" id="stanza">
-                        <option value=""><?= $row->stanza ?></option>
+                    <select name="nome_stanza" id="nome_stanza">
+                        <option value=""><?= $row->nome_stanza ?></option>
                         <?php
                         foreach ($db->getRoomName() as $room):
                             ?>
@@ -73,7 +73,7 @@ print_r($result);
 
             <label for="tutto_il_giorno">tutto il giorno
                 <div>
-                    <input type="checkbox" name="tutto_il_giorno"  id="tutto_il_giorno" value="yes">
+                    <input type="checkbox" name="tutto_il_giorno"  id="tutto_il_giorno" value="1">
                 </div>
             </label>
 
@@ -100,13 +100,13 @@ print_r($result);
          endforeach;
         endif;
         ?>
-        <?php
-        else:
-            ?>
-            <h3>Vai alla schermata <a href="admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fbooking-view.html.php">Panoramica</a>
-                e clicca sul pulsante 'Modifica' per editare i dati dell'utente</h3>
-        <?php
-        endif;
-        ?>
     </div>
 </div>
+
+<?php
+else:
+    ?>
+    <h3>Vai alla schermata <a href="admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fbooking-view.html.php">Panoramica</a>
+e clicca sul pulsante 'Modifica' per aggiornare i dati dell'utente</h3>
+
+<?php endif;?>

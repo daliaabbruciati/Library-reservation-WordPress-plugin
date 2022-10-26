@@ -70,11 +70,12 @@ class Database
         if ($this->wpdb->get_var("SHOW TABLES LIKE '" . self::TABLE_BIBLIOTECA_STANZA . "'") != self::TABLE_BIBLIOTECA_STANZA) {
             $table_biblioteca_stanza = "CREATE TABLE " . self::TABLE_BIBLIOTECA_STANZA . " (
             id_stanza INT(10) AUTO_INCREMENT,
-            nome_stanza VARCHAR(50) NOT NULL,
+            nome_stanza VARCHAR(100) NOT NULL,
             posti_totali INT(5) NOT NULL,
             posti_disponibili INT(5) NOT NULL,
             id_biblioteca INT(10),
             PRIMARY KEY  (id_stanza),
+            UNIQUE  (nome_stanza),
             FOREIGN KEY (id_biblioteca) REFERENCES " . self::TABLE_BIBLIOTECA . "(id_biblioteca)
         )" . $charset_collate . ";";
 
@@ -109,7 +110,7 @@ class Database
             id_utente BIGINT(20) UNSIGNED,
             nome_utente VARCHAR(50),
             email_utente VARCHAR(100),
-            stanza VARCHAR(100),
+            nome_stanza VARCHAR(100) NOT NULL,
             giorno DATE NOT NULL,
             ora_arrivo TIME NOT NULL,
             ora_partenza TIME NOT NULL,
@@ -119,7 +120,8 @@ class Database
             PRIMARY KEY  (id_prenotazione),
             FOREIGN KEY (id_utente) REFERENCES " . self::TABLE_UTENTI . "(ID),
             FOREIGN KEY (nome_utente) REFERENCES " . self::TABLE_UTENTI . "(user_login),
-            FOREIGN KEY (email_utente) REFERENCES " . self::TABLE_UTENTI . "(user_email)
+            FOREIGN KEY (email_utente) REFERENCES " . self::TABLE_UTENTI . "(user_email),
+            FOREIGN KEY (nome_stanza) REFERENCES " . self::TABLE_BIBLIOTECA_STANZA . "(nome_stanza)
         )" . $charset_collate . ";";
 
             dbDelta($table_prenotazione);
@@ -161,7 +163,7 @@ class Database
         return $this->wpdb->get_results("SELECT numero_posto FROM ".self::TABLE_PRENOTAZIONE.";");
     }
 
-    public function updateReservedSeat(){
+    public function updateReservedSeat($oldValue){
         foreach ($this->getReservedSeats() as $prenotato){
            $this->wpdb->update(self::TABLE_BIBLIOTECA_POSTO,[
                'disponibile' => 0
@@ -170,6 +172,12 @@ class Database
            ]);
         }
 
+        /* Riaggiorno il flag 'disponibile' a TRUE del vecchio numero della prenotazione */
+        $this->wpdb->update(self::TABLE_BIBLIOTECA_POSTO,[
+            'disponibile' => 1
+        ],[
+            'numero_posto' => $oldValue
+        ] );
     }
 
 
@@ -199,7 +207,7 @@ class Database
 
     public function updateAvailableSeats($field_posto, $field_stanza): void
     {
-        /* Aggiorno il flag 'disponibile' del posto selezinato durante la prenotazine a FALSE */
+        /* Aggiorno il flag 'disponibile' a FALSE del posto selezinato durante la prenotazine */
         $this->wpdb->update(self::TABLE_BIBLIOTECA_POSTO, [
             'disponibile' => 0
         ], [
@@ -235,7 +243,7 @@ class Database
             $this->wpdb->update(self::TABLE_BIBLIOTECA_STANZA, [
                 'posti_disponibili' => $posti_rimanenti
             ], [
-                'nome_stanza' => $row->stanza
+                'nome_stanza' => $row->nome_stanza
             ]);
             echo "<span class='success-field'>Prenotazione eliminata con successo. Ricarica la pagina per aggiornare i dati</span>";
         }
@@ -248,11 +256,11 @@ class Database
             'id_utente' => $field['id_utente'],
             'nome_utente' => $field['nome_utente'],
             'email_utente' => $field['email_utente'],
-            'stanza' => $field['stanza'],
+            'nome_stanza' => $field['nome_stanza'],
             'giorno' => $field['giorno'],
             'ora_arrivo' => $field['ora_arrivo'],
             'ora_partenza' => $field['ora_partenza'],
-            'tutto_il_giorno' => $field['tutto_il_giorno'],
+            'tutto_il_giorno' => $field['tutto_il_giorno'] ?? 0,
             'numero_posto' => $field['numero_posto'],
             'qr_code' => ''
         ]);

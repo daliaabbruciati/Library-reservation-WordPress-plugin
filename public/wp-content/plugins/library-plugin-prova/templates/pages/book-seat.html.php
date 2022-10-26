@@ -5,12 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Biblioteca: Scegli posto</title>
     <link rel="stylesheet" href="<?= plugin_dir_url(__DIR__) . '/../css/book-seat.css'; ?>">
-    <script src="<?= plugin_dir_url(__DIR__) . '/../../js/book-seat.js'; ?>"></script>
+    <script src="<?= plugin_dir_url(__DIR__) . '/../js/book-seat.js'; ?>"></script>
 </head>
 <body>
 
-<?php include 'header.html.php'; ?>
+<?php include 'header.html.php';
 
+if (isset($_POST['submit_prenotazione']) && empty(array_filter($error))):
+    include_once __DIR__ . '/./booking-success.html.php';
+
+else:
+
+?>
 <div class="container">
     <p>Ciao <strong><?= $_SESSION['nome'] ?></strong>.</p>
     <p hidden><?= $_SESSION['email'] ?>.</p>
@@ -36,17 +42,17 @@
                            value="<?= $field['email_utente'] = $user->user_email ?>">
                 <?php endforeach; ?>
                 <div class="form__stanza">
-                    <label for="stanza">Scegli stanza</label>
+                    <label for="nome_stanza">Scegli stanza</label>
                     <div class="form--error">
-                        <select name="stanza" id="stanza">
-                            <option value=""><?= isset($_POST['submit_prenotazione']) ? $field['stanza'] : 'Scegli stanza' ?></option>
+                        <select name="nome_stanza" id="nome_stanza">
+                            <option value=""><?= isset($_POST['submit_prenotazione']) ? $field['nome_stanza'] : 'Scegli stanza' ?></option>
                             <?php
                             foreach ($db->getRoomName() as $room):
                                 ?>
-                                <option value="<?= $room->nome_stanza ?>"><?= $room->nome_stanza ?></option>
+                                <option id="stanza" value="<?= $room->nome_stanza ?>"><?= $room->nome_stanza ?></option>
                             <?php endforeach; ?>
                         </select>
-                        <p><?= $error['stanza'] ?></p>
+                        <p><?= $error['nome_stanza'] ?></p>
                     </div>
                 </div>
                 <div class="form__giorno">
@@ -75,7 +81,7 @@
                 <div class="form__tutto-il-giorno">
                     <label for="tutto_il_giorno">Tutto il giorno</label>
                     <div class="form--error">
-                        <input type="checkbox" name="tutto_il_giorno"  id="tutto_il_giorno" value="yes">
+                        <input type="checkbox" name="tutto_il_giorno" id="tutto_il_giorno" value="yes">
                         <p><?= $error['tutto_il_giorno'] ?></p>
                     </div>
                 </div>
@@ -104,12 +110,13 @@
             <?php
             /* Query che restituisce il numero di posti disponibili nella stanza */
             $availableSeats = $wpdb->get_var("SELECT posti_disponibili FROM " . $db::TABLE_BIBLIOTECA_STANZA .
-                " WHERE nome_stanza = '" . $field['stanza'] . "';");
+                " WHERE nome_stanza = '" . $field['nome_stanza'] . "';");
             ?>
             <p>Posti disponibili: <?= $availableSeats ?>/<?= $availableSeats ?></p>
             <img src="<?= plugin_dir_url(__DIR__) . '/../../assets/piantina-desktop.svg' ?>" alt="piantina-posti"/>
         </div>
     </div>
+    <?php endif; ?>
 </div>
 
 <?php include 'footer.html.php'; ?>

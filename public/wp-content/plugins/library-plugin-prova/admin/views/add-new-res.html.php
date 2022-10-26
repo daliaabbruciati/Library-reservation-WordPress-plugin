@@ -26,17 +26,17 @@
 
 <!--            <input type="hidden" name="id_utente" id="id_utente" value="--><?//= $field['id_utente'] = $findUserId ?><!--">-->
 
-            <label for="stanza">Scegli stanza*
+            <label for="nome_stanza">Scegli stanza*
                 <div class="form--error">
-                    <select name="stanza" id="stanza">
-                        <option value=""><?= isset($_POST['submit']) ? $field['stanza'] : 'Scegli stanza' ?></option>
+                    <select name="nome_stanza" id="nome_stanza">
+                        <option value=""><?= isset($_POST['submit']) ? $field['nome_stanza'] : 'Scegli stanza' ?></option>
                         <?php
                         foreach ($db->getRoomName() as $room):
                             ?>
-                            <option value="<?= $room->nome_stanza ?>"><?= $room->nome_stanza ?></option>
+                            <option id="stanza" value="<?= $room->nome_stanza ?>"><?= $room->nome_stanza ?></option>
                         <?php endforeach; ?>
                     </select>
-                    <p> <?= $error['stanza'] ?> </p>
+                    <p> <?= $error['nome_stanza'] ?> </p>
                 </div>
             </label>
 
@@ -63,7 +63,7 @@
 
             <label for="tutto_il_giorno">Tutto il giorno
                 <div class="form--error">
-                    <input type="checkbox" name="tutto_il_giorno" id="tutto_il_giorno" value="yes">
+                    <input type="checkbox" name="tutto_il_giorno" id="tutto_il_giorno" value="si">
                     <p> <?= $error['tutto_il_giorno'] ?> </p>
                 </div>
             </label>
@@ -86,5 +86,6 @@
             <input type="submit" name="submit" id="submit" class="button button-primary" value="Aggiungi prenotazione">
         </form>
     </div>
+    <script src="<?= plugin_dir_url(__DIR__) . '/../../js/book-seat.js'; ?>"></script>
 </div>
 

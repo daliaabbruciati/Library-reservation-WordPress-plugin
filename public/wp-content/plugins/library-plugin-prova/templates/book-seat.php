@@ -5,15 +5,15 @@ use Plugin\DB\Database;
 include_once __DIR__ . '/../DB/Database.php';
 $db = new Database(__FILE__);
 
-$field = ['id_utente' => '', 'nome_utente' => '', 'email_utente' => '', 'stanza' => '', 'giorno' => '', 'ora_arrivo' => '', 'ora_partenza' => '', 'tutto_il_giorno' => '', 'numero_posto' => ''];
-$error = ['stanza' => '', 'giorno' => '', 'ora_arrivo' => '', 'ora_partenza' => '', 'tutto_il_giorno' => '', 'numero_posto' => ''];
+$field = ['id_utente' => '', 'nome_utente' => '', 'email_utente' => '', 'nome_stanza' => '', 'giorno' => '', 'ora_arrivo' => '', 'ora_partenza' => '', 'tutto_il_giorno' => '', 'numero_posto' => ''];
+$error = ['nome_stanza' => '', 'giorno' => '', 'ora_arrivo' => '', 'ora_partenza' => '', 'tutto_il_giorno' => '', 'numero_posto' => ''];
 
 
 if (isset($_POST['submit_prenotazione'])) {
     $field['id_utente'] = $_POST['id_utente'];
     $field['nome_utente'] = $_POST['nome_utente'];
     $field['email_utente'] = $_POST['email_utente'];
-    $field['stanza'] = $_POST['stanza'];
+    $field['nome_stanza'] = $_POST['nome_stanza'];
     $field['giorno'] = $_POST['giorno'];
     $field['ora_arrivo'] = $_POST['ora_arrivo'];
     $field['ora_partenza'] = $_POST['ora_partenza'];
@@ -22,8 +22,8 @@ if (isset($_POST['submit_prenotazione'])) {
 
 
     /* Controllo campi vuoti */
-    if (empty($field['stanza'])) {
-        $error['stanza'] = 'Stanza non selezionata';
+    if (empty($field['nome_stanza'])) {
+        $error['nome_stanza'] = 'Stanza non selezionata';
     }
     if (empty($field['giorno'])) {
         $error['giorno'] = 'Compila campo giorno';
@@ -45,7 +45,7 @@ if (isset($_POST['submit_prenotazione'])) {
 
     if(empty(array_filter($error))){
         $db->do_reservation($field);
-        $db->updateAvailableSeats($field['numero_posto'],$field['stanza']);
+        $db->updateAvailableSeats($field['numero_posto'],$field['nome_stanza']);
     }
     print_r(array_filter($field));
 }

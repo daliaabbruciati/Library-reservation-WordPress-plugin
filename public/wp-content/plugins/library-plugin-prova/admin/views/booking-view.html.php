@@ -14,7 +14,7 @@ $db = new Database(__FILE__);
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Library reservation view</title>
-    <script src="<?= plugin_dir_url(__DIR__) .'/../../js/script.js';?>"></script>
+    <script src="<?= plugin_dir_url(__DIR__) .'/../js/script.js';?>"></script>
 </head>
 <body>
 <div class="wrap">
@@ -52,10 +52,10 @@ $db = new Database(__FILE__);
                     <th class="db-th">Elimina</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="table-body">
                 <?php
                 $result = $db->select_all($db::TABLE_PRENOTAZIONE);
-                if ($result > 0):
+                if (!empty($result)):
                     foreach ($result as $row):
                         ?>
                         <tr class="db-tr">
@@ -63,7 +63,7 @@ $db = new Database(__FILE__);
                             <td class="db-td"><?= $row->id_utente; ?></td>
                             <td class="db-td"><?= $row->nome_utente; ?></td>
                             <td class="db-td"><?= $row->email_utente; ?></td>
-                            <td class="db-td"><?= $row->stanza; ?></td>
+                            <td class="db-td"><?= $row->nome_stanza; ?></td>
                             <td class="db-td"><?= $row->giorno; ?></td>
                             <td class="db-td"><?= $row->ora_arrivo; ?></td>
                             <td class="db-td"><?= $row->ora_partenza; ?></td>
@@ -75,20 +75,19 @@ $db = new Database(__FILE__);
                                 <form method="post"
                                       action="http://localhost:10003/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fedit-res.html.php">
                                     <input type="hidden" name="id_prenotazione" value="<?= $row->id_prenotazione; ?>">
-                                    <input type="hidden" name="id_utente" value="<?= $row->id_utente; ?>">
                                     <input type="submit" name="edit" id="edit" class="button button-secondary"
                                            value="Modifica">
                                 </form>
                             </td>
                             <td class="db-td">
-                                <?php
-                                    $db->deleteReservation($row);
-                                ?>
-                                <form method="post" action="<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>">
-                                    <input type="hidden" name="id_prenotazione" value="<?= $row->id_prenotazione; ?>">
+<!--                                --><?php
+//                                    $db->deleteReservation($row);
+//                                ?>
+                                <form id="form-delete" method="post" action="<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>">
+                                    <input type="hidden" name="id_prenotazione" id="id_prenotazione" value="<?= $row->id_prenotazione; ?>">
                                     <input type="hidden" name="numero_posto" value="<?= $row->numero_posto; ?>">
-                                    <input type="hidden" name="stanza" value="<?= $row->stanza; ?>">
-                                    <input type="submit" name="delete" id="delete" class="button button-link-delete"
+                                    <input type="hidden" name="nome_stanza" value="<?= $row->nome_stanza; ?>">
+                                    <input type="submit" name="delete" id="delete<?= $row->id_prenotazione ?>" class="button button-link-delete"
                                            value="Elimina">
                                 </form>
                             </td>
@@ -141,7 +140,7 @@ $db = new Database(__FILE__);
                     <td class="db-td">
                         <form action="<?= htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post">
                             <input type="hidden" name="id" value="<?= $row->id_stanza; ?>">
-                            <input type="submit" name="delete" id="delete" class="button button-link-delete"
+                            <input type="submit" name="delete" id="delete-tab2" class="button button-link-delete"
                                    value="Elimina">
                         </form>
                     </td>

@@ -8,18 +8,18 @@ use Plugin\DB\Database;
 $validation = new Validation();
 $db = new Database(__FILE__);
 
-$field = ['id_utente' => '', 'nome_utente' => '', 'email_utente' => '', 'stanza' => '', 'giorno' => '', 'ora_arrivo' => '', 'ora_partenza' => '', 'tutto_il_giorno' => '', 'numero_posto' => ''];
-$error = ['nome_utente' => '', 'email_utente' => '', 'stanza' => '', 'giorno' => '', 'ora_arrivo' => '', 'ora_partenza' => '', 'tutto_il_giorno' => '', 'numero_posto' => ''];
+$field = ['id_utente' => '', 'nome_utente' => '', 'email_utente' => '', 'nome_stanza' => '', 'giorno' => '', 'ora_arrivo' => '', 'ora_partenza' => '', 'tutto_il_giorno' => '', 'numero_posto' => ''];
+$error = ['nome_utente' => '', 'email_utente' => '', 'nome_stanza' => '', 'giorno' => '', 'ora_arrivo' => '', 'ora_partenza' => '', 'tutto_il_giorno' => '', 'numero_posto' => ''];
 
 
 if (isset($_POST['submit'])) {
     $field['nome_utente'] = $_POST['nome_utente'];
     $field['email_utente'] = $_POST['email_utente'];
-    $field['stanza'] = $_POST['stanza'];
+    $field['nome_stanza'] = $_POST['nome_stanza'];
     $field['giorno'] = $_POST['giorno'];
     $field['ora_arrivo'] = $_POST['ora_arrivo'];
     $field['ora_partenza'] = $_POST['ora_partenza'];
-    $field['tutto_il_giorno'] = $_POST['tutto_il_giorno'] ?? 'no';
+    $field['tutto_il_giorno'] = $_POST['tutto_il_giorno'] ?? "no";
     $field['numero_posto'] = $_POST['numero_posto'];
 
     /* Restituisce il valore dell'id riferito all'email dell'utente */
@@ -43,8 +43,8 @@ if (isset($_POST['submit'])) {
         }
     }
 
-    if (empty($field['stanza'])) {
-        $error['stanza'] = "<span class='error-field'>Campo nome stanza.</span>";
+    if (empty($field['nome_stanza'])) {
+        $error['nome_stanza'] = "<span class='error-field'>Campo nome stanza vuoto.</span>";
     }
 
     if (empty($field['giorno'])) {
@@ -63,13 +63,13 @@ if (isset($_POST['submit'])) {
         $error['tutto_il_giorno'] = "<span class='error-field'>Campo tutto il giorno errato.</span>";
     }
 
-    if (empty($field['numero_posto']) || !filter_input(INPUT_POST,'numero_posto',FILTER_SANITIZE_NUMBER_INT)) {
-        $error['numero_posto'] = "<span class='error-field'>Campo numero posto errato.</span>";
+    if (!isset($field['numero_posto']) || !filter_input(INPUT_POST,'numero_posto',FILTER_SANITIZE_NUMBER_INT)) {
+        $error['numero_posto'] = "<span class='error-field'>Campo numero posto vuoto.</span>";
     }
 
     if(empty(array_filter($error))){
         $db->do_reservation($field);
-        $db->updateAvailableSeats($field['numero_posto'],$field['stanza']);
+        $db->updateAvailableSeats($field['numero_posto'],$field['nome_stanza']);
         echo "<span class='success-field'>Prenotazione inserita correttamente</span>";
     }
 
