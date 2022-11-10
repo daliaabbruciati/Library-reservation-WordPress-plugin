@@ -113,7 +113,7 @@ else:
                 " WHERE nome_stanza = '" . $field['nome_stanza'] . "';");
             ?>
             <p>Posti disponibili: <?= $availableSeats ?>/<?= $availableSeats ?></p>
-            <img src="<?= plugin_dir_url(__DIR__) . '/../../assets/piantina-desktop.svg' ?>" alt="piantina-posti"/>
+            <img src="<?= plugin_dir_url(__DIR__) . '/../../assets/scegli_posto.svg' ?>" alt="piantina-posti"/>
         </div>
     </div>
     <?php endif; ?>

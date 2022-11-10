@@ -32,7 +32,7 @@ window.addEventListener('load', function () {
         // xhr.responseType = 'json';
         xhr.onload = () => {
             if (xhr.status === 200) {
-                console.log(xhr.response);
+                // console.log(xhr.response);
             } else {
                 console.log('Server error');
             }
@@ -40,49 +40,95 @@ window.addEventListener('load', function () {
         xhr.send();
     }
 
-    showData();
+
 
 
     /* Per modificare i dati nella tabella 'wp_prenotazione' nel db*/
-    const deleteButton = document.querySelector('#delete9');
-    // deleteButton.forEach(item => {
-    //     console.log(item)
-    // })
+    const deleteButton = document.getElementById('delete');
+    const data_id = deleteButton.dataset.id;
     deleteButton.addEventListener('click', deleteReservation);
 
-    function deleteReservation(event) {
+    async function deleteReservation(event) {
         event.preventDefault();
         const prg = document.createElement('p');
-        prg.innerHTML = 'Prenotazione eliminata correttamente'
         const table = document.querySelector('div#tab-1')
-        table.insertBefore(prg, table.children[0]);
-        // console.log(event.target.value) //'Elimina'
 
-        const id = document.querySelector('input#id_prenotazione').value
+        console.log(data_id)
 
-        console.log(id)
-        console.log(deleteButton)
+        // const url = '/../wp-content/plugins/library-plugin-prova/admin/php/delete.php';
+
+        const url = window.location.href;
 
 
-        /* Creo oggetto XMLHttpRequest */
-        const xhr = new XMLHttpRequest()
-        xhr.open('POST', '/../wp-content/plugins/library-plugin-prova/admin/php/delete.php', true);
-        xhr.setRequestHeader('Content-Type', 'Application/json');
-        const params = JSON.stringify({
-            name: 'Dalia'
+
+
+
+
+
+
+        //     fetch(url, {
+        //         method: "POST",
+        //         headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+        //     })
+        //         .then(function (response){
+        //             // tolgo il caricamento
+        //             //elimino riga
+        //             // JSON.stringify(response)
+        //             prg.innerHTML = 'Prenotazione eliminata correttamente'
+        //             table.insertBefore(prg, table.children[0]);
+        //             // console.log(response.body)
+        //             console.log(response)
+        //
+        //         })
+        //         .catch(function (error){
+        //             // tolgo il caricamento
+        //             console.log(error)
+        //         })
+
+        await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: JSON.stringify({
+                id: data_id,
+                delete: '1'
+            })
         })
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                let response = JSON.parse(xhr.responseText)
-                // console.log(id)
-                console.log(response)
-
-                // console.log(xhr.response)
-            } else {
-                console.log('Server error')
-            }
-        }
-        xhr.send(params);
+            .then((response) => response.json())
+            .then((data) => {
+                prg.innerHTML = 'Prenotazione eliminata correttamente'
+                table.insertBefore(prg, table.children[0]);
+                showData();
+                console.log('Successooo', data)
+            })
+            .catch((error) => {
+                console.error('Error', error)
+            });
     }
+
+
+
+    /* Creo oggetto XMLHttpRequest */
+    //     const xhr = new XMLHttpRequest()
+    //     xhr.setRequestHeader('Content-Type', 'Application/json');
+    //     xhr.open('POST', '/../wp-content/plugins/library-plugin-prova/admin/php/delete.php', true);
+    //     const params = JSON.stringify({
+    //         name: 'Dalia'
+    //     })
+    //     xhr.send(params);
+
+    //     xhr.onload = function () {
+    //         if (xhr.status === 200) {
+    //             let response = JSON.parse(xhr.responseText)
+    //             // console.log(id)
+    //             console.log(response)
+    //
+    //             // console.log(xhr.response)
+    //         } else {
+    //             console.log('Server error')
+    //         }
+    //     }
+    // }
 
 })

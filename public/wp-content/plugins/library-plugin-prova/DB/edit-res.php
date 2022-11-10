@@ -36,6 +36,6 @@ if (isset($_POST['update']) &&
     ]);
 
     $db->updateReservedSeat($row->numero_posto);
-    $db->updateSeatsInRoom($field['nome_stanza']);
+    $db->updateSeatsInRoom($field['giorno'],$field['nome_stanza']);
     echo '<h3>Utente modificato correttamente. Torna alla pagina <a href="http://localhost:10003/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fbooking-view.html.php">Panoramica</a></h3>';
 }

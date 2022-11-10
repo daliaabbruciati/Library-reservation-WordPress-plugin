@@ -73,21 +73,21 @@ $db = new Database(__FILE__);
                             <td class="db-td">
 
                                 <form method="post"
-                                      action="http://localhost:10003/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fedit-res.html.php">
+                                      action="/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fedit-res.html.php">
                                     <input type="hidden" name="id_prenotazione" value="<?= $row->id_prenotazione; ?>">
                                     <input type="submit" name="edit" id="edit" class="button button-secondary"
                                            value="Modifica">
                                 </form>
                             </td>
                             <td class="db-td">
-<!--                                --><?php
-//                                    $db->deleteReservation($row);
-//                                ?>
-                                <form id="form-delete" method="post" action="<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>">
+                                <?php
+                                    $db->deleteReservation($row);
+                                ?>
+                                <form id="form_delete" method="post" action="<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>">
                                     <input type="hidden" name="id_prenotazione" id="id_prenotazione" value="<?= $row->id_prenotazione; ?>">
                                     <input type="hidden" name="numero_posto" value="<?= $row->numero_posto; ?>">
                                     <input type="hidden" name="nome_stanza" value="<?= $row->nome_stanza; ?>">
-                                    <input type="submit" name="delete" id="delete<?= $row->id_prenotazione ?>" class="button button-link-delete"
+                                    <input type="submit" name="delete" id="delete" data-id="<?= $row->id_prenotazione ?>" class="button button-link-delete"
                                            value="Elimina">
                                 </form>
                             </td>
@@ -104,7 +104,7 @@ $db = new Database(__FILE__);
         <div id="tab-2" class="tab-pane">
             <h3>Qui puoi gestire le impostazioni generali della Biblioteca</h3>
             <p>Clicca sui pulsanti "Modifica" o "Elimina" per modificare o cancellare i dati.</p>
-<!--            --><?php //include __DIR__ . '/../../DB/edit-res.php'; ?>
+            <?php include __DIR__ . '/../../DB/edit-res.php'; ?>
             <table class="db-table">
                 <thead class="db-th">
                 <tr class="db-tr">
@@ -140,7 +140,7 @@ $db = new Database(__FILE__);
                     <td class="db-td">
                         <form action="<?= htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post">
                             <input type="hidden" name="id" value="<?= $row->id_stanza; ?>">
-                            <input type="submit" name="delete" id="delete-tab2" class="button button-link-delete"
+                            <input type="submit" name="delete" id="delete-tab2"  class="button button-link-delete"
                                    value="Elimina">
                         </form>
                     </td>
@@ -152,4 +152,5 @@ $db = new Database(__FILE__);
         </div>
     </div>
 </div>
+
 </body>
