@@ -32,7 +32,15 @@ $db = new Database(__FILE__);
     <div class="tab-content">
         <div id="tab-1" class="tab-pane active">
             <?php
-            if (isset($_POST['delete'])) echo "<h4>Elemento eliminato correttamente. Ricarica la pagina per aggiornare i dati</h4>";
+            if (isset($_POST['data-id'])){
+	            function refresh(){
+		            echo "<script type='text/javascript'>
+                           window.location=document.location.href;
+                           </script>";
+	            }
+	            refresh();
+//	            echo "<h4>Elemento eliminato correttamente. Ricarica la pagina per aggiornare i dati</h4>";
+            }
             ?>
             <table class="db-table">
                 <thead class="db-thead">
@@ -87,6 +95,7 @@ $db = new Database(__FILE__);
                                     <input type="hidden" name="id_prenotazione" id="id_prenotazione" value="<?= $row->id_prenotazione; ?>">
                                     <input type="hidden" name="numero_posto" value="<?= $row->numero_posto; ?>">
                                     <input type="hidden" name="nome_stanza" value="<?= $row->nome_stanza; ?>">
+                                    <input type="hidden" name="data-id" value="<?= $row->id_prenotazione; ?>">
                                     <input type="submit" name="delete" id="delete" data-id="<?= $row->id_prenotazione ?>" class="button button-link-delete"
                                            value="Elimina">
                                 </form>
