@@ -52,5 +52,3 @@ $database->createSeats();
 /* File dell' admin menu */
 require_once __DIR__ . '/admin/AdminMenu.php';
 $admin = new AdminMenu();
-
-//var_dump($_REQUEST);

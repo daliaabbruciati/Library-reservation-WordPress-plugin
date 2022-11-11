@@ -14,7 +14,7 @@ $db = new Database(__FILE__);
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Library reservation view</title>
-    <script src="<?= plugin_dir_url(__DIR__) .'/../js/script.js';?>"></script>
+<!--    <script src="--><?//= plugin_dir_url(__DIR__) .'/../js/script.js';?><!--"></script>-->
 </head>
 <body>
 <div class="wrap">
@@ -32,7 +32,7 @@ $db = new Database(__FILE__);
     <div class="tab-content">
         <div id="tab-1" class="tab-pane active">
             <?php
-            if (isset($_POST['submit'])) echo "<h4>Elemento eliminato correttamente. Ricarica la pagina</h4>";
+            if (isset($_POST['delete'])) echo "<h4>Elemento eliminato correttamente. Ricarica la pagina per aggiornare i dati</h4>";
             ?>
             <table class="db-table">
                 <thead class="db-thead">

@@ -22,49 +22,42 @@ window.addEventListener('load', function () {
     }
 
 
-    const table = document.getElementById('table-body');
+    // const table = document.getElementById('table-body');
 
     /* Per mostrare i dati 'real-time' */
-    function showData() {
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', '/../wp-content/plugins/library-plugin-prova/admin/php/getData.php', true);
-        xhr.setRequestHeader('Content-Type', 'Application/json');
-        // xhr.responseType = 'json';
-        xhr.onload = () => {
-            if (xhr.status === 200) {
-                // console.log(xhr.response);
-            } else {
-                console.log('Server error');
-            }
-        }
-        xhr.send();
-    }
+    // function showData() {
+    //     const xhr = new XMLHttpRequest();
+    //     xhr.open('POST', '/../wp-content/plugins/library-plugin-prova/admin/php/getData.php', true);
+    //     xhr.setRequestHeader('Content-Type', 'Application/json');
+    //     // xhr.responseType = 'json';
+    //     xhr.onload = () => {
+    //         if (xhr.status === 200) {
+    //             // console.log(xhr.response);
+    //         } else {
+    //             console.log('Server error');
+    //         }
+    //     }
+    //     xhr.send();
+    // }
 
 
 
 
     /* Per modificare i dati nella tabella 'wp_prenotazione' nel db*/
-    const deleteButton = document.getElementById('delete');
-    const data_id = deleteButton.dataset.id;
-    deleteButton.addEventListener('click', deleteReservation);
-
-    async function deleteReservation(event) {
-        event.preventDefault();
-        const prg = document.createElement('p');
-        const table = document.querySelector('div#tab-1')
-
-        console.log(data_id)
+    // const deleteButton = document.getElementById('delete');
+    // const data_id = deleteButton.dataset.id;
+    // deleteButton.addEventListener('click', deleteReservation);
+    //
+    // async function deleteReservation(event) {
+    //     event.preventDefault();
+    //     const prg = document.createElement('p');
+    //     const table = document.querySelector('div#tab-1')
+    //
+    //     console.log(data_id)
 
         // const url = '/../wp-content/plugins/library-plugin-prova/admin/php/delete.php';
 
-        const url = window.location.href;
-
-
-
-
-
-
-
+        // const url = window.location.href;
 
         //     fetch(url, {
         //         method: "POST",
@@ -85,27 +78,27 @@ window.addEventListener('load', function () {
         //             console.log(error)
         //         })
 
-        await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: JSON.stringify({
-                id: data_id,
-                delete: '1'
-            })
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                prg.innerHTML = 'Prenotazione eliminata correttamente'
-                table.insertBefore(prg, table.children[0]);
-                showData();
-                console.log('Successooo', data)
-            })
-            .catch((error) => {
-                console.error('Error', error)
-            });
-    }
+    //     await fetch(url, {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/x-www-form-urlencoded"
+    //         },
+    //         body: JSON.stringify({
+    //             id: data_id,
+    //             delete: '1'
+    //         })
+    //     })
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //             prg.innerHTML = 'Prenotazione eliminata correttamente'
+    //             table.insertBefore(prg, table.children[0]);
+    //             showData();
+    //             console.log('Successooo', data)
+    //         })
+    //         .catch((error) => {
+    //             console.error('Error', error)
+    //         });
+    // }
 
 
 
