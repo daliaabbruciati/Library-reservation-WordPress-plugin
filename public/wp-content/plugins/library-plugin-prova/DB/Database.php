@@ -83,8 +83,8 @@ class Database {
 			$this->wpdb->insert( self::TABLE_BIBLIOTECA_STANZA, [
 				'id_stanza'         => 1,
 				'nome_stanza'       => 'Stanza 1',
-				'posti_totali'      => 120,
-				'posti_disponibili' => 120,
+				'posti_totali'      => 121,
+				'posti_disponibili' => 121,
 				'id_biblioteca'     => 1
 			] );
 		}
@@ -125,7 +125,20 @@ class Database {
 
 			dbDelta( $table_prenotazione );
 		}
+	}
 
+	public function getHours(): array {
+		 return $hours = [
+			'09:00:00',' 09:30:00',
+			'10:00:00','10:30:00',
+			'11:00:00','11:30:00',
+			'12:00:00','12:30:00',
+			'13:00:00','13:30:00',
+			'15:30:00',
+			'16:00:00','16:30:00',
+			'17:00:00','17:30:00',
+			'18:00:00','18:30:00',
+		];
 	}
 
 	public function getRoomName() {
@@ -133,10 +146,13 @@ class Database {
 		return $this->wpdb->get_results( "SELECT nome_stanza FROM " . self::TABLE_BIBLIOTECA_STANZA . ";" );
 	}
 
-	public function getSeatNum() {
+	public function getSeatNum($giorno, $ora_arrivo, $ora_partenza) {
 		/* Query che restituisce tutti i posti disponibili e selezionabili per la prenotazione */
-		return $this->wpdb->get_results( "SELECT numero_posto FROM " . self::TABLE_BIBLIOTECA_POSTO .
-		                                 " WHERE disponibile = 1;" );
+//		return $this->wpdb->get_results( "SELECT numero_posto FROM " . self::TABLE_BIBLIOTECA_POSTO .
+//		                                 " WHERE disponibile = 1;" );
+		return $this->wpdb->get_results("SELECT wp_biblioteca_posto.numero_posto FROM wp_biblioteca_posto WHERE id_stanza = 1 AND wp_biblioteca_posto.numero_posto NOT IN (
+    	SELECT DISTINCT wp_prenotazione.numero_posto FROM wp_prenotazione WHERE giorno = '$giorno' AND 
+    	nome_stanza = 'Stanza 1' AND ora_arrivo = '$ora_arrivo' AND ora_partenza = '$ora_partenza')");
 	}
 
 	//TODO:
@@ -149,9 +165,6 @@ class Database {
 		/* Restituisce il numero totale di posti ancora disponibili, cioè con flag 'disponibile' = TRUE */
 		return $this->wpdb->get_var( "SELECT COUNT(*) FROM " . self::TABLE_BIBLIOTECA_POSTO .
 		                             " WHERE disponibile = 1;" );
-//		return $this->wpdb->get_var("SELECT ".self::TABLE_BIBLIOTECA_POSTO.".numero_posto FROM ".self::TABLE_BIBLIOTECA_POSTO.
-//		                            " WHERE id_stanza = 1 AND ".self::TABLE_BIBLIOTECA_POSTO.".numero_posto NOT IN (SELECT DISTINCT)".self::TABLE_PRENOTAZIONE.
-//		".numero_posto FROM ".self::TABLE_PRENOTAZIONE." WHERE giorno = ".$giorno." AND nome_stanza = ".$field_stanza.":");
 	}
 
 	public function updateSeatsInRoom( $field_stanza ) {

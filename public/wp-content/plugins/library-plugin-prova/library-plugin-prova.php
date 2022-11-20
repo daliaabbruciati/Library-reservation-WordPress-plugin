@@ -35,7 +35,12 @@ include_once __DIR__ . '/includes/functions/Template.php';
 
 /* File per creare le pagine all'attivazione del plugin */
 include_once __DIR__ . '/includes/functions/Pages.php';
-$pages = new Pages(__FILE__);
+register_activation_hook( __FILE__, 'page_creator' );
+//$pages = new Pages(__FILE__);
+
+/* File dell' admin menu */
+require_once __DIR__ . '/admin/AdminMenu.php';
+$admin = new AdminMenu();
 
 /* File per includere lo style e gli scripts*/
 include __DIR__ . '/includes/base/Enqueue.php';
@@ -48,7 +53,3 @@ $database->create_table();
 $database->createSeats();
 
 //require_once __DIR__.'/admin/php/delete.php';
-
-/* File dell' admin menu */
-require_once __DIR__ . '/admin/AdminMenu.php';
-$admin = new AdminMenu();

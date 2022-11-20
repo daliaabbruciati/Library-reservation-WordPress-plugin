@@ -19,7 +19,7 @@ else:
 ?>
 <div class="container">
     <p>Ciao <strong><?= $_SESSION['nome'] ?></strong>.</p>
-    <p hidden><?= $_SESSION['email'] ?>.</p>
+    <p hidden><?= $_SESSION['email'] ?></p>
     <?php
     $findUser = $wpdb->get_results("SELECT * FROM " . $db::TABLE_UTENTI .
         " WHERE user_email = '" . $_SESSION['email'] . "';");
@@ -45,7 +45,7 @@ else:
                     <label for="nome_stanza">Scegli stanza</label>
                     <div class="form--error">
                         <select name="nome_stanza" id="nome_stanza">
-                            <option value=""><?= isset($_POST['submit_prenotazione']) ? $field['nome_stanza'] : 'Scegli stanza' ?></option>
+                                <option value="<?= $field['nome_stanza'];?>"> <?= !empty($field['nome_stanza']) ? $field['nome_stanza'] : 'Scegli stanza';?></option>
                             <?php
                             foreach ($db->getRoomName() as $room):
                                 ?>
@@ -65,33 +65,49 @@ else:
                 <div class="form__ora-arrivo">
                     <label for="ora_arrivo">Ora arrivo</label>
                     <div class="form--error">
-                        <input type="time" name="ora_arrivo" id="ora_arrivo"
-                               min="09:00" max="12:30" value="<?= $field['ora_arrivo']; ?>">
+                        <select name="ora_arrivo" id="ora_arrivo">
+                            <option value="<?= $field['ora_arrivo'];?>"> <?= !empty($field['ora_arrivo']) ? $field['ora_arrivo'] : 'Dalle'; ?></option>
+	                        <?php
+	                            foreach ($db->getHours() as $hour):
+	                        ?>
+                            <option value="<?= $hour ?>"><?= $hour ?></option>
+                        <?php endforeach; ?>
+                        </select>
                         <p><?= $error['ora_arrivo'] ?></p>
                     </div>
                 </div>
                 <div class="form__ora-partenza">
                     <label for="ora_partenza">Ora partenza</label>
                     <div class="form--error">
-                        <input type="time" name="ora_partenza" id="ora_partenza"
-                               max="18:30" value="<?= $field['ora_partenza']; ?>">
+                        <select name="ora_partenza" id="ora_partenza">
+                            <option value="<?= $field['ora_partenza'];?>"> <?= !empty($field['ora_partenza']) ? $field['ora_partenza'] : 'Alle' ?></option>
+	                        <?php
+	                        foreach ($db->getHours() as $hour):
+		                        ?>
+                                <option value="<?= $hour ?>"><?= $hour ?></option>
+	                        <?php endforeach; ?>
+                        </select>
                         <p><?= $error['ora_partenza'] ?></p>
                     </div>
                 </div>
                 <div class="form__tutto-il-giorno">
                     <label for="tutto_il_giorno">Tutto il giorno</label>
-                    <div class="form--error">
+                    <div>
                         <input type="checkbox" name="tutto_il_giorno" id="tutto_il_giorno" value="yes">
-                        <p><?= $error['tutto_il_giorno'] ?></p>
+                        <p class="form--error"><?= $error['tutto_il_giorno'] ?></p>
+                    <p style="font-size: 13px">Dalle 09:00 alle 18:30</p>
                     </div>
                 </div>
+                <?php
+                    if(!empty($field['giorno']) && !empty($field['ora_arrivo']) && !empty($field['ora_partenza'])):
+                ?>
                 <div class="form__posto">
                     <label for="numero_posto">Scegli posto disponibile</label>
                     <div class="form--error">
                         <select name="numero_posto" id="numero_posto">
-                            <option value=""><?= isset($_POST['submit_prenotazione']) ? $field['numero_posto'] : 'Scegli posto' ?></option>
+                            <option value=""> <?= isset($_POST['submit_prenotazione']) ? $field['numero_posto'] : 'Scegli posto' ?></option>
                             <?php
-                            foreach ($db->getSeatNum() as $seat):
+                            foreach ($db->getSeatNum($field['giorno'],$field['ora_arrivo'],$field['ora_partenza']) as $seat):
                                 ?>
                                 <option value="<?= $seat->numero_posto ?>"><?= $seat->numero_posto ?></option>
                             <?php
@@ -100,8 +116,8 @@ else:
                         </select>
                         <p><?= $error['numero_posto'] ?></p>
                     </div>
-
                 </div>
+                <?php endif; ?>
                 <input class="form__submit" type="submit" id="submit_prenotazione" name="submit_prenotazione"
                        value="Conferma">
             </form>
@@ -112,7 +128,7 @@ else:
             $availableSeats = $wpdb->get_var("SELECT posti_disponibili FROM " . $db::TABLE_BIBLIOTECA_STANZA .
                 " WHERE nome_stanza = '" . $field['nome_stanza'] . "';");
             ?>
-            <p>Posti disponibili: <?= $availableSeats ?>/<?= $availableSeats ?></p>
+            <p>Posti disponibili: <?= $availableSeats ?>/ 121</p>
             <img src="<?= plugin_dir_url(__DIR__) . '/../../assets/scegli_posto.svg' ?>" alt="piantina-posti"/>
         </div>
     </div>

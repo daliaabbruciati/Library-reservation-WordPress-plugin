@@ -32,12 +32,12 @@ $db = new Database(__FILE__);
     <div class="tab-content">
         <div id="tab-1" class="tab-pane active">
             <?php
-            if (isset($_POST['data-id'])){
-	            function refresh(){
-		            echo "<script type='text/javascript'>
+            function refresh() {
+	            echo "<script type='text/javascript'>
                            window.location=document.location.href;
                            </script>";
-	            }
+            }
+            if (isset($_POST['data-id'])){
 	            refresh();
 //	            echo "<h4>Elemento eliminato correttamente. Ricarica la pagina per aggiornare i dati</h4>";
             }

@@ -20,8 +20,10 @@
 //TODO: modificare 'nome' con id_prenotazione dell'utente
 // il qr code prende il posto, quando arrivo scannerizzo il tavolo...
 $prova = $_SESSION['nome'];
+//$id = $_SESSION['id'];
+$email = $_SESSION['email'];
 
-$url = 'https://api.qrserver.com/v1/create-qr-code/?data=' . $prova . '&size=200x200&margin=15';
+$url = "https://api.qrserver.com/v1/create-qr-code/?data=$email&size=200x200&margin=15";
 
 ?>
 
@@ -33,7 +35,7 @@ $url = 'https://api.qrserver.com/v1/create-qr-code/?data=' . $prova . '&size=200
     <img src="<?= $url ?>" alt="qr-code"/>
     <p>Ricordati che la validità del QR code è di <strong>30 min</strong> dall'ora della prenotazione</p>
     <button>Scarica QR code</button>
-    <a href="#">Vedi riepilogo prenotazioni</a>
+    <a href="/riepilogo">Vedi riepilogo prenotazioni</a>
     <a href="/scegli-posto">Torna alla scelta dei posti</a>
 </div>
 

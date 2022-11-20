@@ -4,24 +4,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Biblioteca: Crea account</title>
-    <link rel="stylesheet" href="<?= plugin_dir_url(__DIR__) . '/../css/signup.css'; ?>">
+    <link rel="stylesheet" href="<?= plugin_dir_url( __DIR__ ) . '/../css/signup.css'; ?>">
 </head>
 <body>
 
 <?php
 include 'header.html.php';
 
-if (isset($_POST['registrati']) && $valid):
-    include_once __DIR__ . '/./register-success.html.php';
-    $_SESSION['nome'] = $field['nome'];
-
+if ( isset( $_POST['registrati'] ) && $valid ):
+	$_SESSION['nome']  = $field['nome'];
+	$_SESSION['email'] = $field['email'];
+	include_once __DIR__ . '/./register-success.html.php';
 else:
-
 ?>
 <div class="container">
     <h2>Crea account</h2>
     <div class="container__form">
-        <form class="form" action="<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>" method="post">
+        <form class="form" action="<?= htmlspecialchars( $_SERVER['REQUEST_URI'] ) ?>" method="post">
             <div class="form__nome-utente">
                 <label for="user_login">Nome e cognome</label>
                 <div class="form--error">
@@ -59,10 +58,10 @@ else:
         </form>
         <p>Hai gia un account? <a href="/prenotazione">Torna indietro e accedi</a></p>
     </div>
-    <?php endif; ?>
+	<?php endif; ?>
 </div>
 
-<?php include 'footer.html.php';?>
+<?php include 'footer.html.php'; ?>
 
 </body>
 </html>

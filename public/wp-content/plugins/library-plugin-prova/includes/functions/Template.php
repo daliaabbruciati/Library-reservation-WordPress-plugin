@@ -9,6 +9,7 @@ function my_template_array(): array
     $temps['signup.php'] = 'Signup';
     $temps['book-seat.php'] = 'Scegli posto';
     $temps['booking-success.php'] = 'Prenotazione confermata';
+    $temps['summary.php'] = 'Riepilogo';
     $temps['logout.php'] = 'Logout';
 
     return $temps;

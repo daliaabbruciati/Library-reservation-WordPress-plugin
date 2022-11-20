@@ -35,6 +35,7 @@ class Activate
                     <li><strong>Signup</strong></li>
                     <li><strong>Scegli posto</strong></li>
                     <li><strong>Prenotazione confermata</strong></li>
+                    <li><strong>Riepilogo prenotazione</strong></li>
                     <li><strong>Logout</strong></li>
                 </ol>
             </div>

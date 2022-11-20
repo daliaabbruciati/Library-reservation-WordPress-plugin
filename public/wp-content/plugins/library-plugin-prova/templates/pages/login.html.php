@@ -50,7 +50,6 @@ if (isset($_POST['submit-login']) && empty(array_filter($error))){
     </div>
 </div>
 
-
 <?php include 'footer.html.php'; ?>
 
 </body>
