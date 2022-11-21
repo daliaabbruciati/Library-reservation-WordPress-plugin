@@ -10,15 +10,15 @@ $error = ['nome_stanza' => '', 'giorno' => '', 'ora_arrivo' => '', 'ora_partenza
 
 
 if (isset($_POST['submit_prenotazione'])) {
-    $field['id_utente'] = $_POST['id_utente'];
-    $field['nome_utente'] = $_POST['nome_utente'];
-    $field['email_utente'] = $_POST['email_utente'];
-    $field['nome_stanza'] = $_POST['nome_stanza'];
-    $field['giorno'] = $_POST['giorno'];
-    $field['ora_arrivo'] = $_POST['ora_arrivo'];
-    $field['ora_partenza'] = $_POST['ora_partenza'];
-    $field['tutto_il_giorno'] = $_POST['tutto_il_giorno'] ?? 'no';
-    $field['numero_posto'] = $_POST['numero_posto'];
+    $field['id_utente'] = htmlspecialchars($_POST['id_utente']);
+    $field['nome_utente'] = htmlspecialchars($_POST['nome_utente']);
+    $field['email_utente'] = htmlspecialchars($_POST['email_utente']);
+    $field['nome_stanza'] = htmlspecialchars($_POST['nome_stanza']);
+    $field['giorno'] = htmlspecialchars($_POST['giorno']);
+    $field['ora_arrivo'] = htmlspecialchars($_POST['ora_arrivo']);
+    $field['ora_partenza'] = htmlspecialchars($_POST['ora_partenza']);
+    $field['tutto_il_giorno'] = htmlspecialchars($_POST['tutto_il_giorno'] ?? 'no');
+    $field['numero_posto'] = htmlspecialchars($_POST['numero_posto']);
 
 
     /* Controllo campi vuoti */

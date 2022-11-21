@@ -1,4 +1,4 @@
-<?php include __DIR__ . '/../../DB/add-new-res.php'; ?>
+<?php include __DIR__ . '/../php/add-new-res.php'; ?>
 
 <div class="wrap">
     <h1><?= esc_html( get_admin_page_title() ); ?></h1>

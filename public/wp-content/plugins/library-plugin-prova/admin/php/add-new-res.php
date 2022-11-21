@@ -1,6 +1,6 @@
 <?php
-include_once __DIR__ . '/../includes/functions/Validation.php';
-include_once __DIR__ . '/Database.php';
+include_once __DIR__ . '/../../includes/functions/Validation.php';
+include_once __DIR__ . '/../../DB/Database.php';
 
 use Plugin\Functions\Validation;
 use Plugin\DB\Database;
@@ -32,13 +32,13 @@ $error = [
 
 
 if ( isset( $_POST['continua'] ) ) {
-	$field['nome_utente']     = $_POST['nome_utente'];
-	$field['email_utente']    = $_POST['email_utente'];
-	$field['nome_stanza']     = $_POST['nome_stanza'];
-	$field['giorno']          = $_POST['giorno'];
-	$field['ora_arrivo']      = $_POST['ora_arrivo'];
-	$field['ora_partenza']    = $_POST['ora_partenza'];
-	$field['tutto_il_giorno'] = $_POST['tutto_il_giorno'] ?? "no";
+	$field['nome_utente']     = htmlspecialchars($_POST['nome_utente']);
+	$field['email_utente']    = htmlspecialchars($_POST['email_utente']);
+	$field['nome_stanza']     = htmlspecialchars($_POST['nome_stanza']);
+	$field['giorno']          = htmlspecialchars($_POST['giorno']);
+	$field['ora_arrivo']      = htmlspecialchars($_POST['ora_arrivo']);
+	$field['ora_partenza']    = htmlspecialchars($_POST['ora_partenza']);
+	$field['tutto_il_giorno'] = htmlspecialchars($_POST['tutto_il_giorno'] ?? "no");
 
 	/* Restituisce il valore dell'id riferito all'email dell'utente */
 	$findUserId = $wpdb->get_var( "SELECT ID FROM " . $db::TABLE_UTENTI .
@@ -81,14 +81,14 @@ if ( isset( $_POST['continua'] ) ) {
 }
 
 if ( isset( $_POST['add'] ) ) {
-	$field['nome_utente']     = $_POST['nome_utente'];
-	$field['email_utente']    = $_POST['email_utente'];
-	$field['nome_stanza']     = $_POST['nome_stanza'];
-	$field['giorno']          = $_POST['giorno'];
-	$field['ora_arrivo']      = $_POST['ora_arrivo'];
-	$field['ora_partenza']    = $_POST['ora_partenza'];
-	$field['tutto_il_giorno'] = $_POST['tutto_il_giorno'] ?? "no";
-	$field['numero_posto'] = $_POST['numero_posto'];
+	$field['nome_utente']     = htmlspecialchars($_POST['nome_utente']);
+	$field['email_utente']    = htmlspecialchars($_POST['email_utente']);
+	$field['nome_stanza']     = htmlspecialchars($_POST['nome_stanza']);
+	$field['giorno']          = htmlspecialchars($_POST['giorno']);
+	$field['ora_arrivo']      = htmlspecialchars($_POST['ora_arrivo']);
+	$field['ora_partenza']    = htmlspecialchars($_POST['ora_partenza']);
+	$field['tutto_il_giorno'] = htmlspecialchars($_POST['tutto_il_giorno'] ?? "no");
+	$field['numero_posto'] = htmlspecialchars($_POST['numero_posto']);
 
 	/* Restituisce il valore dell'id riferito all'email dell'utente */
 	$findUserId = $wpdb->get_var( "SELECT ID FROM " . $db::TABLE_UTENTI .

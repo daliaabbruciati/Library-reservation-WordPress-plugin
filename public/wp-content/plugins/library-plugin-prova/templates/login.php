@@ -10,8 +10,8 @@ $error = ['email' => '', 'password' => ''];
 $valid = true;
 
 if (isset($_POST['submit-login'])) {
-    $field['email'] = $_POST['user_email'];
-    $field['password'] = $_POST['user_pass'];
+    $field['email'] = htmlspecialchars($_POST['user_email']);
+    $field['password'] = htmlspecialchars($_POST['user_pass']);
 
     /* Query per trovare il valore della password corrispondente all'email
      * inserita dall'utente.

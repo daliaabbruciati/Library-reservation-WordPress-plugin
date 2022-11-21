@@ -9,10 +9,11 @@ $db = new Database( __FILE__ );
 
 <?php
 if ( $_SERVER["REQUEST_METHOD"] == "POST" ):
+	include __DIR__ . '/../php/edit-res.php';
 	?>
     <div class="wrap">
         <h1><?= esc_html( get_admin_page_title() ); ?></h1>
-        <p>Modifica i campi e poi clicca su 'Salva modifiche' per aggiornare i dati dell'utente utente</p>
+        <h4>Modifica i campi e poi clicca su 'Salva modifiche' per aggiornare i dati dell'utente utente</h4>
 		<?php
 		$oldValues = $wpdb->get_results( "SELECT * FROM " . $db::TABLE_PRENOTAZIONE .
 		                                 " WHERE id_prenotazione = '" . $_POST['id_prenotazione'] . "';" );
@@ -22,30 +23,28 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ):
             <form class="form-container" method="post" action="<?php echo( $_SERVER['REQUEST_URI'] ); ?>">
 				<?php
 				if ( ! empty( $oldValues ) ):
-				foreach ( $oldValues
-
-				as $row ):
+				foreach ( $oldValues as $old ):
 				?>
-                <input type="hidden" name="id_utente" id="id_utente" value="<?= $row->id_utente ?>">
+                <input type="hidden" name="id_utente" id="id_utente" value="<?= $old->id_utente ?>">
 
                 <label for="nome_utente">Nome utente
                     <div>
                         <input type="text" name="nome_utente" id="nome_utente"
-                               value="<?= $row->nome_utente ?>">
+                               value="<?= $old->nome_utente ?>">
                     </div>
                 </label>
 
                 <label for="email_utente">Email utente
                     <div>
                         <input type="text" name="email_utente" id="email_utente"
-                               value="<?= $row->email_utente ?>">
+                               value="<?= $old->email_utente ?>">
                     </div>
                 </label>
 
                 <label for="nome_stanza">Stanza
                     <div>
                         <select name="nome_stanza" id="nome_stanza">
-                            <option value=""> <?= $row->nome_stanza ?></option>
+                            <option value=""> <?= $old->nome_stanza ?></option>
 							<?php
 							foreach ( $db->getRoomName() as $room ):
 								?>
@@ -57,14 +56,14 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ):
 
                 <label for="giorno">Giorno prenotazione
                     <div>
-                        <input type="date" name="giorno" value="<?= $row->giorno ?>">
+                        <input type="date" name="giorno" value="<?= $old->giorno ?>">
                     </div>
                 </label>
 
                 <label for="ora_arrivo">Ora arrivo
                     <div>
                         <select name="ora_arrivo" id="ora_arrivo">
-                            <option value=""> <?= $row->ora_arrivo; ?> </option>
+                            <option value=""> <?= $old->ora_arrivo; ?> </option>
 							<?php
 							foreach ( $db->getHours() as $hour ):
 								?>
@@ -77,7 +76,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ):
                 <label for="ora_partenza">Ora partenza
                     <div>
                         <select name="ora_partenza" id="ora_partenza">
-                            <option value=""> <?= $row->ora_partenza ?></option>
+                            <option value=""> <?= $old->ora_partenza ?></option>
 							<?php
 							foreach ( $db->getHours() as $hour ):
 								?>
@@ -96,9 +95,9 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ):
                 <label for="numero_posto">Numero posto
                     <div>
                         <select name="numero_posto" id="numero_posto">
-                            <option value=""><?= $row->numero_posto ?></option>
+                            <option value=""><?= $old->numero_posto ?></option>
 							<?php
-							foreach ( $db->getSeatNum( $row->giorno, $row->ora_arrivo, $row->ora_partenza ) as $seat ):
+							foreach ( $db->getSeatNum( $old->giorno, $old->ora_arrivo, $old->ora_partenza ) as $seat ):
 								?>
                                 <option value="<?= $seat->numero_posto ?>"><?= $seat->numero_posto ?></option>
 							<?php
@@ -108,9 +107,8 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ):
                     </div>
                 </label>
 
-				<?php include __DIR__ . '/../../DB/edit-res.php'; ?>
                 <form method="post" action="http://localhost:10003/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fbooking-view.html.php">
-                    <input type="hidden" name="id_prenotazione" value="<?= $row->id_prenotazione; ?>">
+                    <input type="hidden" name="id_prenotazione" value="<?= $old->id_prenotazione; ?>">
                     <input type="submit" name="update" id="update" class="button button-primary"
                            value="Salva modifiche">
                 </form>

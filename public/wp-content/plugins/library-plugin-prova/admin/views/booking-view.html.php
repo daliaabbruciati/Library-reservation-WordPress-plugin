@@ -115,15 +115,13 @@ $db = new Database(__FILE__);
             <p>Clicca sui pulsanti "Modifica" o "Elimina" per modificare o cancellare i dati.</p>
             <?php include __DIR__ . '/../../DB/edit-res.php'; ?>
             <table class="db-table">
-                <thead class="db-th">
+                <thead class="db-thead">
                 <tr class="db-tr">
                     <th class="db-th">Nome biblioteca</th>
                     <th class="db-th">id stanza</th>
                     <th class="db-th">Nome stanza</th>
                     <th class="db-th">Posti totali</th>
                     <th class="db-th">Posti disponibili</th>
-                    <th class="db-th">Modifica</th>
-                    <th class="db-th">Elimina</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -140,19 +138,6 @@ $db = new Database(__FILE__);
                     <td class="db-td"><?= $row->nome_stanza; ?></td>
                     <td class="db-td"><?= $row->posti_totali; ?></td>
                     <td class="db-td"><?= $row->posti_disponibili; ?></td>
-                    <td class="db-td">
-                        <form action="<?= htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post">
-                            <input type="hidden" name="id" value="<?= $row->id_stanza; ?>">
-                            <input type="submit" name="save" id="save" class="button button-secondary" value="Modifica">
-                        </form>
-                    </td>
-                    <td class="db-td">
-                        <form action="<?= htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post">
-                            <input type="hidden" name="id" value="<?= $row->id_stanza; ?>">
-                            <input type="submit" name="delete" id="delete-tab2"  class="button button-link-delete"
-                                   value="Elimina">
-                        </form>
-                    </td>
                     <?php
                     endforeach;
                     endif; ?>

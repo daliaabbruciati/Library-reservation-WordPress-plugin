@@ -15,10 +15,10 @@ $valid = true;
 
 
 if (isset($_POST['registrati'])) {
-    $field['nome'] = $_POST['user_login'];
-    $field['username'] = $_POST['user_nicename'];
-    $field['email'] = $_POST['user_email'];
-    $field['password'] = $_POST['user_pass'];
+    $field['nome'] = htmlspecialchars($_POST['user_login']);
+    $field['username'] = htmlspecialchars($_POST['user_nicename']);
+    $field['email'] = htmlspecialchars($_POST['user_email']);
+    $field['password'] = htmlspecialchars($_POST['user_pass']);
 
 
     /* controllo errori sui campi */
