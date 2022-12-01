@@ -10,7 +10,7 @@ class Database {
 	public const TABLE_PRENOTAZIONE = 'wp_prenotazione';
 	public const TABLE_UTENTI = 'wp_users';
 
-	protected $wpdb;
+	public $wpdb;
 	public string $output;
 
 
@@ -138,6 +138,7 @@ class Database {
 			'16:00:00','16:30:00',
 			'17:00:00','17:30:00',
 			'18:00:00','18:30:00',
+			 '23:34:00'
 		];
 	}
 
@@ -233,8 +234,20 @@ class Database {
 		] );
 
 		$this->updateSeatsInRoom( $field_stanza );
-
 	}
+
+	/* Elimina la prenotazione allo scadere dell'ora della partenza */
+//	public function timeDone($ora_partenza){
+//		date_default_timezone_set("Europe/Rome");
+//		$currentTime = date("H:i");
+//
+//		if($currentTime === $ora_partenza){
+//		$this->wpdb->delete(self::TABLE_PRENOTAZIONE,[
+//			'ora_partenza' => $ora_partenza
+//		]);
+//
+//		}
+//	}
 
 	public function deleteReservation( $row ): bool {
 		/* Elimino il record della prenotazione dalla tabella 'wp_prenotazione' */
@@ -252,14 +265,12 @@ class Database {
 				return false;
 			}
 
-
 			/* Elimino la prenotazione */
 			if ( ! $this->wpdb->delete( self::TABLE_PRENOTAZIONE, [
 				'id_prenotazione' => $row->id_prenotazione
 			] ) ) {
 				return false;
 			}
-
 
 			$posti_rimanenti = self::getNumOfAvailableSeats();
 
@@ -270,7 +281,6 @@ class Database {
 			] ) ) {
 				return false;
 			}
-//            echo "<span class='success-field'>Prenotazione eliminata con successo. Ricarica la pagina per aggiornare i dati</span>";
 		return true;
 		}
 	return false;

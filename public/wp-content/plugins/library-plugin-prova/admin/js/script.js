@@ -22,6 +22,8 @@ window.addEventListener('load', function () {
     }
 
 
+
+
     // const table = document.getElementById('table-body');
 
     /* Per mostrare i dati 'real-time' */

@@ -9,7 +9,6 @@ $db = new Database( __FILE__ );
 
 <?php
 if ( $_SERVER["REQUEST_METHOD"] == "POST" ):
-	include __DIR__ . '/../php/edit-res.php';
 	?>
     <div class="wrap">
         <h1><?= esc_html( get_admin_page_title() ); ?></h1>
@@ -29,22 +28,20 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ):
 
                 <label for="nome_utente">Nome utente
                     <div>
-                        <input type="text" name="nome_utente" id="nome_utente"
-                               value="<?= $old->nome_utente ?>">
+                        <input type="text" name="nome_utente" id="nome_utente" value="<?= $old->nome_utente ?>">
                     </div>
                 </label>
 
                 <label for="email_utente">Email utente
                     <div>
-                        <input type="text" name="email_utente" id="email_utente"
-                               value="<?= $old->email_utente ?>">
+                        <input type="text" name="email_utente" id="email_utente" value="<?= $old->email_utente ?>">
                     </div>
                 </label>
 
                 <label for="nome_stanza">Stanza
                     <div>
                         <select name="nome_stanza" id="nome_stanza">
-                            <option value=""> <?= $old->nome_stanza ?></option>
+                            <option value="<?=  $old->nome_stanza ?>"> <?=  $old->nome_stanza ?></option>
 							<?php
 							foreach ( $db->getRoomName() as $room ):
 								?>
@@ -63,7 +60,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ):
                 <label for="ora_arrivo">Ora arrivo
                     <div>
                         <select name="ora_arrivo" id="ora_arrivo">
-                            <option value=""> <?= $old->ora_arrivo; ?> </option>
+                            <option value="<?= $old->ora_arrivo; ?>"> <?= $old->ora_arrivo; ?> </option>
 							<?php
 							foreach ( $db->getHours() as $hour ):
 								?>
@@ -76,7 +73,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ):
                 <label for="ora_partenza">Ora partenza
                     <div>
                         <select name="ora_partenza" id="ora_partenza">
-                            <option value=""> <?= $old->ora_partenza ?></option>
+                            <option value="<?= $old->ora_partenza ?>"> <?= $old->ora_partenza ?></option>
 							<?php
 							foreach ( $db->getHours() as $hour ):
 								?>
@@ -106,7 +103,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ):
                         </select>
                     </div>
                 </label>
-
+                <?php include __DIR__ . '/../php/edit-res.php'; ?>
                 <form method="post" action="http://localhost:10003/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fbooking-view.html.php">
                     <input type="hidden" name="id_prenotazione" value="<?= $old->id_prenotazione; ?>">
                     <input type="submit" name="update" id="update" class="button button-primary"

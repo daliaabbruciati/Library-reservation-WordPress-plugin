@@ -40,6 +40,11 @@ if ( isset( $_POST['continua'] ) ) {
 	$field['ora_partenza']    = htmlspecialchars($_POST['ora_partenza']);
 	$field['tutto_il_giorno'] = htmlspecialchars($_POST['tutto_il_giorno'] ?? "no");
 
+	if($field['tutto_il_giorno']){
+		$field['ora_arrivo'] = '09:00:00';
+		$field['ora_partenza'] = '18:30:00';
+	}
+
 	/* Restituisce il valore dell'id riferito all'email dell'utente */
 	$findUserId = $wpdb->get_var( "SELECT ID FROM " . $db::TABLE_UTENTI .
 	                              " WHERE user_email = '" . $field['email_utente'] . "';" );

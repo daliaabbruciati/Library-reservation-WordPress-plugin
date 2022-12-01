@@ -19,23 +19,23 @@ $error = [ 'nome_utente'     => '',
            'numero_posto'    => ''
 ];
 
-if ( isset( $_POST['update'] ) && $old->id_prenotazione == $_POST['id_prenotazione'] && $old->numero_posto !== $_POST['numero_posto'] ) {
+
+if ( isset( $_POST['update'] ) && $old->id_prenotazione == $_POST['id_prenotazione'] ) {
 	$field['nome_utente']     = htmlspecialchars($_POST['nome_utente']);
-	$field['email_utente']    = htmlspecialchars($_POST['email_utente']);
-	$field['nome_stanza']     = htmlspecialchars($_POST['nome_stanza']);
+	$field['email_utente']    = htmlspecialchars($_POST['email_utente'] );
+	$field['nome_stanza']     = htmlspecialchars($_POST['nome_stanza'] ?? 'none');
 	$field['giorno']          = htmlspecialchars($_POST['giorno']);
 	$field['ora_arrivo']      = htmlspecialchars($_POST['ora_arrivo']);
 	$field['ora_partenza']    = htmlspecialchars($_POST['ora_partenza']);
-	$field['tutto_il_giorno'] = htmlspecialchars($_POST['tutto_il_giorno'] ?? 0);
+	$field['tutto_il_giorno'] = htmlspecialchars($_POST['tutto_il_giorno'] ?? 'no');
 	$field['numero_posto']    = htmlspecialchars($_POST['numero_posto']);
 
 
-	$wpdb->update( $db::TABLE_UTENTI, [
-		'user_login' => $field['nome_utente'],
-		'user_email' => $field['email_utente'],
-	], [
-		'ID' => $old->id_utente
-	] );
+	if($field['tutto_il_giorno']){
+		$field['ora_arrivo'] = '09:00:00';
+		$field['ora_partenza'] = '18:30:00';
+	}
+
 	$wpdb->update( $db::TABLE_PRENOTAZIONE, [
 		'nome_utente'     => $field['nome_utente'],
 		'email_utente'    => $field['email_utente'],
@@ -48,6 +48,8 @@ if ( isset( $_POST['update'] ) && $old->id_prenotazione == $_POST['id_prenotazio
 	], [
 		'id_prenotazione' => $old->id_prenotazione
 	] );
+
+	print_r(array_filter($field));
 
 	$db->updateReservedSeat( $old->numero_posto );
 	$db->updateSeatsInRoom( $field['nome_stanza'] );
