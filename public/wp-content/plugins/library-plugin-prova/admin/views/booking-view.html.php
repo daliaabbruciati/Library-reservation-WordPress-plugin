@@ -71,7 +71,7 @@ $db = new Database( __FILE__ );
 					foreach ( $result as $row ):
 						if ( $currentTime >= $row->ora_partenza || $currentDate > $row->giorno ) {
 							echo "<tr class='db-tr' id='table-row' 
-                          style='background-color: #e0e0e0; color: #979797'> ";
+                          style='background-color: #c0c0c0; color: #979797'> ";
 						} else {
 							echo "<tr class='db-tr' id='table-row'>";
 						}
@@ -95,7 +95,7 @@ $db = new Database( __FILE__ );
 								<?php
 								if ( $currentTime >= $row->ora_partenza || $currentDate > $row->giorno) {
 									echo "<input type='submit' name='edit' id='edit' disabled class='button button - secondary'
-                                       value='Modifica'>";
+                                       value='Scaduta'>";
 								} else {
 									echo "<input type='submit' name='edit' id='edit' class='button button - secondary'
                                        value='Modifica'>";
@@ -130,7 +130,7 @@ $db = new Database( __FILE__ );
         <div id="tab-2" class="tab-pane">
             <h3>Qui puoi gestire le impostazioni generali della Biblioteca</h3>
             <p>Clicca sui pulsanti "Modifica" o "Elimina" per modificare o cancellare i dati.</p>
-			<?php include __DIR__ . '/../../DB/edit-res.php'; ?>
+			<?php include __DIR__ . '/../php/edit-res.php'; ?>
             <table class="db-table">
                 <thead class="db-thead">
                 <tr class="db-tr">

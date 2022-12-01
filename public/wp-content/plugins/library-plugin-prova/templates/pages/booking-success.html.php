@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Biblioteca: Prenotazione confermata</title>
-    <link rel="stylesheet" href="<?php echo plugin_dir_url(__DIR__) . '/../css/booking-success.css'; ?>">
-<!--    <script src="--><?//= plugin_dir_url(__DIR__) . '/../js/getQrCode.js'; ?><!--"></script>-->
+    <link rel="stylesheet" href="<?php echo plugin_dir_url( __DIR__ ) . '/../css/booking-success.css'; ?>">
+    <!--    <script src="--><? //= plugin_dir_url(__DIR__) . '/../js/getQrCode.js'; ?><!--"></script>-->
 </head>
 <body>
 
@@ -30,8 +30,29 @@ $url = "https://api.qrserver.com/v1/create-qr-code/?data=$email&size=200x200&mar
 <div class="container">
     <h2>Prenotazione effettuata!</h2>
     <p>Congratulazioni <?= $_SESSION['nome'] ?></p>
+    <p>Ecco il riepilogo della tua prenotazione:</p>
+    <table class="card">
+	<?php
+	foreach ( $field as $key => $value ):
+		?>
+        <tbody >
+        <tr class="card-items">
+            <td class="item"><?= $key?></td>
+            <td class="item"><?= $value?></td>
+        </tr>
+        </tbody>
+<!--        <p>--><?//= $field['nome_utente'] ?><!--</p>-->
+<!--        <p>--><?//= $field['email_utente'] ?><!--</p>-->
+<!--        <p>--><?//= $field['nome_stanza'] ?><!--</p>-->
+<!--        <p>--><?//= $field['giorno'] ?><!--</p>-->
+<!--        <p>--><?//= $field['ora_arrivo'] ?><!--</p>-->
+<!--        <p>--><?//= $field['ora_partenza'] ?><!--</p>-->
+<!--        <p>--><?//= $field['tutto_il_giorno'] ?><!--</p>-->
+<!--        <p>--><?//= $field['numero_posto'] ?><!--</p>-->
+	<?php endforeach; ?>
+    </table>
     <p>Ecco il QR code per accedere alla biblioteca. <br><strong>Buono studio!</strong></p>
-<!--    <div id="qrcode"></div>-->
+    <!--    <div id="qrcode"></div>-->
     <img src="<?= $url ?>" alt="qr-code"/>
     <p>Ricordati che la validità del QR code è di <strong>30 min</strong> dall'ora della prenotazione</p>
     <button>Scarica QR code</button>

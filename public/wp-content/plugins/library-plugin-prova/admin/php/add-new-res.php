@@ -40,7 +40,7 @@ if ( isset( $_POST['continua'] ) ) {
 	$field['ora_partenza']    = htmlspecialchars($_POST['ora_partenza']);
 	$field['tutto_il_giorno'] = htmlspecialchars($_POST['tutto_il_giorno'] ?? "no");
 
-	if($field['tutto_il_giorno']){
+	if($field['tutto_il_giorno'] !== 'no'){
 		$field['ora_arrivo'] = '09:00:00';
 		$field['ora_partenza'] = '18:30:00';
 	}

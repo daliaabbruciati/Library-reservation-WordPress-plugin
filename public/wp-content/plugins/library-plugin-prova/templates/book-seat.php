@@ -20,6 +20,10 @@ if (isset($_POST['submit_prenotazione'])) {
     $field['tutto_il_giorno'] = htmlspecialchars($_POST['tutto_il_giorno'] ?? 'no');
     $field['numero_posto'] = htmlspecialchars($_POST['numero_posto']);
 
+	if($field['tutto_il_giorno'] !== 'no'){
+		$field['ora_arrivo'] = '09:00:00';
+		$field['ora_partenza'] = '18:30:00';
+	}
 
     /* Controllo campi vuoti */
     if (empty($field['nome_stanza'])) {

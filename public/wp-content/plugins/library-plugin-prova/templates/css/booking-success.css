@@ -5,6 +5,23 @@
     align-items: center;
     text-align: center;
     max-width: 800px;
-    height: 600px;
     margin: 0 auto;
+}
+
+.card {
+    border: 1px solid gray;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    max-width: 30em;
+    margin: 5px 0;
+}
+
+.card-items {
+    display: flex;
+    justify-content: space-between;
+}
+
+.item {
+    border: none;
 }
