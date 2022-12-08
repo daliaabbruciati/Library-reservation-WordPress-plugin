@@ -38,9 +38,9 @@ if ( isset( $_POST['continua'] ) ) {
 	$field['giorno']          = htmlspecialchars($_POST['giorno']);
 	$field['ora_arrivo']      = htmlspecialchars($_POST['ora_arrivo']);
 	$field['ora_partenza']    = htmlspecialchars($_POST['ora_partenza']);
-	$field['tutto_il_giorno'] = htmlspecialchars($_POST['tutto_il_giorno'] ?? "no");
+	$field['tutto_il_giorno'] = htmlspecialchars(isset($_POST['tutto_il_giorno']) ? "si" : "no");
 
-	if($field['tutto_il_giorno'] !== 'no'){
+	if($field['tutto_il_giorno'] === "si"){
 		$field['ora_arrivo'] = '09:00:00';
 		$field['ora_partenza'] = '18:30:00';
 	}
@@ -79,10 +79,6 @@ if ( isset( $_POST['continua'] ) ) {
 	if ( empty( $field['ora_partenza'] ) ) {
 		$error['ora_partenza'] = "<span class='error-field'>Campo ora partenza errato.</span>";
 	}
-
-	if ( empty( $field['tutto_il_giorno'] ) ) {
-		$error['tutto_il_giorno'] = "<span class='error-field'>Campo tutto il giorno errato.</span>";
-	}
 }
 
 if ( isset( $_POST['add'] ) ) {
@@ -92,7 +88,7 @@ if ( isset( $_POST['add'] ) ) {
 	$field['giorno']          = htmlspecialchars($_POST['giorno']);
 	$field['ora_arrivo']      = htmlspecialchars($_POST['ora_arrivo']);
 	$field['ora_partenza']    = htmlspecialchars($_POST['ora_partenza']);
-	$field['tutto_il_giorno'] = htmlspecialchars($_POST['tutto_il_giorno'] ?? "no");
+	$field['tutto_il_giorno'] = htmlspecialchars(isset($_POST['tutto_il_giorno']) ? "si" : "no");
 	$field['numero_posto'] = htmlspecialchars($_POST['numero_posto']);
 
 	/* Restituisce il valore dell'id riferito all'email dell'utente */

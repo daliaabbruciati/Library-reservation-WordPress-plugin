@@ -27,7 +27,7 @@ if ( isset( $_POST['update'] ) && $old->id_prenotazione == $_POST['id_prenotazio
 	$field['giorno']          = htmlspecialchars($_POST['giorno']);
 	$field['ora_arrivo']      = htmlspecialchars($_POST['ora_arrivo']);
 	$field['ora_partenza']    = htmlspecialchars($_POST['ora_partenza']);
-	$field['tutto_il_giorno'] = htmlspecialchars($_POST['tutto_il_giorno'] ?? 'no');
+	$field['tutto_il_giorno'] = htmlspecialchars(isset($_POST['tutto_il_giorno']) ? "si" : 'no');
 	$field['numero_posto']    = htmlspecialchars($_POST['numero_posto']);
 
 
@@ -43,7 +43,7 @@ if ( isset( $_POST['update'] ) && $old->id_prenotazione == $_POST['id_prenotazio
 		'giorno'          => $field['giorno'],
 		'ora_arrivo'      => $field['ora_arrivo'],
 		'ora_partenza'    => $field['ora_partenza'],
-		'tutto_il_giorno' => $field['tutto_il_giorno'] ?? 0,
+		'tutto_il_giorno' => $field['tutto_il_giorno'],
 		'numero_posto'    => $field['numero_posto'],
 	], [
 		'id_prenotazione' => $old->id_prenotazione

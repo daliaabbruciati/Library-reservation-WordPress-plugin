@@ -35,7 +35,7 @@
 
             <label for="giorno">Giorno prenotazione*
                 <div class="form--error">
-                    <input type="date" name="giorno" id="giorno" value="<?= $field['giorno'] ?>">
+                    <input type="date" name="giorno" id="giorno" value="<?= $field['giorno'] ?>" >
                     <p> <?= $error['giorno'] ?> </p>
                 </div>
             </label>
@@ -57,7 +57,7 @@
             <label for="ora_partenza">Ora partenza*
                 <div class="form--error">
                     <select name="ora_partenza" id="ora_partenza">
-                        <option value="<?= $field['ora_partenza']; ?>"> <?= ! empty( $field['ora_partenza'] ) ? $field['ora_partenza'] : 'Alle' ?></option>
+                        <option value="<?= $field['ora_partenza']; ?>"> <?= !empty( $field['ora_partenza'] ) ? $field['ora_partenza'] : 'Alle' ?></option>
 						<?php
 						foreach ( $db->getHours() as $hour ):
 							?>
@@ -67,10 +67,9 @@
                     <p> <?= $error['ora_partenza'] ?> </p>
                 </div>
             </label>
-
             <label for="tutto_il_giorno">Tutto il giorno
                 <div class="form--error">
-                    <input type="checkbox" name="tutto_il_giorno" id="tutto_il_giorno" value="si">
+                    <input type="checkbox" name="tutto_il_giorno" id="tutto_il_giorno" <?php if($field['tutto_il_giorno'] === "si") echo "checked"; ?>>
                     <p> <?= $error['tutto_il_giorno'] ?> </p>
                 </div>
             </label>
@@ -82,13 +81,14 @@
 			?>
             <div>
                 <form method="post" action="<?php echo htmlspecialchars( $_SERVER['REQUEST_URI'] ); ?>">
-                <input type="hidden" name="id_utente" id="id_utente" value="<?= $field['id_utente']; ?>">
-                <input type="hidden" name="nome_utente" id="nome_utente" value="<?= $field['nome_utente']; ?>">
-                <input type="hidden" name="email_utente" id="email_utente" value="<?= $field['email_utente'];?>">
-                <input type="hidden" name="nome_stanza" id="nome_stanza" value="<?= $field['nome_stanza'];?>">
-                <input type="hidden" name="giorno" id="giorno" value="<?= $field['giorno'];?>">
-                <input type="hidden" name="ora_arrivo" id="ora_arrivo" value="<?= $field['ora_arrivo'];?>">
-                <input type="hidden" name="ora_partenza" id="ora_partenza" value="<?= $field['ora_partenza'];?>">
+                    <input type="hidden" name="id_utente" id="id_utente" value="<?= $field['id_utente']; ?>">
+                    <input type="hidden" name="nome_utente" id="nome_utente" value="<?= $field['nome_utente']; ?>">
+                    <input type="hidden" name="email_utente" id="email_utente" value="<?= $field['email_utente']; ?>">
+                    <input type="hidden" name="nome_stanza" id="nome_stanza" value="<?= $field['nome_stanza']; ?>">
+                    <input type="hidden" name="giorno" id="giorno" value="<?= $field['giorno']; ?>">
+                    <input type="hidden" name="ora_arrivo" id="ora_arrivo" value="<?= $field['ora_arrivo']; ?>">
+                    <input type="hidden" name="ora_partenza" id="ora_partenza" value="<?= $field['ora_partenza']; ?>">
+                    <input type="hidden" name="tutto_il_giorno" value="<?= $field['tutto_il_giorno']; ?>">
                     <label for="numero_posto">Numero posto*
                         <div class="form--error">
                             <select name="numero_posto" id="numero_posto">

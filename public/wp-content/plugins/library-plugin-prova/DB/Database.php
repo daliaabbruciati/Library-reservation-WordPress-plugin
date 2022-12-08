@@ -113,14 +113,15 @@ class Database {
             giorno DATE NOT NULL,
             ora_arrivo TIME NOT NULL,
             ora_partenza TIME NOT NULL,
-            tutto_il_giorno BOOLEAN,
+            tutto_il_giorno VARCHAR(10),
             numero_posto INT(10),
             qr_code BOOLEAN,
             PRIMARY KEY  (id_prenotazione),
             FOREIGN KEY (id_utente) REFERENCES " . self::TABLE_UTENTI . "(ID),
             FOREIGN KEY (nome_utente) REFERENCES " . self::TABLE_UTENTI . "(user_login),
             FOREIGN KEY (email_utente) REFERENCES " . self::TABLE_UTENTI . "(user_email),
-            FOREIGN KEY (nome_stanza) REFERENCES " . self::TABLE_BIBLIOTECA_STANZA . "(nome_stanza)
+            FOREIGN KEY (nome_stanza) REFERENCES " . self::TABLE_BIBLIOTECA_STANZA . "(nome_stanza),
+            FOREIGN KEY (numero_posto) REFERENCES " . self::TABLE_BIBLIOTECA_POSTO . "(id_posto)
         )" . $charset_collate . ";";
 
 			dbDelta( $table_prenotazione );
@@ -141,6 +142,7 @@ class Database {
 			 '23:34:00'
 		];
 	}
+
 
 	public function getRoomName() {
 		/* Query che restituisce tutte le stanze disponibili e selezionabili per la prenotazione */
@@ -253,17 +255,21 @@ class Database {
 		/* Elimino il record della prenotazione dalla tabella 'wp_prenotazione' */
 		if ( isset( $_POST['delete'] ) &&
 		     $row->id_prenotazione == $_POST['id_prenotazione'] &&
-		     $row->numero_posto == $_POST['numero_posto'] ) {
+		     $row->numero_posto == $_POST['numero_posto']
+		) {
+
+			var_dump($_POST);
+//			die($_POST);
 
 			/* Aggiorno il flag 'disponibile' = 1 (TRUE) del numero selezionato nella
 			prenotazione da elimiinare */
-			if ( ! $this->wpdb->update( self::TABLE_BIBLIOTECA_POSTO, [
-				'disponibile' => 1
-			], [
-				'numero_posto' => $row->numero_posto
-			] ) ) {
-				return false;
-			}
+//			if ( ! $this->wpdb->update( self::TABLE_BIBLIOTECA_POSTO, [
+//				'disponibile' => 1
+//			], [
+//				'numero_posto' => $row->numero_posto
+//			] ) ) {
+//				return false;
+//			}
 
 			/* Elimino la prenotazione */
 			if ( ! $this->wpdb->delete( self::TABLE_PRENOTAZIONE, [

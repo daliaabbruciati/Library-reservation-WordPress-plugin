@@ -85,14 +85,14 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ):
 
                 <label for="tutto_il_giorno">tutto il giorno
                     <div>
-                        <input type="checkbox" name="tutto_il_giorno" id="tutto_il_giorno" value="1">
+                        <input type="checkbox" name="tutto_il_giorno" id="tutto_il_giorno" value="<?= $old->tutto_il_giorno ?>" <?php if($old->tutto_il_giorno == "si") echo "checked" ?>  >
                     </div>
                 </label>
 
                 <label for="numero_posto">Numero posto
                     <div>
                         <select name="numero_posto" id="numero_posto">
-                            <option value=""><?= $old->numero_posto ?></option>
+                            <option value="<?= $old->numero_posto ?>"><?= $old->numero_posto ?></option>
 							<?php
 							foreach ( $db->getSeatNum( $old->giorno, $old->ora_arrivo, $old->ora_partenza ) as $seat ):
 								?>

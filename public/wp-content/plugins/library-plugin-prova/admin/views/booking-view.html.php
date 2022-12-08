@@ -4,7 +4,6 @@ use Plugin\DB\Database;
 
 include_once __DIR__ . '/../../DB/Database.php';
 $db = new Database( __FILE__ );
-
 ?>
 
 <!doctype html>
@@ -24,7 +23,7 @@ $db = new Database( __FILE__ );
 	echo $db->start_connection();
 
 	date_default_timezone_set( "Europe/Rome" );
-    $currentDate = date('Y-m-d');
+	$currentDate = date( 'Y-m-d' );
 	$currentTime = date( "H:i:s" );
 	?>
 
@@ -42,9 +41,6 @@ $db = new Database( __FILE__ );
                            </script>";
 			}
 
-			if ( isset( $_POST['data-id'] ) ) {
-				refresh();
-			}
 			?>
             <table class="db-table">
                 <thead class="db-thead">
@@ -93,7 +89,7 @@ $db = new Database( __FILE__ );
                                   action="/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fedit-res.html.php">
                                 <input type="hidden" name="id_prenotazione" value="<?= $row->id_prenotazione; ?>">
 								<?php
-								if ( $currentTime >= $row->ora_partenza || $currentDate > $row->giorno) {
+								if ( $currentTime >= $row->ora_partenza || $currentDate > $row->giorno ) {
 									echo "<input type='submit' name='edit' id='edit' disabled class='button button - secondary'
                                        value='Scaduta'>";
 								} else {
@@ -121,9 +117,30 @@ $db = new Database( __FILE__ );
 					<?php
 					endforeach;
 				endif;
+				if ( isset( $_POST['data-id'] ) ) {
+					$db->navigateTo( 'http://localhost:10003/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fbooking-view.html.php' );
+					//				refresh();
+				}
 				?>
                 </tbody>
             </table>
+            <div>
+                <h4>Prenotazioni scadute</h4>
+                <table class="db-table">
+                    <thead class="db-thead">
+                    <tr class="db-tr">
+                        <th class="db-th">Ciao</th>
+                        <th class="db-th">mondo</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="db-tr">
+                        <td class="db-td">ciao</td>
+                        <td class="db-td">mondo</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
 
@@ -165,5 +182,4 @@ $db = new Database( __FILE__ );
         </div>
     </div>
 </div>
-
 </body>
