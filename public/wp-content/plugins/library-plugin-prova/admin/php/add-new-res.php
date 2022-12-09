@@ -88,7 +88,7 @@ if ( isset( $_POST['add'] ) ) {
 	$field['giorno']          = htmlspecialchars($_POST['giorno']);
 	$field['ora_arrivo']      = htmlspecialchars($_POST['ora_arrivo']);
 	$field['ora_partenza']    = htmlspecialchars($_POST['ora_partenza']);
-	$field['tutto_il_giorno'] = htmlspecialchars(isset($_POST['tutto_il_giorno']) ? "si" : "no");
+	$field['tutto_il_giorno'] = htmlspecialchars($_POST['tutto_il_giorno']);
 	$field['numero_posto'] = htmlspecialchars($_POST['numero_posto']);
 
 	/* Restituisce il valore dell'id riferito all'email dell'utente */

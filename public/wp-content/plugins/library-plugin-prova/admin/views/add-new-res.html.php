@@ -88,7 +88,7 @@
                     <input type="hidden" name="giorno" id="giorno" value="<?= $field['giorno']; ?>">
                     <input type="hidden" name="ora_arrivo" id="ora_arrivo" value="<?= $field['ora_arrivo']; ?>">
                     <input type="hidden" name="ora_partenza" id="ora_partenza" value="<?= $field['ora_partenza']; ?>">
-                    <input type="hidden" name="tutto_il_giorno" value="<?= $field['tutto_il_giorno']; ?>">
+                    <input type="hidden" name="tutto_il_giorno" value="<?= $field['tutto_il_giorno']?>">
                     <label for="numero_posto">Numero posto*
                         <div class="form--error">
                             <select name="numero_posto" id="numero_posto">

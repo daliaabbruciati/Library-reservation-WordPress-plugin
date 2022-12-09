@@ -258,18 +258,18 @@ class Database {
 		     $row->numero_posto == $_POST['numero_posto']
 		) {
 
-			var_dump($_POST);
+//			var_dump($_POST);
 //			die($_POST);
 
 			/* Aggiorno il flag 'disponibile' = 1 (TRUE) del numero selezionato nella
 			prenotazione da elimiinare */
-//			if ( ! $this->wpdb->update( self::TABLE_BIBLIOTECA_POSTO, [
-//				'disponibile' => 1
-//			], [
-//				'numero_posto' => $row->numero_posto
-//			] ) ) {
-//				return false;
-//			}
+			if ( ! $this->wpdb->update( self::TABLE_BIBLIOTECA_POSTO, [
+				'disponibile' => 1
+			], [
+				'numero_posto' => $row->numero_posto
+			] ) ) {
+				return false;
+			}
 
 			/* Elimino la prenotazione */
 			if ( ! $this->wpdb->delete( self::TABLE_PRENOTAZIONE, [

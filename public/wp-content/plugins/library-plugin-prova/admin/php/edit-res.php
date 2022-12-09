@@ -31,7 +31,7 @@ if ( isset( $_POST['update'] ) && $old->id_prenotazione == $_POST['id_prenotazio
 	$field['numero_posto']    = htmlspecialchars($_POST['numero_posto']);
 
 
-	if($field['tutto_il_giorno'] !== 'no'){
+	if($field['tutto_il_giorno'] === 'si'){
 		$field['ora_arrivo'] = '09:00:00';
 		$field['ora_partenza'] = '18:30:00';
 	}

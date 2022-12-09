@@ -4,6 +4,14 @@ use Plugin\DB\Database;
 
 include_once __DIR__ . '/../../DB/Database.php';
 $db = new Database( __FILE__ );
+
+add_action('template_redirect', function () {
+	ob_start();
+if ( isset( $_POST['data-id'] ) ) {
+	header( 'http://localhost:10003/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fbooking-view.html.php' );
+	//				refresh();
+}
+});
 ?>
 
 <!doctype html>
@@ -117,27 +125,89 @@ $db = new Database( __FILE__ );
 					<?php
 					endforeach;
 				endif;
-				if ( isset( $_POST['data-id'] ) ) {
-					$db->navigateTo( 'http://localhost:10003/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fbooking-view.html.php' );
-					//				refresh();
-				}
+
 				?>
                 </tbody>
             </table>
             <div>
-                <h4>Prenotazioni scadute</h4>
+                <h4 class="tscadute-title">Prenotazioni scadute</h4>
                 <table class="db-table">
                     <thead class="db-thead">
                     <tr class="db-tr">
-                        <th class="db-th">Ciao</th>
-                        <th class="db-th">mondo</th>
+                        <th class="db-th">Id prenotazione</th>
+                        <th class="db-th">Id utente</th>
+                        <th class="db-th">Nome</th>
+                        <th class="db-th">Email</th>
+                        <th class="db-th">Stanza</th>
+                        <th class="db-th">Giorno</th>
+                        <th class="db-th">Ora arrivo</th>
+                        <th class="db-th">Ora partenza</th>
+                        <th class="db-th">Tutto il giorno</th>
+                        <th class="db-th">Numero posto</th>
+                        <th class="db-th">QR code</th>
+                        <th class="db-th">Modifica</th>
+                        <th class="db-th">Elimina</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr class="db-tr">
-                        <td class="db-td">ciao</td>
-                        <td class="db-td">mondo</td>
-                    </tr>
+                    <tbody id="table-body">
+	                <?php
+	                $result = $db->select_all( $db::TABLE_PRENOTAZIONE );
+	                if ( ! empty( $result ) ):
+		                foreach ( $result as $row ):
+			                if ( $currentTime >= $row->ora_partenza || $currentDate > $row->giorno ) {
+				                echo "<tr class='db-tr' id='table-row' 
+                          style='background-color: #c0c0c0; color: #979797'> ";
+			                } else {
+				                echo "<tr class='db-tr' id='table-row'>";
+			                }
+			                ?>
+                            <td class="db-td"><?= $row->id_prenotazione; ?></td>
+                            <td class="db-td"><?= $row->id_utente; ?></td>
+                            <td class="db-td"><?= $row->nome_utente; ?></td>
+                            <td class="db-td"><?= $row->email_utente; ?></td>
+                            <td class="db-td"><?= $row->nome_stanza; ?></td>
+                            <td class="db-td"><?= $row->giorno; ?></td>
+                            <td class="db-td"><?= $row->ora_arrivo; ?></td>
+                            <td class="db-td"><?= $row->ora_partenza; ?></td>
+                            <td class="db-td"><?= $row->tutto_il_giorno; ?></td>
+                            <td class="db-td"><?= $row->numero_posto; ?></td>
+                            <td class="db-td"><?= $row->qr_code; ?></td>
+                            <td class="db-td">
+
+                                <form method="post"
+                                      action="/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fedit-res.html.php">
+                                    <input type="hidden" name="id_prenotazione" value="<?= $row->id_prenotazione; ?>">
+					                <?php
+					                if ( $currentTime >= $row->ora_partenza || $currentDate > $row->giorno ) {
+						                echo "<input type='submit' name='edit' id='edit' disabled class='button button - secondary'
+                                       value='Scaduta'>";
+					                } else {
+						                echo "<input type='submit' name='edit' id='edit' class='button button - secondary'
+                                       value='Modifica'>";
+					                }
+					                ?>
+                                </form>
+                            </td>
+                            <td class="db-td">
+				                <?php $db->deleteReservation( $row ); ?>
+                                <form id="form_delete" method="post"
+                                      action="<?= htmlspecialchars( $_SERVER['REQUEST_URI'] ) ?>">
+                                    <input type="hidden" name="id_prenotazione" id="id_prenotazione"
+                                           value="<?= $row->id_prenotazione; ?>">
+                                    <input type="hidden" name="numero_posto" value="<?= $row->numero_posto; ?>">
+                                    <input type="hidden" name="nome_stanza" value="<?= $row->nome_stanza; ?>">
+                                    <input type="hidden" name="data-id" value="<?= $row->id_prenotazione; ?>">
+                                    <input type="submit" name="delete" id="delete"
+                                           data-id="<?= $row->id_prenotazione ?>" class="button button-link-delete"
+                                           value="Elimina">
+                                </form>
+                            </td>
+                            </tr>
+		                <?php
+		                endforeach;
+	                endif;
+
+	                ?>
                     </tbody>
                 </table>
             </div>
