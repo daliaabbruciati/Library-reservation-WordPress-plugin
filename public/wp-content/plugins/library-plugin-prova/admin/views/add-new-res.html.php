@@ -69,7 +69,7 @@
             </label>
             <label for="tutto_il_giorno">Tutto il giorno
                 <div class="form--error">
-                    <input type="checkbox" name="tutto_il_giorno" id="tutto_il_giorno" <?php if($field['tutto_il_giorno'] === "si") echo "checked"; ?>>
+                    <input style="width: 10px" type="checkbox" name="tutto_il_giorno" id="tutto_il_giorno" <?php if($field['tutto_il_giorno'] === "si") echo "checked"; ?>>
                     <p> <?= $error['tutto_il_giorno'] ?> </p>
                 </div>
             </label>
@@ -80,7 +80,7 @@
 		if ( isset( $_POST['continua'] ) && empty( array_filter( $error ) ) ):
 			?>
             <div>
-                <form method="post" action="<?php echo htmlspecialchars( $_SERVER['REQUEST_URI'] ); ?>">
+                <form class="form-container" method="post" action="<?php echo htmlspecialchars( $_SERVER['REQUEST_URI'] ); ?>">
                     <input type="hidden" name="id_utente" id="id_utente" value="<?= $field['id_utente']; ?>">
                     <input type="hidden" name="nome_utente" id="nome_utente" value="<?= $field['nome_utente']; ?>">
                     <input type="hidden" name="email_utente" id="email_utente" value="<?= $field['email_utente']; ?>">

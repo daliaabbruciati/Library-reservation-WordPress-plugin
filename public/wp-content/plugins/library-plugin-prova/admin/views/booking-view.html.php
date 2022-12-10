@@ -48,7 +48,6 @@ if ( isset( $_POST['data-id'] ) ) {
                            window.location=document.location.href;
                            </script>";
 			}
-
 			?>
             <table class="db-table">
                 <thead class="db-thead">
@@ -73,13 +72,11 @@ if ( isset( $_POST['data-id'] ) ) {
 				$result = $db->select_all( $db::TABLE_PRENOTAZIONE );
 				if ( ! empty( $result ) ):
 					foreach ( $result as $row ):
-						if ( $currentTime >= $row->ora_partenza || $currentDate > $row->giorno ) {
-							echo "<tr class='db-tr' id='table-row' 
-                          style='background-color: #c0c0c0; color: #979797'> ";
-						} else {
-							echo "<tr class='db-tr' id='table-row'>";
+						if ( ($currentDate > $row->giorno) || ($currentDate === $row->giorno && $currentTime >= $row->ora_partenza) ) {
+							continue;
 						}
 						?>
+                        <tr class='db-tr' id='table-row'>
                         <td class="db-td"><?= $row->id_prenotazione; ?></td>
                         <td class="db-td"><?= $row->id_utente; ?></td>
                         <td class="db-td"><?= $row->nome_utente; ?></td>
@@ -125,10 +122,10 @@ if ( isset( $_POST['data-id'] ) ) {
 					<?php
 					endforeach;
 				endif;
-
 				?>
                 </tbody>
             </table>
+<!--        seconda tabella-->
             <div>
                 <h4 class="tscadute-title">Prenotazioni scadute</h4>
                 <table class="db-table">
@@ -151,17 +148,14 @@ if ( isset( $_POST['data-id'] ) ) {
                     </thead>
                     <tbody id="table-body">
 	                <?php
-	                $result = $db->select_all( $db::TABLE_PRENOTAZIONE );
 	                if ( ! empty( $result ) ):
 		                foreach ( $result as $row ):
-			                if ( $currentTime >= $row->ora_partenza || $currentDate > $row->giorno ) {
-				                echo "<tr class='db-tr' id='table-row' 
-                          style='background-color: #c0c0c0; color: #979797'> ";
-			                } else {
-				                echo "<tr class='db-tr' id='table-row'>";
+			                if ( (($currentDate < $row->giorno) || ($currentDate === $row->giorno && $currentTime < $row->ora_partenza) )) {
+				                continue;
 			                }
 			                ?>
-                            <td class="db-td"><?= $row->id_prenotazione; ?></td>
+                    <tr class='db-tr' id='table-row' style='background-color: #c0c0c0; color: #979797'>
+                    <td class="db-td"><?= $row->id_prenotazione; ?></td>
                             <td class="db-td"><?= $row->id_utente; ?></td>
                             <td class="db-td"><?= $row->nome_utente; ?></td>
                             <td class="db-td"><?= $row->email_utente; ?></td>
@@ -206,7 +200,6 @@ if ( isset( $_POST['data-id'] ) ) {
 		                <?php
 		                endforeach;
 	                endif;
-
 	                ?>
                     </tbody>
                 </table>
