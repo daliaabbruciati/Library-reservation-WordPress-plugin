@@ -153,16 +153,20 @@ class Database {
 		/* Query che restituisce tutti i posti disponibili e selezionabili per la prenotazione */
 //		return $this->wpdb->get_results( "SELECT numero_posto FROM " . self::TABLE_BIBLIOTECA_POSTO .
 //		                                 " WHERE disponibile = 1;" );
-		return $this->wpdb->get_results("SELECT wp_biblioteca_posto.numero_posto FROM wp_biblioteca_posto WHERE id_stanza = 1 AND wp_biblioteca_posto.numero_posto NOT IN (
-    	SELECT DISTINCT wp_prenotazione.numero_posto FROM wp_prenotazione WHERE giorno = '$giorno' AND 
-    	nome_stanza = 'Stanza 1' AND ora_arrivo = '$ora_arrivo' AND ora_partenza = '$ora_partenza')");
-	}
+//		die("SELECT wp_biblioteca_posto.numero_posto FROM wp_biblioteca_posto WHERE id_stanza = 1 AND wp_biblioteca_posto.numero_posto NOT IN (
+//    	SELECT DISTINCT wp_prenotazione.numero_posto FROM wp_prenotazione WHERE giorno = '$giorno' AND
+//    	nome_stanza = 'Stanza 1' AND ora_arrivo >= '$ora_arrivo'   AND ora_partenza <= '$ora_partenza')");
 
-	//TODO:
-	// SELECT wp_biblioteca_posto.numero_posto FROM wp_biblioteca_posto WHERE id_stanza = 1 AND wp_biblioteca_posto.numero_posto NOT IN (
-	// SELECT DISTINCT wp_prenotazione.numero_posto FROM wp_prenotazione WHERE giorno = "2022-10-25" AND nome_stanza = "Stanza 1" AND
-	// ora_arrivo = "$ora_arrivo" AND ora_partenza = "$ora_partenza"
-	// )
+//		return $this->wpdb->get_results("SELECT wp_biblioteca_posto.numero_posto FROM wp_biblioteca_posto WHERE id_stanza = 1 AND wp_biblioteca_posto.numero_posto NOT IN (
+//    	SELECT DISTINCT wp_prenotazione.numero_posto FROM wp_prenotazione WHERE giorno = '$giorno' AND
+//    	nome_stanza = 'Stanza 1' AND ora_arrivo >= '$ora_arrivo'   AND ora_partenza <= '$ora_partenza')");
+
+//		die("SELECT wp_biblioteca_posto.numero_posto FROM wp_biblioteca_posto WHERE id_stanza = 1 AND wp_biblioteca_posto.numero_posto NOT IN (
+//SELECT DISTINCT wp_prenotazione.numero_posto FROM wp_prenotazione WHERE giorno = '$giorno' AND nome_stanza = 'Stanza 1' AND
+//( (ora_arrivo >= '$ora_arrivo' AND ora_arrivo <= '$ora_partenza') OR (ora_partenza >= '$ora_arrivo' AND ora_partenza <= '$ora_partenza') OR (ora_arrivo <= '$ora_arrivo' AND ora_partenza >= '$ora_partenza')))");
+
+		return $this->wpdb->get_results("SELECT numero_posto FROM wp_biblioteca_posto WHERE id_stanza = 1 AND numero_posto NOT IN (SELECT numero_posto FROM wp_prenotazione WHERE giorno = '$giorno' AND nome_stanza = 'Stanza 1' AND ((ora_arrivo BETWEEN '$ora_arrivo' AND '$ora_partenza') OR (ora_partenza BETWEEN '$ora_arrivo' AND  '$ora_partenza')))");
+	}
 
 	public function getNumOfAvailableSeats() {
 		/* Restituisce il numero totale di posti ancora disponibili, cioè con flag 'disponibile' = TRUE */
