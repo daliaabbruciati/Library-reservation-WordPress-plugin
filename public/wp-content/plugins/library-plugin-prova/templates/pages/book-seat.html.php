@@ -11,9 +11,6 @@
 
 <?php include 'header.html.php';
 
-var_dump( $_GET );
-var_dump( $_POST );
-
 if ( isset( $_POST['submit_prenotazione'] ) && empty( array_filter( $error ) ) ):
 	include_once __DIR__ . '/./booking-success.html.php';
 else:
@@ -33,6 +30,12 @@ else:
         <div class="container__content">
                 <div class="container__form">
                     <h2>Prenota posto</h2>
+                    <?php
+                    if(isset($_POST['id_prenotazione']) && isset($_POST['update'])){
+                     echo "<h6 style='padding: 14px; color: #220dea; width: 521px;'>
+                            Prenotazione modificata correttamente. Torna al <a href='/riepilogo'>riepilogo prenotazioni.</a></h6>";
+                    }
+                    ?>
                     <form class="form" action="<?php echo htmlspecialchars( $_SERVER['REQUEST_URI'] ); ?>"
                           method="post">
 						<?php
@@ -44,8 +47,7 @@ else:
                                    value="<?= $field['nome_utente'] = $user->user_login ?>">
                             <input type="hidden" name="email_utente" id="email_utente"
                                    value="<?= $field['email_utente'] = $user->user_email ?>">
-						<?php endforeach;
-						?>
+                        <?php endforeach; ?>
                         <div class="form__stanza">
                             <label for="nome_stanza">Scegli stanza</label>
                             <div class="form--error">
@@ -112,14 +114,18 @@ else:
                             <input class="form__submit" type="submit" id="continua" name="continua"
                                    value="Continua">
 						<?php endif; ?>
+	                    <?php if(isset($_POST['id_prenotazione'])): ?>
+                            <input type="hidden" name="id_prenotazione" id="id_prenotazione"
+                                   value="<?= $_POST['id_prenotazione'] ?>">
+	                    <?php endif; ?>
                     </form>
 					<?php
-//					if ( isset( $_POST['continua'] ) && empty( array_filter( $error ) ) || ! empty( $error['numero_posto'] ) ):
-                    if(str_contains($_SERVER['REQUEST_URI'], 'edit=true')):
+                        if(isset($_POST['id_prenotazione']) && isset($_POST['continua'])):
 						?>
                         <div class="container__form">
-                            <form class="form" method="post"
-                                  action="">
+                            <form class="form" method="post" action="<?= htmlspecialchars( $_SERVER['REQUEST_URI'] ); ?>">
+                                <input type="hidden" name="id_prenotazione" id="id_prenotazione"
+                                       value="<?= $field['id_prenotazione']; ?>">
                                 <input type="hidden" name="id_utente" id="id_utente"
                                        value="<?= $field['id_utente']; ?>">
                                 <input type="hidden" name="nome_utente" id="nome_utente"
@@ -150,15 +156,16 @@ else:
                                         <p><?= $error['numero_posto'] ?></p>
                                     </div>
                                 </div>
-                                <input class="form__submit" type="submit" id="update"
-                                       name="update"
+                                <input class="form__submit" type="submit" id="update" name="update"
                                        value="Salva modifiche">
                             </form>
                         </div>
-                    <?php else: ?>
+                    <?php else:
+                    if ( isset( $_POST['continua'] ) && empty( array_filter( $error ) ) || ! empty( $error['numero_posto'] ) ):
+                        ?>
                         <div class="container__form">
                             <form class="form" method="post"
-                                  action="<?php echo htmlspecialchars( $_SERVER['REQUEST_URI'] ); ?>">
+                                  action="<?= htmlspecialchars( $_SERVER['REQUEST_URI'] ); ?>">
                                 <input type="hidden" name="id_utente" id="id_utente"
                                        value="<?= $field['id_utente']; ?>">
                                 <input type="hidden" name="nome_utente" id="nome_utente"
@@ -194,8 +201,9 @@ else:
                                        value="Conferma">
                             </form>
                         </div>
-
-					<?php endif; // end for 'continua' ?>
+					<?php
+                    endif;
+                    endif; ?>
                 </div>
                 <div class="container__image">
 					<?php
@@ -209,51 +217,9 @@ else:
                 </div>
         </div>
     </div>
-<?php endif; ?>
-
-<?php //if ($_SERVER['REQUEST_METHOD'] === "GET"): ?>
-<!--    <div class="container__form">-->
-<!--        <form class="form" method="post"-->
-<!--              action="--><?php //echo htmlspecialchars( $_SERVER['REQUEST_URI'] ); ?><!--">-->
-<!--            <input type="hidden" name="id_utente" id="id_utente" value="--><? //= $field['id_utente']; ?><!--">-->
-<!--            <input type="hidden" name="nome_utente" id="nome_utente"-->
-<!--                   value="--><? //= $field['nome_utente']; ?><!--">-->
-<!--            <input type="hidden" name="email_utente" id="email_utente"-->
-<!--                   value="--><? //= $field['email_utente']; ?><!--">-->
-<!--            <input type="hidden" name="nome_stanza" id="nome_stanza"-->
-<!--                   value="--><? //= $field['nome_stanza']; ?><!--">-->
-<!--            <input type="hidden" name="giorno" id="giorno" value="--><? //= $field['giorno']; ?><!--">-->
-<!--            <input type="hidden" name="ora_arrivo" id="ora_arrivo" value="-->
-<? //= $field['ora_arrivo']; ?><!--">-->
-<!--            <input type="hidden" name="ora_partenza" id="ora_partenza"-->
-<!--                   value="--><? //= $field['ora_partenza']; ?><!--">-->
-<!--            <input type="hidden" name="tutto_il_giorno" value="--><? //= $field['tutto_il_giorno']; ?><!--">-->
-<!--            <div class="form__posto">-->
-<!--                <label for="numero_posto">Scegli posto disponibile</label>-->
-<!--                <div class="form--error">-->
-<!--                    <select name="numero_posto" id="numero_posto">-->
-<!--                        <option value=""> -->
-<? //= isset( $_POST['submit_prenotazione'] ) ? $field['numero_posto'] : 'Scegli posto' ?><!--</option>-->
-<!--						--><?php
-//						foreach ( $db->getAvailableSeats( $field['giorno'], $field['ora_arrivo'], $field['ora_partenza'] ) as $seat ):
-//							?>
-<!--                            <option value="--><? //= $seat->numero_posto ?><!--">-->
-<? //= $seat->numero_posto ?><!--</option>-->
-<!--						--><?php
-//						endforeach;
-//						?>
-<!--                    </select>-->
-<!--                    <p>--><? //= $error['numero_posto'] ?><!--</p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <input class="form__submit" type="submit" id="update"-->
-<!--                   name="update" value="Aggiorna">-->
-<!--        </form>-->
-<!--    </div>-->
-<?php //endif; ?>
-
-<?php include 'footer.html.php'; ?>
-
+<?php
+endif;
+ include 'footer.html.php'; ?>
 </body>
 </html>
 
