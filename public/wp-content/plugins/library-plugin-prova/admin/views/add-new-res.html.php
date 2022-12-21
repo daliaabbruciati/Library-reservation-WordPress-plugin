@@ -64,12 +64,13 @@
                             <option value="<?= $hour ?>"><?= $hour ?></option>
 						<?php endforeach; ?>
                     </select>
-                    <p> <?= $error['ora_partenza'] ?> </p>
+                    <p style='max-width: 95px'> <?= $error['ora_partenza'] ?> </p>
                 </div>
             </label>
             <label for="tutto_il_giorno">Tutto il giorno
-                <div class="form--error">
+                <div class="form--error" style="display: flex; flex-direction: column; align-items: flex-end">
                     <input style="width: 10px" type="checkbox" name="tutto_il_giorno" id="tutto_il_giorno" <?php if($field['tutto_il_giorno'] === "si") echo "checked"; ?>>
+                    <p style="font-size: 13px">Dalle 09:00 alle 18:30</p>
                     <p> <?= $error['tutto_il_giorno'] ?> </p>
                 </div>
             </label>
@@ -88,13 +89,13 @@
                     <input type="hidden" name="giorno" id="giorno" value="<?= $field['giorno']; ?>">
                     <input type="hidden" name="ora_arrivo" id="ora_arrivo" value="<?= $field['ora_arrivo']; ?>">
                     <input type="hidden" name="ora_partenza" id="ora_partenza" value="<?= $field['ora_partenza']; ?>">
-                    <input type="hidden" name="tutto_il_giorno" value="<?= $field['tutto_il_giorno']?>">
+                    <input type="hidden" name="tutto_il_giorno" value="<?= $field['tutto_il_giorno'];?>">
                     <label for="numero_posto">Numero posto*
                         <div class="form--error">
                             <select name="numero_posto" id="numero_posto">
                                 <option value=""><?= isset( $_POST['add'] ) ? $field['numero_posto'] : 'Scegli posto' ?></option>
 								<?php
-								foreach ( $db->getSeatNum( $field['giorno'], $field['ora_arrivo'], $field['ora_partenza'] ) as $seat ):
+								foreach ( $db->getAvailableSeats( $field['giorno'], $field['ora_arrivo'], $field['ora_partenza'] ) as $seat ):
 									?>
                                     <option value="<?= $seat->numero_posto ?>"><?= $seat->numero_posto ?></option>
 								<?php
@@ -108,6 +109,11 @@
                            value="Aggiungi prenotazione">
                 </form>
             </div>
-		<?php endif; ?>
+		<?php
+        endif;
+		if ( isset( $_POST['add'] ) && empty( array_filter( $error ) ) ) {
+			echo "<h3>Prenotazione aggiunta correttamente.Vai alla schermata <a href='admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fbooking-view.html.php'>Panoramica</a></h3>";
+		}
+        ?>
     </div>
 </div>

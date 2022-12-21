@@ -4,18 +4,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Biblioteca: Crea account</title>
-    <link rel="stylesheet" href="<?= plugin_dir_url( __DIR__ ) . '/../css/signup.css'; ?>">
+    <link rel="stylesheet" href="<?= plugin_dir_url( __DIR__ ) . '/../styles/signup.css'; ?>">
 </head>
 <body>
 
 <?php
 include 'header.html.php';
 
-if ( isset( $_POST['registrati'] ) && $valid ):
+if ( isset( $_POST['registrati'] ) && $valid ){
 	$_SESSION['nome']  = $field['nome'];
 	$_SESSION['email'] = $field['email'];
-	include_once __DIR__ . '/./register-success.html.php';
-else:
+//	include_once __DIR__ . '/./register-success.html.php';
+}
+
 ?>
 <div class="container">
     <h2>Crea account</h2>
@@ -58,7 +59,6 @@ else:
         </form>
         <p>Hai gia un account? <a href="/prenotazione">Torna indietro e accedi</a></p>
     </div>
-	<?php endif; ?>
 </div>
 
 <?php include 'footer.html.php'; ?>

@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Biblioteca: Prenotazione confermata</title>
-    <link rel="stylesheet" href="<?php echo plugin_dir_url( __DIR__ ) . '/../css/booking-success.css'; ?>">
-    <!--    <script src="--><? //= plugin_dir_url(__DIR__) . '/../js/getQrCode.js'; ?><!--"></script>-->
+    <link rel="stylesheet" href="<?php echo plugin_dir_url( __DIR__ ) . '/../styles/booking-success.css'; ?>">
 </head>
 <body>
 
@@ -17,13 +16,19 @@
 //echo $output_data;
 //exit;
 
-//TODO: modificare 'nome' con id_prenotazione dell'utente
-// il qr code prende il posto, quando arrivo scannerizzo il tavolo...
+use Plugin\DB\Database;
+
+$db = new Database( __FILE__ );
+
 $prova = $_SESSION['nome'];
 //$id = $_SESSION['id'];
-$email = $_SESSION['email'];
+//$email = $_SESSION['email'];
+$id = $field['id_utente'];
+$posto = $field['numero_posto'];
 
-$url = "https://api.qrserver.com/v1/create-qr-code/?data=$email&size=200x200&margin=15";
+$getIdReservation = $db->wpdb->get_var("SELECT MAX(id_prenotazione) FROM wp_prenotazione WHERE id_utente = '$id'");
+
+$url = "https://api.qrserver.com/v1/create-qr-code/?data=id_prenotazione=$getIdReservation,utente=$id,posto=$posto&size=200x200&margin=15";
 
 ?>
 
@@ -32,32 +37,49 @@ $url = "https://api.qrserver.com/v1/create-qr-code/?data=$email&size=200x200&mar
     <p>Congratulazioni <?= $_SESSION['nome'] ?></p>
     <p>Ecco il riepilogo della tua prenotazione:</p>
     <table class="card">
-	<?php
-	foreach ( $field as $key => $value ):
-		?>
-        <tbody >
-        <tr class="card-items">
-            <td class="item"><?= $key?></td>
-            <td class="item"><?= $value?></td>
-        </tr>
-        </tbody>
-<!--        <p>--><?//= $field['nome_utente'] ?><!--</p>-->
-<!--        <p>--><?//= $field['email_utente'] ?><!--</p>-->
-<!--        <p>--><?//= $field['nome_stanza'] ?><!--</p>-->
-<!--        <p>--><?//= $field['giorno'] ?><!--</p>-->
-<!--        <p>--><?//= $field['ora_arrivo'] ?><!--</p>-->
-<!--        <p>--><?//= $field['ora_partenza'] ?><!--</p>-->
-<!--        <p>--><?//= $field['tutto_il_giorno'] ?><!--</p>-->
-<!--        <p>--><?//= $field['numero_posto'] ?><!--</p>-->
-	<?php endforeach; ?>
+		<?php
+		if ( ! empty( $field ) ):
+			foreach ( $field as $key => $value ):
+				?>
+                <tbody>
+                <tr class="card-items">
+                    <td class="item"><?= $key ?></td>
+                    <td class="item"><?= $value ?></td>
+                </tr>
+                </tbody>
+			<?php
+			endforeach;
+		endif; ?>
     </table>
-    <p>Ecco il QR code per accedere alla biblioteca. <br><strong>Buono studio!</strong></p>
-    <!--    <div id="qrcode"></div>-->
-    <img src="<?= $url ?>" alt="qr-code"/>
-    <p>Ricordati che la validità del QR code è di <strong>30 min</strong> dall'ora della prenotazione</p>
-    <button>Scarica QR code</button>
-    <a href="/riepilogo">Vedi riepilogo prenotazioni</a>
-    <a href="/scegli-posto">Torna alla scelta dei posti</a>
+    <div class="qr-code">
+        <p>Ecco il QR code per accedere alla biblioteca. <br><strong>Buono studio!</strong></p>
+        <img src="<?= $url ?>" alt="qr-code"/>
+        <p>Ricordati che la validità del QR code è di <strong>30 min</strong> dall'ora della prenotazione</p>
+        <a href="<?= plugin_dir_url( __DIR__ ) . '/../../assets/qrcode.png' ?>" download>Scarica qr code</a>
+    </div>
+    <script>
+        function downloadFile(url, fileName){
+            fetch(url, { method: 'get', mode: 'no-cors', referrerPolicy: 'no-referrer' })
+                .then(res => res.blob())
+                .then(res => {
+                    const aElement = document.createElement('a');
+                    aElement.setAttribute('download', fileName);
+                    const href = URL.createObjectURL(res);
+                    aElement.href = href;
+                    // aElement.setAttribute('href', href);
+                    aElement.setAttribute('target', '_blank');
+                    aElement.click();
+                    URL.revokeObjectURL(href);
+                });
+        }
+        document.getElementById('qrcode-download').onclick =function () {
+            downloadFile('https://www.kdnuggets.com/wp-content/uploads/newsletter.png', 'qrcode.png');
+        }
+    </script>
+    <div class="links">
+        <a href="/riepilogo">Vedi riepilogo prenotazioni</a>
+        <a href="/scegli-posto">Torna alla scelta dei posti</a>
+    </div>
 </div>
 
 <?php include 'footer.html.php'; ?>

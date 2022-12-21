@@ -45,6 +45,12 @@ if ( isset( $_POST['continua'] ) ) {
 		$field['ora_partenza'] = '18:30:00';
 	}
 
+	if ( $field['ora_arrivo'] === '09:00:00' && $field['ora_partenza'] === '18:30:00' ) {
+		$field['tutto_il_giorno'] = "si";
+	} else {
+		$field['tutto_il_giorno'] = "no";
+	}
+
 	/* Restituisce il valore dell'id riferito all'email dell'utente */
 	$findUserId = $wpdb->get_var( "SELECT ID FROM " . $db::TABLE_UTENTI .
 	                              " WHERE user_email = '" . $field['email_utente'] . "';" );
@@ -79,6 +85,10 @@ if ( isset( $_POST['continua'] ) ) {
 	if ( empty( $field['ora_partenza'] ) ) {
 		$error['ora_partenza'] = "<span class='error-field'>Campo ora partenza errato.</span>";
 	}
+
+	if($field['ora_arrivo'] > $field['ora_partenza']){
+		$error['ora_partenza'] = "<span class='error-field'>Errore: ora di arrivo maggiore dell'ora di partenza.</span>";
+	}
 }
 
 if ( isset( $_POST['add'] ) ) {
@@ -104,7 +114,6 @@ if ( isset( $_POST['add'] ) ) {
 
 if ( isset( $_POST['add'] ) && empty( array_filter( $error ) ) ) {
 	$db->do_reservation( $field );
-	$db->updateAvailableSeats( $field['numero_posto'], $field['nome_stanza'] );
-	echo "<h3>Prenotazione aggiunta correttamente.Vai alla schermata <a href='admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fbooking-view.html.php'>Panoramica</a></h3>";
+	$db->updateSeatsInRoom($field['nome_stanza']);
 }
 

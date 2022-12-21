@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Biblioteca: Accedi</title>
-    <link rel="stylesheet" href="<?php echo plugin_dir_url(__DIR__) . '/../css/login.css'; ?>">
+    <link rel="stylesheet" href="<?php echo plugin_dir_url(__DIR__) . '/../styles/login.css'; ?>">
 </head>
 <body>
 

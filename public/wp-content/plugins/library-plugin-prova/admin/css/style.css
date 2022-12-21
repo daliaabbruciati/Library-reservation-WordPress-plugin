@@ -44,6 +44,8 @@
 .tab-content > .tab-pane.active {
     display: block;
     padding: 10px;
+    width: 100%;
+    margin-right: 20px;
 }
 
 div.ui-toggle {
@@ -119,12 +121,21 @@ div.ui-toggle label:hover, div.ui-toggle label > div:hover {
 }
 
 .button-edit{
-    /*display: flex;*/
     padding: 4px 16px;
     border-color: #0073aa;
 }
 
-.tscadute-title {
+.tscadute-table {
+    margin-top: 100px;
+}
+
+.t--header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.t-header-title {
     display: flex;
     width: 145px;
     padding: 8px;
@@ -153,6 +164,7 @@ div.ui-toggle label:hover, div.ui-toggle label > div:hover {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    margin-top: 10px;
 }
 
 .form-container input{

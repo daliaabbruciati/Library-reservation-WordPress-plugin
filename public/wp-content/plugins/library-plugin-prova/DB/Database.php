@@ -93,7 +93,6 @@ class Database {
 			$table_biblioteca_posto = "CREATE TABLE " . self::TABLE_BIBLIOTECA_POSTO . " (
             id_posto INT(10) AUTO_INCREMENT,
             numero_posto INT(5) NOT NULL,
-            disponibile TINYINT DEFAULT 1,
             id_stanza INT(10),
             PRIMARY KEY  (id_posto),
             FOREIGN KEY (id_stanza) REFERENCES " . self::TABLE_BIBLIOTECA_STANZA . "(id_stanza)
@@ -129,56 +128,53 @@ class Database {
 	}
 
 	public function getHours(): array {
-		 return $hours = [
-			'09:00:00',' 09:30:00',
-			'10:00:00','10:30:00',
-			'11:00:00','11:30:00',
-			'12:00:00','12:30:00',
-			'13:00:00','13:30:00',
+		return $hours = [
+			'09:00:00',
+			' 09:30:00',
+			'10:00:00',
+			'10:30:00',
+			'11:00:00',
+			'11:30:00',
+			'12:00:00',
+			'12:30:00',
+			'13:00:00',
+			'13:30:00',
 			'15:30:00',
-			'16:00:00','16:30:00',
-			'17:00:00','17:30:00',
-			'18:00:00','18:30:00',
-			 '23:34:00'
+			'16:00:00',
+			'16:30:00',
+			'17:00:00',
+			'17:30:00',
+			'18:00:00',
+			'18:30:00',
+			'23:34:00'
 		];
 	}
 
-
+	/* Query che restituisce tutte le stanze disponibili e selezionabili per la prenotazione */
 	public function getRoomName() {
-		/* Query che restituisce tutte le stanze disponibili e selezionabili per la prenotazione */
 		return $this->wpdb->get_results( "SELECT nome_stanza FROM " . self::TABLE_BIBLIOTECA_STANZA . ";" );
 	}
 
-	public function getSeatNum($giorno, $ora_arrivo, $ora_partenza) {
-		/* Query che restituisce tutti i posti disponibili e selezionabili per la prenotazione */
-//		return $this->wpdb->get_results( "SELECT numero_posto FROM " . self::TABLE_BIBLIOTECA_POSTO .
-//		                                 " WHERE disponibile = 1;" );
-//		die("SELECT wp_biblioteca_posto.numero_posto FROM wp_biblioteca_posto WHERE id_stanza = 1 AND wp_biblioteca_posto.numero_posto NOT IN (
-//    	SELECT DISTINCT wp_prenotazione.numero_posto FROM wp_prenotazione WHERE giorno = '$giorno' AND
-//    	nome_stanza = 'Stanza 1' AND ora_arrivo >= '$ora_arrivo'   AND ora_partenza <= '$ora_partenza')");
-
-//		return $this->wpdb->get_results("SELECT wp_biblioteca_posto.numero_posto FROM wp_biblioteca_posto WHERE id_stanza = 1 AND wp_biblioteca_posto.numero_posto NOT IN (
-//    	SELECT DISTINCT wp_prenotazione.numero_posto FROM wp_prenotazione WHERE giorno = '$giorno' AND
-//    	nome_stanza = 'Stanza 1' AND ora_arrivo >= '$ora_arrivo'   AND ora_partenza <= '$ora_partenza')");
-
-//		die("SELECT wp_biblioteca_posto.numero_posto FROM wp_biblioteca_posto WHERE id_stanza = 1 AND wp_biblioteca_posto.numero_posto NOT IN (
-//SELECT DISTINCT wp_prenotazione.numero_posto FROM wp_prenotazione WHERE giorno = '$giorno' AND nome_stanza = 'Stanza 1' AND
-//( (ora_arrivo >= '$ora_arrivo' AND ora_arrivo <= '$ora_partenza') OR (ora_partenza >= '$ora_arrivo' AND ora_partenza <= '$ora_partenza') OR (ora_arrivo <= '$ora_arrivo' AND ora_partenza >= '$ora_partenza')))");
-
-		return $this->wpdb->get_results("SELECT numero_posto FROM wp_biblioteca_posto WHERE id_stanza = 1 AND numero_posto NOT IN (SELECT numero_posto FROM wp_prenotazione WHERE giorno = '$giorno' AND nome_stanza = 'Stanza 1' AND ((ora_arrivo BETWEEN '$ora_arrivo' AND '$ora_partenza') OR (ora_partenza BETWEEN '$ora_arrivo' AND  '$ora_partenza')))");
+	/* Query che restituisce tutti i posti disponibili e selezionabili per la prenotazione */
+	public function getAvailableSeats( $giorno, $ora_arrivo, $ora_partenza ) {
+		date_default_timezone_set( "Europe/Rome" );
+		$currentDate = date( 'Y-m-d' );
+		return $this->wpdb->get_results( "SELECT numero_posto FROM wp_biblioteca_posto WHERE id_stanza = 1 AND numero_posto NOT IN (SELECT numero_posto FROM wp_prenotazione WHERE giorno = '$giorno' AND nome_stanza = 'Stanza 1' AND ((ora_arrivo BETWEEN '$ora_arrivo' AND '$ora_partenza') OR (ora_partenza BETWEEN '$ora_arrivo' AND '$ora_partenza') OR (giorno = '$currentDate' AND ora_arrivo <= '$ora_arrivo' AND ora_partenza >= '$ora_partenza') OR (giorno < '$currentDate' AND ora_arrivo <= '$ora_arrivo' AND ora_partenza >= '$ora_partenza')))");
 	}
 
-	public function getNumOfAvailableSeats() {
-		/* Restituisce il numero totale di posti ancora disponibili, cioè con flag 'disponibile' = TRUE */
-		return $this->wpdb->get_var( "SELECT COUNT(*) FROM " . self::TABLE_BIBLIOTECA_POSTO .
-		                             " WHERE disponibile = 1;" );
+	/* Restituisce il numero totale di posti ancora disponibili */
+	public function getNumOfAvailableSeats($field_stanza): int {
+		date_default_timezone_set( "Europe/Rome" );
+		$currentDate = date( 'Y-m-d' );
+		$currentTime = date( "H:i:s" );
+
+		return $this->wpdb->get_var("SELECT COUNT(*) FROM wp_biblioteca_posto WHERE numero_posto NOT IN (SELECT numero_posto FROM wp_prenotazione WHERE  nome_stanza = '$field_stanza' AND giorno = '$currentDate' AND ora_partenza >= '$currentTime')");
 	}
 
+	/* Aggiorno il numero totale di posti disponibili nella tabella 'wp_biblioteca_stanza' */
 	public function updateSeatsInRoom( $field_stanza ) {
-		/* Aggiorno il numero di posti disponibili nella tabella 'wp_biblioteca_stanza'
-		in base al numero di posti che hanno il flag 'disponibile' settato a TRUE */
 		$this->wpdb->update( self::TABLE_BIBLIOTECA_STANZA, [
-			'posti_disponibili' => $this->getNumOfAvailableSeats()
+			'posti_disponibili' => $this->getNumOfAvailableSeats($field_stanza)
 		], [
 			'nome_stanza' => $field_stanza
 		] );
@@ -188,22 +184,22 @@ class Database {
 		return $this->wpdb->get_results( "SELECT numero_posto FROM " . self::TABLE_PRENOTAZIONE . ";" );
 	}
 
-	public function updateReservedSeat( $oldValue ) {
-		foreach ( $this->getReservedSeats() as $prenotato ) {
-			$this->wpdb->update( self::TABLE_BIBLIOTECA_POSTO, [
-				'disponibile' => 0
-			], [
-				'numero_posto' => $prenotato->numero_posto
-			] );
-		}
-
-		/* Riaggiorno il flag 'disponibile' a TRUE del vecchio numero della prenotazione */
-		$this->wpdb->update( self::TABLE_BIBLIOTECA_POSTO, [
-			'disponibile' => 1
-		], [
-			'numero_posto' => $oldValue
-		] );
-	}
+//	public function updateReservedSeat( $oldValue ) {
+//		foreach ( $this->getReservedSeats() as $prenotato ) {
+//			$this->wpdb->update( self::TABLE_BIBLIOTECA_POSTO, [
+//				'disponibile' => 0
+//			], [
+//				'numero_posto' => $prenotato->numero_posto
+//			] );
+//		}
+//
+//		/* Riaggiorno il flag 'disponibile' a TRUE del vecchio numero della prenotazione */
+//		$this->wpdb->update( self::TABLE_BIBLIOTECA_POSTO, [
+//			'disponibile' => 1
+//		], [
+//			'numero_posto' => $oldValue
+//		] );
+//	}
 
 
 	public function createSeats(): void {
@@ -230,71 +226,78 @@ class Database {
 		}
 	}
 
-
-	public function updateAvailableSeats( $field_posto, $field_stanza ): void {
-		/* Aggiorno il flag 'disponibile' a FALSE del posto selezinato durante la prenotazine */
-		$this->wpdb->update( self::TABLE_BIBLIOTECA_POSTO, [
-			'disponibile' => 0
-		], [
-			'numero_posto' => $field_posto
-		] );
-
-		$this->updateSeatsInRoom( $field_stanza );
-	}
-
-	/* Elimina la prenotazione allo scadere dell'ora della partenza */
-//	public function timeDone($ora_partenza){
-//		date_default_timezone_set("Europe/Rome");
-//		$currentTime = date("H:i");
-//
-//		if($currentTime === $ora_partenza){
-//		$this->wpdb->delete(self::TABLE_PRENOTAZIONE,[
-//			'ora_partenza' => $ora_partenza
-//		]);
-//
-//		}
-//	}
-
-	public function deleteReservation( $row ): bool {
-		/* Elimino il record della prenotazione dalla tabella 'wp_prenotazione' */
+	public function delete( $row ) {
 		if ( isset( $_POST['delete'] ) &&
-		     $row->id_prenotazione == $_POST['id_prenotazione'] &&
-		     $row->numero_posto == $_POST['numero_posto']
-		) {
+		     $row->id_prenotazione == $_POST['id_prenotazione']) {
 
-//			var_dump($_POST);
-//			die($_POST);
-
-			/* Aggiorno il flag 'disponibile' = 1 (TRUE) del numero selezionato nella
-			prenotazione da elimiinare */
-			if ( ! $this->wpdb->update( self::TABLE_BIBLIOTECA_POSTO, [
-				'disponibile' => 1
-			], [
-				'numero_posto' => $row->numero_posto
-			] ) ) {
-				return false;
-			}
-
-			/* Elimino la prenotazione */
-			if ( ! $this->wpdb->delete( self::TABLE_PRENOTAZIONE, [
+			$this->wpdb->delete( self::TABLE_PRENOTAZIONE, [
 				'id_prenotazione' => $row->id_prenotazione
-			] ) ) {
-				return false;
-			}
+			] );
 
-			$posti_rimanenti = self::getNumOfAvailableSeats();
+			$posti_rimanenti = self::getNumOfAvailableSeats($row->nome_stanza);
 
-			if ( ! $this->wpdb->update( self::TABLE_BIBLIOTECA_STANZA, [
+			$this->wpdb->update(self::TABLE_BIBLIOTECA_STANZA,[
 				'posti_disponibili' => $posti_rimanenti
-			], [
+			],[
 				'nome_stanza' => $row->nome_stanza
-			] ) ) {
-				return false;
-			}
-		return true;
+			]);
 		}
-	return false;
 	}
+
+	public function deleteAll($row){
+		$this->wpdb->get_results("TRUNCATE TABLE ".self::TABLE_PRENOTAZIONE."");
+
+		$posti_rimanenti = self::getNumOfAvailableSeats($row->nome_stanza);
+
+		$this->wpdb->update(self::TABLE_BIBLIOTECA_STANZA,[
+			'posti_disponibili' => $posti_rimanenti
+		],[
+			'nome_stanza' => $row->nome_stanza
+		]);
+	}
+
+//	public function deleteReservation( $row ): bool {
+//		/* Elimino il record della prenotazione dalla tabella 'wp_prenotazione' */
+//		if ( isset( $_POST['delete'] ) &&
+//		     $row->id_prenotazione == $_POST['id_prenotazione'] &&
+//		     $row->numero_posto == $_POST['numero_posto']
+//		) {
+//
+////			var_dump($_POST);
+////			die($_POST);
+//
+//			/* Aggiorno il flag 'disponibile' = 1 (TRUE) del numero selezionato nella
+//			prenotazione da elimiinare */
+//			if ( ! $this->wpdb->update( self::TABLE_BIBLIOTECA_POSTO, [
+//				'disponibile' => 1
+//			], [
+//				'numero_posto' => $row->numero_posto
+//			] ) ) {
+//				return false;
+//			}
+//
+//			/* Elimino la prenotazione */
+//			if ( ! $this->wpdb->delete( self::TABLE_PRENOTAZIONE, [
+//				'id_prenotazione' => $row->id_prenotazione
+//			] ) ) {
+//				return false;
+//			}
+//
+//			$posti_rimanenti = self::getNumOfAvailableSeats();
+//
+//			if ( ! $this->wpdb->update( self::TABLE_BIBLIOTECA_STANZA, [
+//				'posti_disponibili' => $posti_rimanenti
+//			], [
+//				'nome_stanza' => $row->nome_stanza
+//			] ) ) {
+//				return false;
+//			}
+//
+//			return true;
+//		}
+//
+//		return false;
+//	}
 
 	public function do_reservation( array $field ): void {
 		$this->wpdb->insert( self::TABLE_PRENOTAZIONE, [

@@ -5,13 +5,14 @@ use Plugin\DB\Database;
 include_once __DIR__ . '/../../DB/Database.php';
 $db = new Database( __FILE__ );
 
-add_action('template_redirect', function () {
-	ob_start();
-if ( isset( $_POST['data-id'] ) ) {
-	header( 'http://localhost:10003/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fbooking-view.html.php' );
-	//				refresh();
-}
-});
+
+//add_action('template_redirect', function () {
+//	ob_start();
+//if ( isset( $_POST['data-id'] ) ) {
+//	header( 'http://localhost:10003/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fbooking-view.html.php' );
+//	//				refresh();
+//}
+//});
 ?>
 
 <!doctype html>
@@ -33,6 +34,7 @@ if ( isset( $_POST['data-id'] ) ) {
 	date_default_timezone_set( "Europe/Rome" );
 	$currentDate = date( 'Y-m-d' );
 	$currentTime = date( "H:i:s" );
+
 	?>
 
     <div class="nav nav-tabs">
@@ -42,12 +44,20 @@ if ( isset( $_POST['data-id'] ) ) {
 
     <div class="tab-content">
         <div id="tab-1" class="tab-pane active">
+            <div class="t--header">
+                <h4 class="t-header-title">Prenotazioni attive</h4>
+                <form method="post" action="<?= htmlspecialchars( $_SERVER['REQUEST_URI'] ) ?>">
+                    <input type="submit" name="delete-all" id="delete-all"
+                           class="button button-link-delete"
+                           value="Elimina tutto">
+                </form>
+            </div>
+
 			<?php
 			function refresh() {
-				echo "<script type='text/javascript'>
-                           window.location=document.location.href;
-                           </script>";
+				echo "<script> window.location.reload() </script>";
 			}
+
 			?>
             <table class="db-table">
                 <thead class="db-thead">
@@ -72,62 +82,73 @@ if ( isset( $_POST['data-id'] ) ) {
 				$result = $db->select_all( $db::TABLE_PRENOTAZIONE );
 				if ( ! empty( $result ) ):
 					foreach ( $result as $row ):
-						if ( ($currentDate > $row->giorno) || ($currentDate === $row->giorno && $currentTime >= $row->ora_partenza) ) {
+						if ( ( $currentDate > $row->giorno ) || ( $currentDate === $row->giorno && $currentTime >= $row->ora_partenza ) ) {
 							continue;
 						}
 						?>
                         <tr class='db-tr' id='table-row'>
-                        <td class="db-td"><?= $row->id_prenotazione; ?></td>
-                        <td class="db-td"><?= $row->id_utente; ?></td>
-                        <td class="db-td"><?= $row->nome_utente; ?></td>
-                        <td class="db-td"><?= $row->email_utente; ?></td>
-                        <td class="db-td"><?= $row->nome_stanza; ?></td>
-                        <td class="db-td"><?= $row->giorno; ?></td>
-                        <td class="db-td"><?= $row->ora_arrivo; ?></td>
-                        <td class="db-td"><?= $row->ora_partenza; ?></td>
-                        <td class="db-td"><?= $row->tutto_il_giorno; ?></td>
-                        <td class="db-td"><?= $row->numero_posto; ?></td>
-                        <td class="db-td"><?= $row->qr_code; ?></td>
-                        <td class="db-td">
+                            <td class="db-td"><?= $row->id_prenotazione; ?></td>
+                            <td class="db-td"><?= $row->id_utente; ?></td>
+                            <td class="db-td"><?= $row->nome_utente; ?></td>
+                            <td class="db-td"><?= $row->email_utente; ?></td>
+                            <td class="db-td"><?= $row->nome_stanza; ?></td>
+                            <td class="db-td"><?= $row->giorno; ?></td>
+                            <td class="db-td"><?= $row->ora_arrivo; ?></td>
+                            <td class="db-td"><?= $row->ora_partenza; ?></td>
+                            <td class="db-td"><?= $row->tutto_il_giorno; ?></td>
+                            <td class="db-td"><?= $row->numero_posto; ?></td>
+                            <td class="db-td">
+                                <?php if($row->qr_code === '0'):
+                                ?>
+                                <img width="10px" height="10px" alt="cross" src="<?= plugin_dir_url( __DIR__ ) . '/../../assets/cross.png' ?>">
+                                <?php else:?>
+                                    <img width="10px" height="10px" alt="check" src="<?= plugin_dir_url( __DIR__ ) . '/../../assets/check.jpg' ?>">
+                                <?php endif; ?>
+                            </td>
+                            <td class="db-td">
 
-                            <form method="post"
-                                  action="/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fedit-res.html.php">
-                                <input type="hidden" name="id_prenotazione" value="<?= $row->id_prenotazione; ?>">
+                                <form method="post"
+                                      action="/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fedit-res.html.php">
+                                    <input type="hidden" name="id_prenotazione" value="<?= $row->id_prenotazione; ?>">
+                                    <input type='submit' name='edit' id='edit' class='button button - secondary'
+                                           value='Modifica'>
+                                </form>
+                            </td>
+                            <td class="db-td">
 								<?php
-								if ( $currentTime >= $row->ora_partenza || $currentDate > $row->giorno ) {
-									echo "<input type='submit' name='edit' id='edit' disabled class='button button - secondary'
-                                       value='Scaduta'>";
-								} else {
-									echo "<input type='submit' name='edit' id='edit' class='button button - secondary'
-                                       value='Modifica'>";
+								if ( isset( $_POST['data-id'] ) ) {
+									$db->delete( $row );
+									refresh();
 								}
 								?>
-                            </form>
-                        </td>
-                        <td class="db-td">
-							<?php $db->deleteReservation( $row ); ?>
-                            <form id="form_delete" method="post"
-                                  action="<?= htmlspecialchars( $_SERVER['REQUEST_URI'] ) ?>">
-                                <input type="hidden" name="id_prenotazione" id="id_prenotazione"
-                                       value="<?= $row->id_prenotazione; ?>">
-                                <input type="hidden" name="numero_posto" value="<?= $row->numero_posto; ?>">
-                                <input type="hidden" name="nome_stanza" value="<?= $row->nome_stanza; ?>">
-                                <input type="hidden" name="data-id" value="<?= $row->id_prenotazione; ?>">
-                                <input type="submit" name="delete" id="delete"
-                                       data-id="<?= $row->id_prenotazione ?>" class="button button-link-delete"
-                                       value="Elimina">
-                            </form>
-                        </td>
+                                <form id="form_delete" method="post"
+                                      action="<?= htmlspecialchars( $_SERVER['REQUEST_URI'] ) ?>">
+                                    <input type="hidden" name="id_prenotazione" id="id_prenotazione"
+                                           value="<?= $row->id_prenotazione; ?>">
+                                    <input type="hidden" name="numero_posto" value="<?= $row->numero_posto; ?>">
+                                    <input type="hidden" name="nome_stanza" value="<?= $row->nome_stanza; ?>">
+                                    <input type="hidden" name="data-id" value="<?= $row->id_prenotazione; ?>">
+                                    <input type="submit" name="delete" id="delete"
+                                           data-id="<?= $row->id_prenotazione ?>" class="button button-link-delete"
+                                           value="Elimina">
+                                </form>
+                            </td>
                         </tr>
-					<?php
+						<?php
+						$db->updateSeatsInRoom( $row->nome_stanza );
 					endforeach;
+					if ( isset( $_POST['delete-all'] ) ) {
+						$db->deleteAll( $row );
+						refresh();
+					}
 				endif;
 				?>
                 </tbody>
             </table>
-<!--        seconda tabella-->
-            <div>
-                <h4 class="tscadute-title">Prenotazioni scadute</h4>
+
+            <!--        seconda tabella-->
+            <div class="tscadute-table">
+                <h4 class="t-header-title">Prenotazioni scadute</h4>
                 <table class="db-table">
                     <thead class="db-thead">
                     <tr class="db-tr">
@@ -147,60 +168,68 @@ if ( isset( $_POST['data-id'] ) ) {
                     </tr>
                     </thead>
                     <tbody id="table-body">
-	                <?php
-	                if ( ! empty( $result ) ):
-		                foreach ( $result as $row ):
-			                if ( (($currentDate < $row->giorno) || ($currentDate === $row->giorno && $currentTime < $row->ora_partenza) )) {
-				                continue;
-			                }
-			                ?>
-                    <tr class='db-tr' id='table-row' style='background-color: #c0c0c0; color: #979797'>
-                    <td class="db-td"><?= $row->id_prenotazione; ?></td>
-                            <td class="db-td"><?= $row->id_utente; ?></td>
-                            <td class="db-td"><?= $row->nome_utente; ?></td>
-                            <td class="db-td"><?= $row->email_utente; ?></td>
-                            <td class="db-td"><?= $row->nome_stanza; ?></td>
-                            <td class="db-td"><?= $row->giorno; ?></td>
-                            <td class="db-td"><?= $row->ora_arrivo; ?></td>
-                            <td class="db-td"><?= $row->ora_partenza; ?></td>
-                            <td class="db-td"><?= $row->tutto_il_giorno; ?></td>
-                            <td class="db-td"><?= $row->numero_posto; ?></td>
-                            <td class="db-td"><?= $row->qr_code; ?></td>
-                            <td class="db-td">
+					<?php
+					if ( ! empty( $result ) ):
+						foreach ( $result as $row ):
+							if ( ( ( $currentDate < $row->giorno ) || ( $currentDate === $row->giorno && $currentTime < $row->ora_partenza ) ) ) {
+								continue;
+							}
+							?>
+                            <tr class='db-tr' id='table-row' style='background-color: #c0c0c0; color: #979797'>
+                                <td class="db-td"><?= $row->id_prenotazione; ?></td>
+                                <td class="db-td"><?= $row->id_utente; ?></td>
+                                <td class="db-td"><?= $row->nome_utente; ?></td>
+                                <td class="db-td"><?= $row->email_utente; ?></td>
+                                <td class="db-td"><?= $row->nome_stanza; ?></td>
+                                <td class="db-td"><?= $row->giorno; ?></td>
+                                <td class="db-td"><?= $row->ora_arrivo; ?></td>
+                                <td class="db-td"><?= $row->ora_partenza; ?></td>
+                                <td class="db-td"><?= $row->tutto_il_giorno; ?></td>
+                                <td class="db-td"><?= $row->numero_posto; ?></td>
+                                <td class="db-td">
+	                                <?php if($row->qr_code === '0'):
+		                                ?>
+                                        <img width="10px" height="10px" alt="cross" src="<?= plugin_dir_url( __DIR__ ) . '/../../assets/cross.png' ?>">
+	                                <?php else:?>
+                                        <img width="10px" height="10px" alt="check" src="<?= plugin_dir_url( __DIR__ ) . '/../../assets/check.jpg' ?>">
+	                                <?php endif; ?>
+                                </td>
+                                <td class="db-td">
 
-                                <form method="post"
-                                      action="/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fedit-res.html.php">
-                                    <input type="hidden" name="id_prenotazione" value="<?= $row->id_prenotazione; ?>">
-					                <?php
-					                if ( $currentTime >= $row->ora_partenza || $currentDate > $row->giorno ) {
-						                echo "<input type='submit' name='edit' id='edit' disabled class='button button - secondary'
-                                       value='Scaduta'>";
-					                } else {
-						                echo "<input type='submit' name='edit' id='edit' class='button button - secondary'
-                                       value='Modifica'>";
-					                }
-					                ?>
-                                </form>
-                            </td>
-                            <td class="db-td">
-				                <?php $db->deleteReservation( $row ); ?>
-                                <form id="form_delete" method="post"
-                                      action="<?= htmlspecialchars( $_SERVER['REQUEST_URI'] ) ?>">
-                                    <input type="hidden" name="id_prenotazione" id="id_prenotazione"
-                                           value="<?= $row->id_prenotazione; ?>">
-                                    <input type="hidden" name="numero_posto" value="<?= $row->numero_posto; ?>">
-                                    <input type="hidden" name="nome_stanza" value="<?= $row->nome_stanza; ?>">
-                                    <input type="hidden" name="data-id" value="<?= $row->id_prenotazione; ?>">
-                                    <input type="submit" name="delete" id="delete"
-                                           data-id="<?= $row->id_prenotazione ?>" class="button button-link-delete"
-                                           value="Elimina">
-                                </form>
-                            </td>
+                                    <form method="post"
+                                          action="/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fedit-res.html.php">
+                                        <input type="hidden" name="id_prenotazione"
+                                               value="<?= $row->id_prenotazione; ?>">
+                                        <input type='submit' name='edit' id='edit' disabled
+                                               class='button button - secondary'
+                                               value='Scaduta'>
+                                    </form>
+                                </td>
+                                <td class="db-td">
+									<?php
+									if ( isset( $_POST['data-id'] ) ) {
+										$db->delete( $row );
+										refresh();
+									}
+									?>
+                                    <form id="form_delete" method="post"
+                                          action="<?= htmlspecialchars( $_SERVER['REQUEST_URI'] ) ?>">
+                                        <input type="hidden" name="id_prenotazione" id="id_prenotazione"
+                                               value="<?= $row->id_prenotazione; ?>">
+                                        <input type="hidden" name="numero_posto" value="<?= $row->numero_posto; ?>">
+                                        <input type="hidden" name="nome_stanza" value="<?= $row->nome_stanza; ?>">
+                                        <input type="hidden" name="data-id" value="<?= $row->id_prenotazione; ?>">
+                                        <input type="submit" name="delete" id="delete"
+                                               data-id="<?= $row->id_prenotazione ?>" class="button button-link-delete"
+                                               value="Elimina">
+                                    </form>
+                                </td>
                             </tr>
-		                <?php
-		                endforeach;
-	                endif;
-	                ?>
+							<?php
+							$db->updateSeatsInRoom( $row->nome_stanza );
+						endforeach;
+					endif;
+					?>
                     </tbody>
                 </table>
             </div>
@@ -216,6 +245,7 @@ if ( isset( $_POST['data-id'] ) ) {
                 <tr class="db-tr">
                     <th class="db-th">Nome biblioteca</th>
                     <th class="db-th">id stanza</th>
+                    <th class="db-th">Giorno</th>
                     <th class="db-th">Nome stanza</th>
                     <th class="db-th">Posti totali</th>
                     <th class="db-th">Posti disponibili</th>
@@ -234,6 +264,7 @@ if ( isset( $_POST['data-id'] ) ) {
                 <tr class="db-tr">
                     <td class="db-td"><?= $row->nome_biblioteca; ?></td>
                     <td class="db-td"><?= $row->id_stanza; ?></td>
+                    <td class="db-td"><?= $currentDate ?></td>
                     <td class="db-td"><?= $row->nome_stanza; ?></td>
                     <td class="db-td"><?= $row->posti_totali; ?></td>
                     <td class="db-td"><?= $row->posti_disponibili; ?></td>

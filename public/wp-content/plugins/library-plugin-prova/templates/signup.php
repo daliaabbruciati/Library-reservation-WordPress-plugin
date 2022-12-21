@@ -77,6 +77,7 @@ if (isset($_POST['registrati'])) {
             'user_pass' => password_hash(($_POST['user_pass']), PASSWORD_DEFAULT),
             'user_registered' => current_datetime()->format('Y-m-d H:i:s')
         ]);
+		header('Location: scegli-posto');
     }
 }
 

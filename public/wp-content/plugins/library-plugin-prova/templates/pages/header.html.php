@@ -9,7 +9,7 @@ get_header();
 
 <head>
     <title>Biblioteca</title>
-    <link rel="stylesheet" href="<?php echo plugin_dir_url(__DIR__) . '/../css/logout.css'; ?>">
+    <link rel="stylesheet" href="<?php echo plugin_dir_url(__DIR__) . '/../styles/logout.css'; ?>">
 </head>
 <body>
 <div class="container-logout">

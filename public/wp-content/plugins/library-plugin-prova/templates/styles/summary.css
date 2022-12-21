@@ -1,0 +1,40 @@
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.container-card{
+    display: flex;
+    margin: 10px 0;
+    flex-wrap: wrap;
+    column-gap: 30px;
+    row-gap: 20px;
+}
+
+.card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 6px;
+}
+
+.card__actions{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+}
+
+.qr-section {
+    margin: 10px auto;
+}
+
+.back {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+}
