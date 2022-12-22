@@ -9,10 +9,22 @@
 </head>
 <body>
 
-<?php include 'header.html.php';
+<?php
+
+ if( isset($_GET['download'])) {
+     ob_end_clean();
+	$email = urlencode($_GET['email']);
+	$url = "https://api.qrserver.com/v1/create-qr-code/?data=$email&size=200x200&margin=15&format=jpg";
+	header( "Content-Type: image/jpg" );
+	header( "Content-Transfer-Encoding: Binary" );
+	header( "Content-Disposition: attachment; filename=qrcode.jpg" );
+	readfile( $url );
+	exit( 0 );
+}
+include 'header.html.php';
 
 if ( isset( $_POST['submit_prenotazione'] ) && empty( array_filter( $error ) ) ):
-	include_once __DIR__ . '/./booking-success.html.php';
+    include_once __DIR__ . '/./booking-success.html.php';
 else:
 	?>
     <div class="container">
