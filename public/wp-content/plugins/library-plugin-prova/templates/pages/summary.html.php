@@ -7,8 +7,7 @@
     <link rel="stylesheet" href="<?php echo plugin_dir_url( __DIR__ ) . '/../styles/summary.css'; ?>">
 </head>
 <body>
-<?php
-include 'header.html.php';
+<?php include 'header.html.php';
 
 use Plugin\DB\Database;
 
@@ -37,17 +36,22 @@ $getReservation = $db->wpdb->get_results( "SELECT * FROM " . $db::TABLE_PRENOTAZ
                 $url = "https://api.qrserver.com/v1/create-qr-code/?data=id_prenotazione=$reservation->id_prenotazione,utente=$reservation->id_utente,posto=$reservation->numero_posto&size=200x200&margin=15";
 				?>
                 <div class="card">
-                    <p>Id prenotazione: <?= $reservation->id_prenotazione; ?></p>
-                    <p>Id utente: <?= $reservation->id_utente; ?></p>
-                    <p>Nome utente: <?= $reservation->nome_utente; ?></p>
-                    <p>Email utente: <?= $reservation->email_utente; ?></p>
-                    <p>Nome stanza: <?= $reservation->nome_stanza; ?></p>
-                    <p>Giorno: <?= $reservation->giorno; ?></p>
-                    <p>Ora arrivo: <?= $reservation->ora_arrivo; ?></p>
-                    <p>Ora partenza: <?= $reservation->ora_partenza; ?></p>
-                    <p>Tutto il giorno: <?= $reservation->tutto_il_giorno; ?></p>
-                    <p>Numero posto: <?= $reservation->numero_posto; ?></p>
-                    <p>QR code:
+	                <?php
+	                if(( ( $currentDate > $reservation->giorno ) || ( $currentDate === $reservation->giorno && $currentTime > $reservation->ora_partenza ) )){
+		                echo "<span style='color: red'>Scaduta</span>";
+	                }
+	                ?>
+                    <p><strong>Id prenotazione:</strong> <?= $reservation->id_prenotazione; ?></p>
+                    <p><strong>Id utente:</strong> <?= $reservation->id_utente; ?></p>
+                    <p><strong>Nome utente:</strong> <?= $reservation->nome_utente; ?></p>
+                    <p><strong>Email utente:</strong> <?= $reservation->email_utente; ?></p>
+                    <p><strong>Nome stanza:</strong> <?= $reservation->nome_stanza; ?></p>
+                    <p><strong>Giorno:</strong> <?= $reservation->giorno; ?></p>
+                    <p><strong>Ora arrivo:</strong> <?= $reservation->ora_arrivo; ?></p>
+                    <p><strong>Ora partenza:</strong> <?= $reservation->ora_partenza; ?></p>
+                    <p><strong>Tutto il giorno:</strong> <?= $reservation->tutto_il_giorno; ?></p>
+                    <p><strong>Numero posto:</strong> <?= $reservation->numero_posto; ?></p>
+                    <p><strong>QR code:</strong>
 	                    <?php if($reservation->qr_code === '0'):
 		                    ?>
                             <img width="15px" height="15px" alt="cross" src="<?= plugin_dir_url( __DIR__ ) . '/../../assets/cross.png' ?>">
@@ -58,12 +62,6 @@ $getReservation = $db->wpdb->get_results( "SELECT * FROM " . $db::TABLE_PRENOTAZ
                     <div class="qr-section">
                         <img src="<?= $url ?>" alt="qr-code"/>
                     </div>
-                    <?php
-                    if($reservation->giorno < $currentDate && $reservation->ora_partenza < $currentTime){
-                        echo "<p style='color: red' >Scaduta</p>";
-                    }
-                    ?>
-
                     <div class="card__actions">
                         <form method="post" action="/scegli-posto">
 <!--                            <input type="hidden" name="edit" value="true">-->

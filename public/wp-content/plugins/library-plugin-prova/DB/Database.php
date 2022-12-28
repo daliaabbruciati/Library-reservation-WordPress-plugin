@@ -83,8 +83,8 @@ class Database {
 			$this->wpdb->insert( self::TABLE_BIBLIOTECA_STANZA, [
 				'id_stanza'         => 1,
 				'nome_stanza'       => 'Stanza 1',
-				'posti_totali'      => 121,
-				'posti_disponibili' => 121,
+				'posti_totali'      => 108,
+				'posti_disponibili' => 108,
 				'id_biblioteca'     => 1
 			] );
 		}
@@ -145,8 +145,7 @@ class Database {
 			'17:00:00',
 			'17:30:00',
 			'18:00:00',
-			'18:30:00',
-			'23:34:00'
+			'18:30:00'
 		];
 	}
 

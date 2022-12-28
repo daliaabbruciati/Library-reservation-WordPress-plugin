@@ -223,8 +223,8 @@ else:
 					$availableSeats = $wpdb->get_var( "SELECT posti_disponibili FROM " . $db::TABLE_BIBLIOTECA_STANZA .
 					                                  " WHERE nome_stanza = '" . $field['nome_stanza'] . "';" );
 					?>
-                    <p style="text-align: center">Posti disponibili: <?= $availableSeats ?>/ 121</p>
-                    <img src="<?= plugin_dir_url( __DIR__ ) . '/../../assets/scegli_posto.svg' ?>"
+                    <p style="text-align: center">Posti disponibili: <?= $availableSeats ?>/ 108</p>
+                    <img src="<?= plugin_dir_url( __DIR__ ) . '/../../assets/piantina_posti.svg' ?>"
                          alt="piantina-posti"/>
                 </div>
         </div>

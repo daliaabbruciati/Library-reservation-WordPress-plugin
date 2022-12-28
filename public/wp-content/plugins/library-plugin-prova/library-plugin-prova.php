@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Library plugin prova
+ * Plugin Name: Library reservation plugin
  * Description: A plugin to do reservation in a library
  * Version: 1.0.0
  * Author: Dalia Abbruciati
@@ -16,7 +16,7 @@ use Plugin\Base\Activate;
 use Plugin\Base\Deactivate;
 use Plugin\DB\Database;
 use Plugin\Enqueue\Enqueue;
-use Plugin\Functions\Pages;
+//use Plugin\Functions\Pages;
 
 /* Define the ABSPATH */
 defined('ABSPATH') or die('Hey you can\t access this file');

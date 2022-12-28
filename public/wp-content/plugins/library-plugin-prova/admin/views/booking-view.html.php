@@ -13,6 +13,7 @@ $db = new Database( __FILE__ );
 //	//				refresh();
 //}
 //});
+
 ?>
 
 <!doctype html>
@@ -34,7 +35,6 @@ $db = new Database( __FILE__ );
 	date_default_timezone_set( "Europe/Rome" );
 	$currentDate = date( 'Y-m-d' );
 	$currentTime = date( "H:i:s" );
-
 	?>
 
     <div class="nav nav-tabs">

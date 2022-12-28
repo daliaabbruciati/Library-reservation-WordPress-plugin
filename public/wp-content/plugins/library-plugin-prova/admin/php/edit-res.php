@@ -70,13 +70,6 @@ if ( isset( $_POST['update'] ) ) {
 	$old->tutto_il_giorno = htmlspecialchars( $_POST['tutto_il_giorno'] );
 	$old->numero_posto    = htmlspecialchars( $_POST['numero_posto'] );
 
-
-//	if ( $old->ora_arrivo === '09:00:00' && $old->ora_partenza === '18:30:00' ) {
-//		$old->tutto_il_giorno = "si";
-//	} else {
-//		$old->tutto_il_giorno = "no";
-//	}
-
 	$wpdb->update( $db::TABLE_PRENOTAZIONE, [
 		'nome_utente'     => $old->nome_utente,
 		'email_utente'    => $old->email_utente,
@@ -90,10 +83,6 @@ if ( isset( $_POST['update'] ) ) {
 		'id_prenotazione' => $old->id_prenotazione
 	] );
 
-	print_r( $old );
-	print_r( $_POST );
-
-//	$db->updateReservedSeat( $old->numero_posto );
 	$db->updateSeatsInRoom( $old->nome_stanza );
 	echo '<h3>Utente modificato correttamente. Torna alla pagina <a href="http://localhost:10003/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fbooking-view.html.php">Panoramica</a></h3>';
 }
