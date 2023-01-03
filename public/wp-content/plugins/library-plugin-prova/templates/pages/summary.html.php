@@ -64,7 +64,6 @@ $getReservation = $db->wpdb->get_results( "SELECT * FROM " . $db::TABLE_PRENOTAZ
                     </div>
                     <div class="card__actions">
                         <form method="post" action="/scegli-posto">
-<!--                            <input type="hidden" name="edit" value="true">-->
                             <input type="hidden" name="id_prenotazione" value="<?= $reservation->id_prenotazione; ?>">
                             <input type="hidden" name="id_utente" value="<?= $reservation->id_utente; ?>">
                             <input type="hidden" name="nome_utente" value="<?= $reservation->nome_utente; ?>">

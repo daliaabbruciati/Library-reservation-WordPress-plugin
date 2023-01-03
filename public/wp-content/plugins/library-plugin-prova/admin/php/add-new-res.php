@@ -30,7 +30,6 @@ $error = [
 	'numero_posto'    => ''
 ];
 
-
 if ( isset( $_POST['continua'] ) ) {
 	$field['nome_utente']     = htmlspecialchars($_POST['nome_utente']);
 	$field['email_utente']    = htmlspecialchars($_POST['email_utente']);

@@ -22,15 +22,14 @@ $db = new Database( __FILE__ );
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Library reservation view</title>
+    <title>Vista prenotazioni</title>
     <script src="<?= plugin_dir_url( __DIR__ ) . '/../js/script.js'; ?>"></script>
 </head>
 <body>
 <div class="wrap">
-    <h1>Library Reservation plugin management </h1>
+    <h1>Vista della lista delle prenotazioni </h1>
 	<?php
 	settings_errors();
-	echo $db->start_connection();
 
 	date_default_timezone_set( "Europe/Rome" );
 	$currentDate = date( 'Y-m-d' );
@@ -146,7 +145,7 @@ $db = new Database( __FILE__ );
                 </tbody>
             </table>
 
-            <!--        seconda tabella-->
+            <!-- tabella prenotazioni scadute -->
             <div class="tscadute-table">
                 <h4 class="t-header-title">Prenotazioni scadute</h4>
                 <table class="db-table">
@@ -234,7 +233,6 @@ $db = new Database( __FILE__ );
                 </table>
             </div>
         </div>
-
 
         <div id="tab-2" class="tab-pane">
             <h3>Qui puoi gestire le impostazioni generali della Biblioteca</h3>

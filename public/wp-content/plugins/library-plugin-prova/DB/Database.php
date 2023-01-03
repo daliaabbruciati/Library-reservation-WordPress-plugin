@@ -2,17 +2,14 @@
 
 namespace Plugin\DB;
 
-
 class Database {
 	public const TABLE_BIBLIOTECA = 'wp_biblioteca';
 	public const TABLE_BIBLIOTECA_STANZA = 'wp_biblioteca_stanza';
 	public const TABLE_BIBLIOTECA_POSTO = 'wp_biblioteca_posto';
 	public const TABLE_PRENOTAZIONE = 'wp_prenotazione';
 	public const TABLE_UTENTI = 'wp_users';
-
 	public $wpdb;
 	public string $output;
-
 
 	public function __construct( $file ) {
 		global $wpdb;
@@ -21,26 +18,14 @@ class Database {
 		register_activation_hook( $file, [ $this, "start_connection" ] );
 	}
 
-
 	/* Try to start connection */
 	public function start_connection(): string {
-//        $connection = $this->wpdb->__construct("root","root","local","localhost");
 		$connection = $this->wpdb->db_connect();
 		if ( ! $connection ) {
 			echo $this->wpdb->print_error();
 		}
 
 		return $this->output = 'Connessione al database riuscita!';
-
-//        try {
-//            $myDb = new wpdb("mysql:host=localhost", "dbname=local", "root", "root");
-////            $connection = new PDO("mysql:host=localhost;dbname=local", "root", "root");
-////            $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-//            $output = 'Connessione al database riuscita!';
-//
-//        } catch (PDOException $e) {
-//            $output = "Connessione non riuscita: " . $e->getMessage();
-//        }
 	}
 
 
@@ -55,8 +40,6 @@ class Database {
             nome_biblioteca VARCHAR(50) NOT NULL,
             PRIMARY KEY  (id_biblioteca)
         )" . $charset_collate . ";";
-
-//            $query_insert = "INSERT INTO ".self::TABLE_BIBLIOTECA." (id_biblioteca, nome_biblioteca) VALUES (1, 'Senigallia')";
 
 			dbDelta( $table_biblioteca );
 
@@ -183,24 +166,6 @@ class Database {
 		return $this->wpdb->get_results( "SELECT numero_posto FROM " . self::TABLE_PRENOTAZIONE . ";" );
 	}
 
-//	public function updateReservedSeat( $oldValue ) {
-//		foreach ( $this->getReservedSeats() as $prenotato ) {
-//			$this->wpdb->update( self::TABLE_BIBLIOTECA_POSTO, [
-//				'disponibile' => 0
-//			], [
-//				'numero_posto' => $prenotato->numero_posto
-//			] );
-//		}
-//
-//		/* Riaggiorno il flag 'disponibile' a TRUE del vecchio numero della prenotazione */
-//		$this->wpdb->update( self::TABLE_BIBLIOTECA_POSTO, [
-//			'disponibile' => 1
-//		], [
-//			'numero_posto' => $oldValue
-//		] );
-//	}
-
-
 	public function createSeats(): void {
 		/* Prendo il numero totale dei posti disponibili nella stanza */
 		$posti_tot = $this->wpdb->get_var( "SELECT posti_totali FROM " . self::TABLE_BIBLIOTECA_STANZA . ";" );
@@ -255,49 +220,6 @@ class Database {
 		]);
 	}
 
-//	public function deleteReservation( $row ): bool {
-//		/* Elimino il record della prenotazione dalla tabella 'wp_prenotazione' */
-//		if ( isset( $_POST['delete'] ) &&
-//		     $row->id_prenotazione == $_POST['id_prenotazione'] &&
-//		     $row->numero_posto == $_POST['numero_posto']
-//		) {
-//
-////			var_dump($_POST);
-////			die($_POST);
-//
-//			/* Aggiorno il flag 'disponibile' = 1 (TRUE) del numero selezionato nella
-//			prenotazione da elimiinare */
-//			if ( ! $this->wpdb->update( self::TABLE_BIBLIOTECA_POSTO, [
-//				'disponibile' => 1
-//			], [
-//				'numero_posto' => $row->numero_posto
-//			] ) ) {
-//				return false;
-//			}
-//
-//			/* Elimino la prenotazione */
-//			if ( ! $this->wpdb->delete( self::TABLE_PRENOTAZIONE, [
-//				'id_prenotazione' => $row->id_prenotazione
-//			] ) ) {
-//				return false;
-//			}
-//
-//			$posti_rimanenti = self::getNumOfAvailableSeats();
-//
-//			if ( ! $this->wpdb->update( self::TABLE_BIBLIOTECA_STANZA, [
-//				'posti_disponibili' => $posti_rimanenti
-//			], [
-//				'nome_stanza' => $row->nome_stanza
-//			] ) ) {
-//				return false;
-//			}
-//
-//			return true;
-//		}
-//
-//		return false;
-//	}
-
 	public function do_reservation( array $field ): void {
 		$this->wpdb->insert( self::TABLE_PRENOTAZIONE, [
 			'id_utente'       => $field['id_utente'],
@@ -326,6 +248,4 @@ class Database {
 	public function select_all( $table ): array {
 		return $this->wpdb->get_results( "SELECT * FROM {$table}" );
 	}
-
-
 }
