@@ -224,7 +224,7 @@ else:
 				<?php
 				/* Query che restituisce il numero di posti disponibili nella stanza */
 				$availableSeats = $wpdb->get_var( "SELECT posti_disponibili FROM " . $db::TABLE_BIBLIOTECA_STANZA .
-				                                  " WHERE nome_stanza = '" . $field['nome_stanza'] . "';" );
+				                                  " WHERE nome_stanza = 'Stanza 1'" );
 				?>
                 <p style="text-align: center">Posti disponibili: <?= $availableSeats ?>/ 108</p>
                 <img src="<?= plugin_dir_url( __DIR__ ) . '/../../assets/piantina_posti.svg' ?>"
