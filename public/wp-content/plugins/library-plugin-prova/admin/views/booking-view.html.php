@@ -37,8 +37,16 @@ $db = new Database( __FILE__ );
 	?>
 
     <div class="nav nav-tabs">
-        <li class="active"><a href="#tab-1">Vista prenotazioni</a></li>
-        <li><a href="#tab-2">Vista impostazioni</a></li>
+        <ul>
+            <li class="active">
+                <a href="#tab-1">Vista prenotazioni</a>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <a href="#tab-2">Vista impostazioni</a>
+            </li>
+        </ul>
     </div>
 
     <div class="tab-content">
@@ -46,7 +54,7 @@ $db = new Database( __FILE__ );
             <div class="t--header">
                 <h4 class="t-header-title">Prenotazioni attive</h4>
                 <form method="post" action="<?= htmlspecialchars( $_SERVER['REQUEST_URI'] ) ?>">
-                    <input type="submit" name="delete-all" id="delete-all"
+                    <input style="background-color: #FCFCFC" type="submit" name="delete-all" id="delete-all"
                            class="button button-link-delete"
                            value="Elimina tutto">
                 </form>
@@ -97,12 +105,14 @@ $db = new Database( __FILE__ );
                             <td class="db-td"><?= $row->tutto_il_giorno; ?></td>
                             <td class="db-td"><?= $row->numero_posto; ?></td>
                             <td class="db-td">
-                                <?php if($row->qr_code === '0'):
-                                ?>
-                                <img width="10px" height="10px" alt="cross" src="<?= plugin_dir_url( __DIR__ ) . '/../../assets/cross.png' ?>">
-                                <?php else:?>
-                                    <img width="10px" height="10px" alt="check" src="<?= plugin_dir_url( __DIR__ ) . '/../../assets/check.jpg' ?>">
-                                <?php endif; ?>
+								<?php if ( $row->qr_code === '0' ):
+									?>
+                                    <img width="10px" height="10px" alt="cross"
+                                         src="<?= plugin_dir_url( __DIR__ ) . '/../../assets/cross.png' ?>">
+								<?php else: ?>
+                                    <img width="10px" height="10px" alt="check"
+                                         src="<?= plugin_dir_url( __DIR__ ) . '/../../assets/check.jpg' ?>">
+								<?php endif; ?>
                             </td>
                             <td class="db-td">
 
@@ -127,7 +137,7 @@ $db = new Database( __FILE__ );
                                     <input type="hidden" name="numero_posto" value="<?= $row->numero_posto; ?>">
                                     <input type="hidden" name="nome_stanza" value="<?= $row->nome_stanza; ?>">
                                     <input type="hidden" name="data-id" value="<?= $row->id_prenotazione; ?>">
-                                    <input type="submit" name="delete" id="delete"
+                                    <input style="background-color: #FCFCFC" type="submit" name="delete" id="delete"
                                            data-id="<?= $row->id_prenotazione ?>" class="button button-link-delete"
                                            value="Elimina">
                                 </form>
@@ -186,12 +196,14 @@ $db = new Database( __FILE__ );
                                 <td class="db-td"><?= $row->tutto_il_giorno; ?></td>
                                 <td class="db-td"><?= $row->numero_posto; ?></td>
                                 <td class="db-td">
-	                                <?php if($row->qr_code === '0'):
-		                                ?>
-                                        <img width="10px" height="10px" alt="cross" src="<?= plugin_dir_url( __DIR__ ) . '/../../assets/cross.png' ?>">
-	                                <?php else:?>
-                                        <img width="10px" height="10px" alt="check" src="<?= plugin_dir_url( __DIR__ ) . '/../../assets/check.jpg' ?>">
-	                                <?php endif; ?>
+									<?php if ( $row->qr_code === '0' ):
+										?>
+                                        <img width="10px" height="10px" alt="cross"
+                                             src="<?= plugin_dir_url( __DIR__ ) . '/../../assets/cross.png' ?>">
+									<?php else: ?>
+                                        <img width="10px" height="10px" alt="check"
+                                             src="<?= plugin_dir_url( __DIR__ ) . '/../../assets/check.jpg' ?>">
+									<?php endif; ?>
                                 </td>
                                 <td class="db-td">
 

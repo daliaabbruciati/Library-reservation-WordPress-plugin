@@ -1,3 +1,32 @@
+@media screen and (max-width: 441px){
+    .form {
+     width: 100%;
+    }
+
+    .form__nome-utente, .form__username, .form__email, .form__password {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 0;
+    }
+
+    .form__nome-utente > div, .form__username > div, .form__email > div, .form__password > div {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .form__submit{
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .container, .container__form {
+        padding: 0 11px;
+    }
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -16,7 +45,6 @@
     display: flex;
     flex-direction: column;
     padding: 10px 0;
-    min-width: 600px;
     margin: 0 auto;
 }
 
@@ -34,7 +62,12 @@
     padding: 10px 0;
 }
 
-
+.form__username {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
 
 .form__email {
     display: flex;
@@ -63,6 +96,6 @@
     align-items: center;
 }
 
-.form__successfull{
+.form__successfull {
     align-items: center;
 }

@@ -77,7 +77,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ):
             <label for="ora_partenza">Ora partenza
                 <div class="form--error">
                     <select name="ora_partenza" id="ora_partenza">
-                        <option value="<?= ( isset( $_POST['continua'] ) ) ? $_POST['ora_partenza'] : $old->ora_partenza ?>"> <?= ( isset( $_POST['continua'] ) || isset( $_POST['update'] ) ) ? $_POST['ora_partenza'] : $old->ora_partenza; ?></option>
+                        <option value="<?= (isset($_POST['continua']) || isset($_POST['update'])) ? $_POST['ora_partenza'] : $old->ora_partenza; ?>"> <?= (isset($_POST['continua']) || isset($_POST['update'])) ? $_POST['ora_partenza'] : $old->ora_partenza; ?></option>
 						<?php
 						foreach ( $db->getHours() as $hour ):
 							?>
@@ -86,7 +86,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ):
                     </select>
                 </div>
             </label>
-            <label for="tutto_il_giorno">tutto il giorno
+            <label for="tutto_il_giorno">Tutto il giorno
                 <div class="form--error">
                     <input style="width: 10px"
                            type="checkbox"
@@ -112,7 +112,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ):
 				var_dump( $_POST );
 				var_dump( $old );
 				var_dump( $old->giorno, $old->ora_arrivo, $old->ora_partenza, $old->tutto_il_giorno );
-				var_dump( $_POST['giorno'], $_POST['ora_arrivo'], $_POST['ora_partenza'] );
+				var_dump( $_POST['giorno'], $_POST['ora_arrivo'], $_POST['ora_partenza'], $_POST['tutto_il_giorno'] );
 				?>
                 <form class="form-container" method="post"
                       action="<?php echo htmlspecialchars( $_SERVER['REQUEST_URI'] ); ?>">

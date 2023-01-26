@@ -8,12 +8,12 @@
     border-bottom: 1px solid transparent
 }
 
-.nav-tabs > li {
+.nav-tabs > ul > li {
     float: left;
     margin-bottom: -1px
 }
 
-.nav-tabs > li > a {
+.nav-tabs > ul > li > a {
     margin-right: 2px;
     line-height: 1.5;
     padding: 10px;
@@ -23,11 +23,11 @@
     text-decoration: none
 }
 
-.nav-tabs > li > a:hover {
+.nav-tabs > ul > li > a:hover {
     border-color: #0d6db2;
 }
 
-.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+.nav-tabs > ul > li.active > a, .nav-tabs > ul > li.active > a:hover, .nav-tabs > ul > li.active > a:focus {
     color: #555;
     cursor: default;
     background-color: #fff;

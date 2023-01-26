@@ -1,7 +1,7 @@
 window.addEventListener('load', function () {
 
     // store tabs variables
-    const tabs = document.querySelectorAll('div.nav-tabs > li');
+    const tabs = document.querySelectorAll('div.nav-tabs > ul > li');
 
     for (let i = 0; i < tabs.length; i++) {
         tabs[i].addEventListener('click', switchTab);

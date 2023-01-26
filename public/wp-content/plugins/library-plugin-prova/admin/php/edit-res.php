@@ -27,8 +27,8 @@ if ( isset( $_POST['continua'] ) ) {
 		$old->ora_partenza = '18:30:00';
 	}
 
-	if ( $old->ora_arrivo !== '09:00:00' && $old->ora_partenza !== '18:30:00' ) {
-		$old->tutto_il_giorno = "no";
+	if ( $_POST['ora_arrivo'] !== '09:00:00' || $_POST['ora_partenza'] !== '18:30:00' ) {
+		$_POST['tutto_il_giorno'] = "no";
 	}
 
 	/* Controllo campi vuoti */

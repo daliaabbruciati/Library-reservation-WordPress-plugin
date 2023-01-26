@@ -1,3 +1,29 @@
+@media screen and (max-width: 441px){
+    .container, .container__form, .container__welcome, .form__submit{
+        margin: 0 15px;
+    }
+    .container__form{
+        max-width: 370px;
+        padding: 0 35px;
+    }
+    .form, .form__email, .form__password{
+        display: flex;
+        flex-direction: column;
+    }
+    .form > div >label{
+        width: 238px;
+    }
+    .submit{
+        width: 238px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .container, .container__form{
+        padding: 0 50px;
+    }
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -58,4 +84,7 @@
     display: flex;
     justify-content: center;
     margin: 20px 0;
+}
+.submit{
+    width: 214px;
 }

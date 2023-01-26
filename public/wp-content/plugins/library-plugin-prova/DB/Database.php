@@ -113,7 +113,7 @@ class Database {
 	public function getHours(): array {
 		return $hours = [
 			'09:00:00',
-			' 09:30:00',
+			'09:30:00',
 			'10:00:00',
 			'10:30:00',
 			'11:00:00',

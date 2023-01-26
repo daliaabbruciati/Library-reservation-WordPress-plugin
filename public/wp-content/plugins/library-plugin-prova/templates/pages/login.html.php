@@ -42,7 +42,9 @@ if (isset($_POST['submit-login']) && empty(array_filter($error))){
                     <p><?= $error['password']; ?></p>
                 </div>
             </div>
-            <input class="form__submit" type="submit" name="submit-login" value="Accedi">
+            <div class="form__submit">
+            <input class="submit" type="submit" name="submit-login" value="Accedi">
+            </div>
         </form>
         <p class="container__go-to-signup">
             Non sei ancora registrato? <a href="/signup">Crea account</a>
