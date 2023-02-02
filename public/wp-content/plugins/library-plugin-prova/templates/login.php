@@ -29,6 +29,11 @@ if (isset($_POST['submit-login'])) {
     if (empty($field['email'])) {
         $valid = false;
         $error['email'] = 'Compila campo email';
+    }else {
+		$checkName = sanitize_email($field['email']);
+		if(!$checkName){
+			$error['email'] = 'Errore campo email';
+		}
     }
     if (empty($field['password'])) {
         $valid = false;

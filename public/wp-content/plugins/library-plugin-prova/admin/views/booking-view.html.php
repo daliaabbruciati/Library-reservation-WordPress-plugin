@@ -53,8 +53,8 @@ $db = new Database( __FILE__ );
         <div id="tab-1" class="tab-pane active">
             <div class="t--header">
                 <h4 class="t-header-title">Prenotazioni attive</h4>
-                <form method="post" action="<?= htmlspecialchars( $_SERVER['REQUEST_URI'] ) ?>">
-                    <input style="background-color: #FCFCFC" type="submit" name="delete-all" id="delete-all"
+                <form aria-label="Pulsante elimina tutte le prenotazioni" method="post" action="<?= htmlspecialchars( $_SERVER['REQUEST_URI'] ) ?>">
+                    <input style="background-color: #FCFCFC; color: #A52224" type="submit" name="delete-all" id="delete-all"
                            class="button button-link-delete"
                            value="Elimina tutto">
                 </form>
@@ -66,7 +66,7 @@ $db = new Database( __FILE__ );
 			}
 
 			?>
-            <table class="db-table">
+            <table aria-label="Tabella prenotazioni attive" class="db-table">
                 <thead class="db-thead">
                 <tr class="db-tr">
                     <th class="db-th">Id prenotazione</th>
@@ -116,7 +116,7 @@ $db = new Database( __FILE__ );
                             </td>
                             <td class="db-td">
 
-                                <form method="post"
+                                <form aria-label="Modifica prenotazione" method="post"
                                       action="/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fedit-res.html.php">
                                     <input type="hidden" name="id_prenotazione" value="<?= $row->id_prenotazione; ?>">
                                     <input type='submit' name='edit' id='edit' class='button button - secondary'
@@ -130,14 +130,14 @@ $db = new Database( __FILE__ );
 									refresh();
 								}
 								?>
-                                <form id="form_delete" method="post"
+                                <form aria-label="Elimina prenotazione" id="form_delete" method="post"
                                       action="<?= htmlspecialchars( $_SERVER['REQUEST_URI'] ) ?>">
                                     <input type="hidden" name="id_prenotazione" id="id_prenotazione"
                                            value="<?= $row->id_prenotazione; ?>">
                                     <input type="hidden" name="numero_posto" value="<?= $row->numero_posto; ?>">
                                     <input type="hidden" name="nome_stanza" value="<?= $row->nome_stanza; ?>">
                                     <input type="hidden" name="data-id" value="<?= $row->id_prenotazione; ?>">
-                                    <input style="background-color: #FCFCFC" type="submit" name="delete" id="delete"
+                                    <input style="background-color: #FCFCFC; color: #A52224" type="submit" name="delete" id="delete"
                                            data-id="<?= $row->id_prenotazione ?>" class="button button-link-delete"
                                            value="Elimina">
                                 </form>
@@ -158,7 +158,7 @@ $db = new Database( __FILE__ );
             <!-- tabella prenotazioni scadute -->
             <div class="tscadute-table">
                 <h4 class="t-header-title">Prenotazioni scadute</h4>
-                <table class="db-table">
+                <table aria-label="Tabella prenotazioni scadute" class="db-table">
                     <thead class="db-thead">
                     <tr class="db-tr">
                         <th class="db-th">Id prenotazione</th>
@@ -184,7 +184,7 @@ $db = new Database( __FILE__ );
 								continue;
 							}
 							?>
-                            <tr class='db-tr' id='table-row' style='background-color: #c0c0c0; color: #979797'>
+                            <tr class='db-tr' id='table-row' style='background-color: #c0c0c0; color: #4F4F4F'>
                                 <td class="db-td"><?= $row->id_prenotazione; ?></td>
                                 <td class="db-td"><?= $row->id_utente; ?></td>
                                 <td class="db-td"><?= $row->nome_utente; ?></td>
@@ -206,7 +206,6 @@ $db = new Database( __FILE__ );
 									<?php endif; ?>
                                 </td>
                                 <td class="db-td">
-
                                     <form method="post"
                                           action="/wp-admin/admin.php?page=library-plugin-prova%2Fadmin%2F.%2Fviews%2Fedit-res.html.php">
                                         <input type="hidden" name="id_prenotazione"
@@ -223,7 +222,7 @@ $db = new Database( __FILE__ );
 										refresh();
 									}
 									?>
-                                    <form id="form_delete" method="post"
+                                    <form aria-label="Elimina prenotazione scaduta" id="form_delete" method="post"
                                           action="<?= htmlspecialchars( $_SERVER['REQUEST_URI'] ) ?>">
                                         <input type="hidden" name="id_prenotazione" id="id_prenotazione"
                                                value="<?= $row->id_prenotazione; ?>">
@@ -231,7 +230,7 @@ $db = new Database( __FILE__ );
                                         <input type="hidden" name="nome_stanza" value="<?= $row->nome_stanza; ?>">
                                         <input type="hidden" name="data-id" value="<?= $row->id_prenotazione; ?>">
                                         <input type="submit" name="delete" id="delete"
-                                               data-id="<?= $row->id_prenotazione ?>" class="button button-link-delete"
+                                               data-id="<?= $row->id_prenotazione ?>" style="color: #A52224" class="button button-link-delete"
                                                value="Elimina">
                                     </form>
                                 </td>
@@ -246,11 +245,11 @@ $db = new Database( __FILE__ );
             </div>
         </div>
 
-        <div id="tab-2" class="tab-pane">
+        <div aria-label="Vista impostazionii" id="tab-2" class="tab-pane">
             <h3>Qui puoi gestire le impostazioni generali della Biblioteca</h3>
             <p>Clicca sui pulsanti "Modifica" o "Elimina" per modificare o cancellare i dati.</p>
 			<?php include __DIR__ . '/../php/edit-res.php'; ?>
-            <table class="db-table">
+            <table aria-label="Tabella impostazioni biblioteca" class="db-table">
                 <thead class="db-thead">
                 <tr class="db-tr">
                     <th class="db-th">Nome biblioteca</th>
@@ -267,9 +266,7 @@ $db = new Database( __FILE__ );
 				                            ' ON ' . $db::TABLE_BIBLIOTECA . '.id_biblioteca = ' . $db::TABLE_BIBLIOTECA_STANZA . '.id_biblioteca' );
 
 				if ( ! empty( $join ) ):
-				foreach ( $join
-
-				as $row ):
+				foreach ( $join as $row ):
 				?>
                 <tr class="db-tr">
                     <td class="db-td"><?= $row->nome_biblioteca; ?></td>

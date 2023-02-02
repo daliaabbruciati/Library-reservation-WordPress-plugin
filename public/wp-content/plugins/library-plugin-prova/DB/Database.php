@@ -151,6 +151,8 @@ class Database {
 		$currentTime = date( "H:i:s" );
 
 		return $this->wpdb->get_var("SELECT COUNT(*) FROM wp_biblioteca_posto WHERE numero_posto NOT IN (SELECT numero_posto FROM wp_prenotazione WHERE  nome_stanza = '$field_stanza' AND giorno = '$currentDate' AND ora_partenza >= '$currentTime')");
+
+		/* return $this->wpdb->get_var($this->wpdb->prepare("SELECT COUNT(*) FROM wp_biblioteca_posto WHERE numero_posto NOT IN (SELECT numero_posto FROM wp_prenotazione WHERE  nome_stanza = %s AND giorno = '$currentDate' AND ora_partenza >= '$currentTime')",$field_stanza)); */
 	}
 
 	/* Aggiorno il numero totale di posti disponibili nella tabella 'wp_biblioteca_stanza' */

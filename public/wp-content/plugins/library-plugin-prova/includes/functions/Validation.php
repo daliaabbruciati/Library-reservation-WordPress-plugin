@@ -46,7 +46,6 @@ class Validation
          * */
 
         $pattern = '/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/m';
-
         return preg_match($pattern, $password);
     }
 

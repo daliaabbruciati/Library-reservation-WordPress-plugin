@@ -10,7 +10,6 @@
  */
 
 /* Include classes */
-
 use Plugin\Admin\AdminMenu;
 use Plugin\Base\Activate;
 use Plugin\Base\Deactivate;

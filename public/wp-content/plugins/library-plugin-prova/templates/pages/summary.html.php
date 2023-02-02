@@ -28,7 +28,7 @@ $getReservation = $db->wpdb->get_results( "SELECT * FROM " . $db::TABLE_PRENOTAZ
 ?>
 
 <div class="container">
-    <h4>Riepilogo prenotazioni</h4>
+    <h4 aria-label="Schermata riepilogo prenotazioni">Riepilogo prenotazioni</h4>
     <div class="container-card">
 		<?php
 		if ( ! empty( $getReservation ) ):
@@ -38,7 +38,7 @@ $getReservation = $db->wpdb->get_results( "SELECT * FROM " . $db::TABLE_PRENOTAZ
                 <div class="card">
 	                <?php
 	                if(( ( $currentDate > $reservation->giorno ) || ( $currentDate === $reservation->giorno && $currentTime > $reservation->ora_partenza ) )){
-		                echo "<span style='color: red'>Scaduta</span>";
+		                echo "<span style='color: #A52224'>Scaduta</span>";
 	                }
 	                ?>
                     <p><strong>Id prenotazione:</strong> <?= $reservation->id_prenotazione; ?></p>
@@ -74,7 +74,7 @@ $getReservation = $db->wpdb->get_results( "SELECT * FROM " . $db::TABLE_PRENOTAZ
                             <input type="hidden" name="ora_partenza" value="<?= $reservation->ora_partenza; ?>">
                             <input type="hidden" name="tutto_il_giorno" value="<?= $reservation->tutto_il_giorno; ?>">
                             <input type="hidden" name="numero_posto" value="<?= $reservation->numero_posto; ?>">
-                            <input type='submit' name='edit' id='edit' class='button button - secondary'
+                            <input aria-label="Modifica prenotazione" type='submit' name='edit' id='edit' class='button button - secondary'
                                    value='Modifica'>
                         </form>
 
@@ -85,7 +85,7 @@ $getReservation = $db->wpdb->get_results( "SELECT * FROM " . $db::TABLE_PRENOTAZ
                             <input type="hidden" name="numero_posto" id="numero_posto"
                                    value="<?= $reservation->numero_posto; ?>">
                             <input type="hidden" name="nome_stanza" value="<?= $reservation->nome_stanza; ?>">
-                            <input type="submit" name="delete" id="delete"
+                            <input aria-label="Elimina prenotazione" type="submit" name="delete" id="delete"
                                    class="button button-link-delete"
                                    value="Elimina">
                         </form>
@@ -102,7 +102,7 @@ $getReservation = $db->wpdb->get_results( "SELECT * FROM " . $db::TABLE_PRENOTAZ
 		endif;
 		?>
     </div>
-    <a class="back" href="/scegli-posto">Torna alla scelta dei posti</a>
+    <a aria-label="Torna alla scelta dei posti" class="back" href="/scegli-posto">Torna alla scelta dei posti</a>
 </div>
 
 <?php include 'footer.html.php'; ?>

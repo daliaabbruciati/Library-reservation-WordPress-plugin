@@ -51,7 +51,7 @@ else:
                             Prenotazione modificata correttamente. Torna al <a href='/riepilogo'>riepilogo prenotazioni.</a></h6>";
 				}
 				?>
-                <form class="form" action="<?php echo htmlspecialchars( $_SERVER['REQUEST_URI'] ); ?>"
+                <form aria-label="Form prenotazione" class="form" action="<?php echo htmlspecialchars( $_SERVER['REQUEST_URI'] ); ?>"
                       method="post">
 					<?php
 					foreach ( $findUser as $user ):
@@ -66,7 +66,7 @@ else:
                     <div class="form__stanza">
                         <label for="nome_stanza">Scegli stanza</label>
                         <div class="form--error">
-                            <select name="nome_stanza" id="nome_stanza">
+                            <select aria-label="Select scegli stanza" name="nome_stanza" id="nome_stanza">
                                 <option value="<?= $field['nome_stanza']; ?>"> <?= ! empty( $field['nome_stanza'] ) ? $field['nome_stanza'] : 'Scegli stanza'; ?></option>
 								<?php
 								foreach ( $db->getRoomName() as $room ):
@@ -75,20 +75,20 @@ else:
                                             value="<?= $room->nome_stanza ?>"><?= $room->nome_stanza ?></option>
 								<?php endforeach; ?>
                             </select>
-                            <p><?= $error['nome_stanza'] ?></p>
+                            <p aria-label="Errore campo stanza"><?= $error['nome_stanza'] ?></p>
                         </div>
                     </div>
                     <div class="form__giorno">
                         <label for="giorno">Scegli giorno</label>
                         <div class="form--error">
-                            <input type="date" name="giorno" id="giorno" value="<?= $field['giorno']; ?>">
-                            <p><?= $error['giorno'] ?></p>
+                            <input aria-label="Input scegli giorno" type="date" name="giorno" id="giorno" value="<?= $field['giorno']; ?>">
+                            <p aria-label="Errore campo giorno"><?= $error['giorno'] ?></p>
                         </div>
                     </div>
                     <div class="form__ora-arrivo">
                         <label for="ora_arrivo">Ora arrivo</label>
                         <div class="form--error">
-                            <select name="ora_arrivo" id="ora_arrivo">
+                            <select aria-label="Select ora di arrivo" name="ora_arrivo" id="ora_arrivo">
                                 <option value="<?= $field['ora_arrivo']; ?>"> <?= ! empty( $field['ora_arrivo'] ) ? $field['ora_arrivo'] : 'Dalle'; ?></option>
 								<?php
 								foreach ( $db->getHours() as $hour ):
@@ -96,13 +96,13 @@ else:
                                     <option value="<?= $hour ?>"><?= $hour ?></option>
 								<?php endforeach; ?>
                             </select>
-                            <p><?= $error['ora_arrivo'] ?></p>
+                            <p aria-label="Errore ora di arrivo"><?= $error['ora_arrivo'] ?></p>
                         </div>
                     </div>
                     <div class="form__ora-partenza">
                         <label for="ora_partenza">Ora partenza</label>
                         <div class="form--error">
-                            <select name="ora_partenza" id="ora_partenza">
+                            <select aria-label="Select ora di partenza" name="ora_partenza" id="ora_partenza">
                                 <option value="<?= $field['ora_partenza']; ?>"> <?= ! empty( $field['ora_partenza'] ) ? $field['ora_partenza'] : 'Alle' ?></option>
 								<?php
 								foreach ( $db->getHours() as $hour ):
@@ -110,23 +110,23 @@ else:
                                     <option value="<?= $hour ?>"><?= $hour ?></option>
 								<?php endforeach; ?>
                             </select>
-                            <p style="max-width: 100px"><?= $error['ora_partenza'] ?></p>
+                            <p aria-label="Errore ora partenza" style="max-width: 100px"><?= $error['ora_partenza'] ?></p>
                         </div>
                     </div>
                     <div class="form__tutto-il-giorno">
                         <label for="tutto_il_giorno">Tutto il giorno</label>
-                        <div class="checkbox">
+                        <div aria-label="Checkbox tutto il giorno" class="checkbox">
                             <input type="checkbox" name="tutto_il_giorno"
                                    id="tutto_il_giorno" <?php if ( $field['tutto_il_giorno'] === "si" ) {
 								echo "checked";
 							} ?>>
                             <p class="form--error"><?= $error['tutto_il_giorno'] ?></p>
-                            <p style="font-size: 13px">Dalle 09:00 alle 18:30</p>
+                            <p aria-label="Dalle 9 alle 18:30" style="font-size: 13px">Dalle 09:00 alle 18:30</p>
                         </div>
                     </div>
 					<?php if ( ! isset( $_POST['submit_prenotazione'] ) || ( empty( array_filter( $error ) ) ) ):
 						?>
-                        <input class="form__submit" type="submit" id="continua" name="continua"
+                        <input aria-label="Continua" class="form__submit" type="submit" id="continua" name="continua"
                                value="Continua">
 					<?php endif; ?>
 					<?php if ( isset( $_POST['id_prenotazione'] ) ): ?>
@@ -158,7 +158,7 @@ else:
                             <div class="form__posto">
                                 <label for="numero_posto">Scegli posto disponibile</label>
                                 <div class="form--error">
-                                    <select name="numero_posto" id="numero_posto">
+                                    <select aria-label="Select scegli numero posto" name="numero_posto" id="numero_posto">
                                         <option value=""> <?= isset( $_POST['submit_prenotazione'] ) ? $field['numero_posto'] : 'Scegli posto' ?></option>
 										<?php
 										foreach ( $db->getAvailableSeats( $field['giorno'], $field['ora_arrivo'], $field['ora_partenza'] ) as $seat ):
@@ -179,7 +179,7 @@ else:
 					if ( isset( $_POST['continua'] ) && empty( array_filter( $error ) ) || ! empty( $error['numero_posto'] ) ):
 						?>
                         <div class="container__form">
-                            <form class="form" method="post"
+                            <form aria-label="Form scelta numero posto" class="form" method="post"
                                   action="<?= htmlspecialchars( $_SERVER['REQUEST_URI'] ); ?>">
                                 <input type="hidden" name="id_utente" id="id_utente"
                                        value="<?= $field['id_utente']; ?>">
@@ -211,7 +211,7 @@ else:
                                         <p><?= $error['numero_posto'] ?></p>
                                     </div>
                                 </div>
-                                <input class="form__submit" type="submit" id="submit_prenotazione"
+                                <input aria-label="Conferma prenotazione" class="form__submit" type="submit" id="submit_prenotazione"
                                        name="submit_prenotazione"
                                        value="Conferma">
                             </form>
@@ -228,7 +228,7 @@ else:
 				?>
                 <p style="text-align: center">Posti disponibili: <?= $availableSeats ?>/ 108</p>
                 <img src="<?= plugin_dir_url( __DIR__ ) . '/../../assets/piantina_posti.svg' ?>"
-                     alt="piantina-posti"/>
+                     alt="Piantina posti"/>
             </div>
         </div>
     </div>

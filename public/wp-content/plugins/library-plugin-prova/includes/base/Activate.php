@@ -38,6 +38,7 @@ class Activate
                     <li><strong>Riepilogo prenotazione</strong></li>
                     <li><strong>Logout</strong></li>
                 </ol>
+                <p>E' stato aggiunto anche il menu di amministrazione sotto la voce 'Lista prenotazioni'</p>
             </div>
             <?php
             /* Delete transient, only display this notice once. */

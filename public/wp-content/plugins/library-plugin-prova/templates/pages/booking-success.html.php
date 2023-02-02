@@ -19,13 +19,15 @@ $posto = $field['numero_posto'];
 
 $getIdReservation = $db->wpdb->get_var("SELECT MAX(id_prenotazione) FROM wp_prenotazione WHERE id_utente = '$id'");
 
-    $email = urlencode($field['email_utente']);
-    $url = "https://api.qrserver.com/v1/create-qr-code/?data=$email&size=200x200&margin=15&format=jpg";
+    //$email = urlencode($field['email_utente']);
+    //$url = "https://api.qrserver.com/v1/create-qr-code/?data=$email&size=200x200&margin=15&format=jpg";
+    $url = "https://api.qrserver.com/v1/create-qr-code/?data=id_utente=$id,posto=$posto&size=200x200&margin=15&formato=jpg";
+
 ?>
 
 <div class="container">
     <h2>Prenotazione effettuata!</h2>
-    <p>Congratulazioni <?= $_SESSION['nome'] ?></p>
+    <p>Congratulazioni <strong><?= $_SESSION['nome'] ?></strong></p>
     <p>Ecco il riepilogo della tua prenotazione:</p>
     <table class="card">
 		<?php
@@ -56,8 +58,8 @@ $getIdReservation = $db->wpdb->get_var("SELECT MAX(id_prenotazione) FROM wp_pren
         </form>
     </div>
     <div class="links">
-        <a href="/riepilogo">Vedi riepilogo prenotazioni</a>
-        <a href="/scegli-posto">Torna alla scelta dei posti</a>
+        <a aria-label="Vai al riepilogo prenotazioni" href="/riepilogo">Vedi riepilogo prenotazioni</a>
+        <a aria-label="Effettua nuova prenotazione" href="/scegli-posto">Torna alla scelta dei posti</a>
     </div>
 </div>
 <?php include 'footer.html.php'; ?>
